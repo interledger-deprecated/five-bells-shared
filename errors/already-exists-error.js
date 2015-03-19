@@ -6,7 +6,9 @@ module.exports = function AlreadyExistsError(message) {
   this.message = message;
 };
 
-module.exports.prototype.handler = function (ctx, log) {
+require('util').inherits(module.exports, Error);
+
+module.exports.prototype.handler = function *(ctx, log) {
   log.warn('Already Exists: ' + this.message);
   ctx.status = 409;
   ctx.body = {
@@ -14,5 +16,3 @@ module.exports.prototype.handler = function (ctx, log) {
     message: this.message
   };
 };
-
-require('util').inherits(module.exports, Error);

@@ -9,7 +9,7 @@ function *handleError(next) {
     yield next;
   } catch (err) {
     if (typeof err.handler === 'function') {
-      err.handler(this, log);
+      yield err.handler(this, log);
     } else {
       log.error('' + err);
       throw err;
