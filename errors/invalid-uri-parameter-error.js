@@ -7,4 +7,14 @@ module.exports = function InvalidUriParameterError(message, validationErrors) {
   this.validationErrors = validationErrors;
 };
 
+module.exports.prototype.handler = function (ctx, log) {
+  log.warn('Invalid URI parameter: ' + this.message);
+  ctx.status = 400;
+  ctx.body = {
+    id: this.name,
+    message: this.message,
+    validationErrors: this.validationErrors
+  };
+};
+
 require('util').inherits(module.exports, Error);

@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git@github.com:ripple/five-bells-shared.git"
   },
-  "author": "",
+  "author": "Ripple <info@ripple.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ripple/five-bells-shared/issues"
@@ -27,5 +27,6 @@
   },
   "peerDependencies": {
     "mag": "^0.9.1"
-  }
+  },
+  "private": true
 }

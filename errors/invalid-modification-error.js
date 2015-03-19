@@ -7,4 +7,14 @@ module.exports = function InvalidModificationError(message, invalidDiffs) {
   this.invalidDiffs = invalidDiffs;
 };
 
+module.exports.prototype.handler = function (ctx, log) {
+  log.warn('Invalid Modification: ' + this.message);
+  ctx.status = 400;
+  ctx.body = {
+    id: this.name,
+    message: this.message,
+    invalidDiffs: this.invalidDiffs
+  };
+};
+
 require('util').inherits(module.exports, Error);
