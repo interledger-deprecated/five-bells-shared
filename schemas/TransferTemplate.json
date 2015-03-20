@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "TransferTemplate",
+  "description": "A template for ledger-local transfer of funds that can be missing some transfer fields",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Resource identifier",
+      "$ref": "Iri.json"
+    },
+    "debits": {
+      "description": "Funds that go into the transfer",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "Debit.json" }
+    },
+    "credits": {
+      "description": "Funds that come out of the transfer",
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "Credit.json" }
+    },
+    "expires": {
+      "description": "Time when the transfer expires",
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
