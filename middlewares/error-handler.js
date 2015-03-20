@@ -11,7 +11,7 @@ function *handleError(next) {
     if (typeof err.handler === 'function') {
       yield err.handler(this, log);
     } else {
-      log.error('' + err);
+      log.error((typeof err === 'object' && err.stack) ? err.stack : '' + err);
       throw err;
     }
   }
