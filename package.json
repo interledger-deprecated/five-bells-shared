@@ -19,14 +19,14 @@
   "dependencies": {
     "co": "^4.1.0",
     "co-body": "^1.0.0",
-    "mag-hub": "^0.1.1",
     "mag-colored-output": "^1.0.0",
     "mag-format-message": "^0.1.1",
     "through2": "^0.6.3",
     "skeemas": "^1.1.1"
   },
   "peerDependencies": {
-    "mag": "^0.9.1"
+    "mag": "^0.9.1",
+    "mag-hub": "^0.1.1"
   },
   "private": true
 }
