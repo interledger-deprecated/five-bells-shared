@@ -49,6 +49,7 @@ exports.validateBody = co.wrap(function *(ctx, schema) {
   return json;
 });
 
+
 /**
  * Get the base URI.
  *
@@ -74,7 +75,8 @@ exports.assert = function (value, message) {
     try {
       assert[method](actual, expected, message);
     } catch (err) {
-      throw new InvalidBodyError(err.message);
+      throw new InvalidBodyError(err.message + ' (' + method + ', expected: "' +
+        expected + '", actual: "' + actual + '")');
     }
   };
 });
