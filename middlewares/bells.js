@@ -13,13 +13,7 @@
 module.exports = function (config) {
   return function *bells(next) {
     this.bells = {};
-
-    const isCustomPort = config.server.secure ?
-      +config.server.public_port !== 443 : +config.server.public_port !== 80;
-    this.bells.base =
-      'http' + (config.server.secure ? 's' : '') +
-      '://' + config.server.public_host +
-      (isCustomPort ? ':' + config.server.public_port : '');
+    this.bells.base = config.server.base_uri;
 
     yield next;
   };
