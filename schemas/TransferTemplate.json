@@ -24,6 +24,10 @@
       "description": "Time when the transfer expires",
       "type": "string",
       "format": "date-time"
+    },
+    "partOfSettlement": {
+      "description": "Larger settlement that this transfer is a part of.",
+      "$ref": "Iri.json"
     }
   }
 }
