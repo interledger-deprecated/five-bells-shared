@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Person",
+  "description": "An identity on a ledger",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique ID",
+      "$ref": "Iri.json"
+    },
+    "name": {
+      "description": "Name of the person",
+      "type": "string"
+    },
+    "balance": {
+      "description": "Balance as decimal",
+      "$ref": "Amount.json"
+    },
+    "identity": {
+      "description": "A link to the person's general identity",
+      "$ref": "Iri.json"
+    }
+  },
+  "required": ["name", "balance"]
+}
