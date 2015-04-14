@@ -11,17 +11,6 @@
     "amount": {
       "description": "Amount as decimal",
       "$ref": "Amount.json"
-    },
-    "asset": {
-      "description": "Asset type, may be any string such as 'USD' or an IRI",
-      "type": "string",
-      "maxLength": "4096",
-      "default": "[account's asset type]"
-    },
-    "ledger": {
-      "description": "Ledger where this transfer has taken place",
-      "$ref": "Identifier.json",
-      "default": "[host ledger]"
     }
   },
   "required": ["account", "amount"]
