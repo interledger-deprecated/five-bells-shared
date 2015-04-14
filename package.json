@@ -1,6 +1,6 @@
 {
   "name": "five-bells-shared",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Shared components for Five Bells projects.",
   "main": "index.js",
   "scripts": {
