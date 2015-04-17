@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "Person",
-  "description": "An identity on a ledger",
+  "title": "Account",
+  "description": "An account on a ledger",
   "type": "object",
   "properties": {
     "id": {
@@ -9,7 +9,7 @@
       "$ref": "Iri.json"
     },
     "name": {
-      "description": "Name of the person",
+      "description": "Name of the account",
       "type": "string"
     },
     "balance": {
@@ -17,7 +17,7 @@
       "$ref": "Amount.json"
     },
     "identity": {
-      "description": "A link to the person's general identity",
+      "description": "A link to the account holder's API",
       "$ref": "Iri.json"
     }
   },
