@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "ExecutionCondition",
+  "description": "Condition for unlocking held funds",
+  "type": "object",
+  "allOf": [{
+    "$ref": "ExecutionConditionTemplate.json"
+  }],
+  "required": ["message_hash", "algorithm", "public_key"]
+}

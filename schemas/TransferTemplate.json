@@ -28,6 +28,18 @@
     "partOfSettlement": {
       "description": "Larger settlement that this transfer is a part of.",
       "$ref": "Iri.json"
+    },
+    "state": {
+      "description": "The current state of the transfer (informational only)",
+      "$ref": "TransferState.json"
+    },
+    "execution_condition": {
+      "description": "The condition for executing the transfer",
+      "$ref": "ExecutionCondition.json"
+    },
+    "execution_condition_fulfillment": {
+      "description": "Proof that the execution_condition has been met",
+      "$ref": "ExecutionConditionFulfillment.json"
     }
   }
 }
