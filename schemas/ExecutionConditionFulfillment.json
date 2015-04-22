@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "ExecutionConditionFulfillment",
+  "description": "Proof of execution condition completion",
+  "type": "object",
+  "allOf": [{
+    "$ref": "ExecutionConditionTemplate.json"
+  }],
+  "required": ["signature"]
+}

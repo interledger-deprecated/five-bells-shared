@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "TransferState",
+  "description": "The state of a transfer",
+  "type": "string",
+  "enum": [
+    "proposed",
+    "preprepared",
+    "prepared",
+    "preexecuted",
+    "completed",
+    "failed"
+  ]
+}

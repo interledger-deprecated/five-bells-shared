@@ -21,8 +21,9 @@
     "co-body": "^1.0.0",
     "mag-colored-output": "^1.0.0",
     "mag-format-message": "^0.1.1",
+    "skeemas": "^1.1.1",
     "through2": "^0.6.3",
-    "skeemas": "^1.1.1"
+    "tweetnacl": "^0.13.1"
   },
   "peerDependencies": {
     "mag": "^0.9.1",
