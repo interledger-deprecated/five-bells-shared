@@ -23,5 +23,7 @@ fs.readdirSync(baseDir)
   });
 
 function validate(schemaId, json) {
-  return validator.validate(json, schemaId + '.json');
+  return validator.validate(json, schemaId + '.json', {
+    additionalProperties: false 
+  });
 }

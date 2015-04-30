@@ -3,19 +3,8 @@
   "title": "Settlement",
   "description": "A cross-ledger transfer",
   "type": "object",
-  "properties": {
-    "id": {
-      "description": "Unique ID",
-      "$ref": "Iri.json"
-    },
-    "source_transfer": {
-      "description": "Transfer on the source ledger",
-      "$ref": "Transfer.json"
-    },
-    "destination_transfer": {
-      "description": "Transfer on the destination ledger",
-      "$ref": "Transfer.json"
-    }
-  },
-  "required": ["source_transfer", "destination_transfer"]
+  "allOf": [{
+    "$ref": "SettlementTemplate.json"
+  }],
+  "required": ["source_transfers", "destination_transfers"]
 }
