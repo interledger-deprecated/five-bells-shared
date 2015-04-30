@@ -6,5 +6,6 @@
   "allOf": [{
     "$ref": "SettlementTemplate.json"
   }],
-  "required": ["source_transfers", "destination_transfers"]
+  "required": ["source_transfers", "destination_transfers"],
+  "additionalProperties": false
 }

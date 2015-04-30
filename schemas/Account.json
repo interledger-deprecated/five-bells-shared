@@ -21,5 +21,6 @@
       "$ref": "Iri.json"
     }
   },
-  "required": ["name", "balance"]
+  "required": ["name", "balance"],
+  "additionalProperties": false
 }

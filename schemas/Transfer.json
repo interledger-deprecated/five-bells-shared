@@ -6,5 +6,6 @@
   "allOf": [
     { "$ref": "TransferTemplate.json" }
   ],
-  "required": ["debits", "credits"]
+  "required": ["debits", "credits"],
+  "additionalProperties": false
 }

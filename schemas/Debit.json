@@ -11,5 +11,6 @@
       "description": "Authorization to use these source funds",
       "$ref": "DebitAuthorization.json"
     }
-  }
+  },
+  "additionalProperties": false
 }

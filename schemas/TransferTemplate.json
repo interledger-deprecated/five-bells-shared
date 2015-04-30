@@ -41,5 +41,6 @@
       "description": "Proof that the execution_condition has been met",
       "$ref": "ExecutionConditionFulfillment.json"
     }
-  }
+  },
+  "additionalProperties": false
 }

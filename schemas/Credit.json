@@ -11,5 +11,6 @@
       "description": "Authorization to deliver these funds",
       "$ref": "CreditAuthorization.json"
     }
-  }
+  },
+  "additionalProperties": false
 }
