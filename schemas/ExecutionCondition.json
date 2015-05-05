@@ -7,9 +7,9 @@
     "$ref": "SignedMessageTemplate.json"
   }],
   "oneOf": [{
-    "required": "message"
+    "required": ["message"]
   }, {
-    "required": "message_hash"
+    "required": ["message_hash"]
   }],
   "required": ["algorithm", "public_key"]
 }
