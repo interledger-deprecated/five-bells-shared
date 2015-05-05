@@ -4,7 +4,7 @@
   "description": "A defined quantity of an asset used to fund a transfer.",
   "type": "object",
   "allOf": [
-    { "$ref": "Funds.json" }
+    { "$ref": "FundsTemplate.json" }
   ],
   "properties": {
     "authorization": {

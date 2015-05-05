@@ -11,7 +11,16 @@
     "amount": {
       "description": "Amount as decimal",
       "$ref": "Amount.json"
+    },
+    "authorization": {
+      "description": "Authorization to deliver these funds",
+      "oneOf": [
+        { "$ref": "CreditAuthorization.json" },
+        { "$ref": "DebitAuthorization.json" }
+      ]
+      
     }
   },
-  "required": ["account", "amount"]
+  "required": ["account", "amount"],
+  "additionalProperties": false
 }

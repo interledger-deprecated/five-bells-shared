@@ -25,5 +25,6 @@
       "type": "string"
     }
   },
-  "required": ["owner", "event", "target"]
+  "required": ["owner", "event", "target"],
+  "additionalProperties": false
 }

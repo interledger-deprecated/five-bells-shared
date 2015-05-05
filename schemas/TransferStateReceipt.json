@@ -26,5 +26,6 @@
       "$ref": "Base64.json"
     }
   },
-  "required": ["message", "signature"]
+  "required": ["message", "signature"],
+  "additionalProperties": false
 }

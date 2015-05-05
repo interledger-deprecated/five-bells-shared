@@ -12,5 +12,6 @@
       "type": "string"
     }
   },
-  "required": ["algorithm"]
+  "required": ["algorithm"],
+  "additionalProperties": false
 }
