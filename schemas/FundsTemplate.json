@@ -14,7 +14,7 @@
     },
     "authorization": {
       "description": "Authorization to deliver these funds",
-      "oneOf": [
+      "anyOf": [
         { "$ref": "CreditAuthorization.json" },
         { "$ref": "DebitAuthorization.json" }
       ]
