@@ -6,6 +6,5 @@
   "allOf": [{
     "$ref": "ExecutionConditionTemplate.json"
   }],
-  "required": ["signature"],
-  "additionalProperties": false
+  "required": ["signature"]
 }

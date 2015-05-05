@@ -6,6 +6,19 @@
   "allOf": [{
     "$ref": "SettlementTemplate.json"
   }],
-  "required": ["source_transfers", "destination_transfers"],
-  "additionalProperties": false
+  "properties": {
+    "source_transfers": {
+      "description": "Included here even though it is in the SettlementTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "Transfer.json" }
+    },
+    "destination_transfers": {
+      "description": "Included here even though it is in the SettlementTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "Transfer.json" }
+    }
+  },
+  "required": ["source_transfers", "destination_transfers"]
 }

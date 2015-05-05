@@ -6,6 +6,5 @@
   "allOf": [{
     "$ref": "ExecutionConditionTemplate.json"
   }],
-  "required": ["message_hash", "algorithm", "public_key"],
-  "additionalProperties": false
+  "required": ["message_hash", "algorithm", "public_key"]
 }

@@ -8,16 +8,22 @@
       "description": "Resource identifier",
       "$ref": "Iri.json"
     },
+    "ledger": {
+      "description": "The ledger where the transfer will take place",
+      "$ref": "Iri.json"
+    },
     "debits": {
       "description": "Funds that go into the transfer",
       "type": "array",
       "minItems": 1,
+      "uniqueItems": true,
       "items": { "$ref": "Debit.json" }
     },
     "credits": {
       "description": "Funds that come out of the transfer",
       "type": "array",
       "minItems": 1,
+      "uniqueItems": true,
       "items": { "$ref": "Credit.json" }
     },
     "expires": {

@@ -4,13 +4,12 @@
   "description": "A defined quantity of an asset to be delivered in a transfer.",
   "type": "object",
   "allOf": [
-    { "$ref": "Funds.json" }
+    { "$ref": "FundsTemplate.json" }
   ],
   "properties": {
     "authorization": {
       "description": "Authorization to deliver these funds",
       "$ref": "CreditAuthorization.json"
     }
-  },
-  "additionalProperties": false
+  }
 }
