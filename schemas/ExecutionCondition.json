@@ -4,7 +4,12 @@
   "description": "Condition for unlocking held funds",
   "type": "object",
   "allOf": [{
-    "$ref": "ExecutionConditionTemplate.json"
+    "$ref": "SignedMessageTemplate.json"
   }],
-  "required": ["message_hash", "algorithm", "public_key"]
+  "oneOf": [{
+    "required": "message"
+  }, {
+    "required": "message_hash"
+  }],
+  "required": ["algorithm", "public_key"]
 }

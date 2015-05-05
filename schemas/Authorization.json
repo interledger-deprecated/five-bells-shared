@@ -3,15 +3,11 @@
   "title": "Authorization",
   "description": "A signature authorizing an action.",
   "type": "object",
+  "allOf": [{
+    "$ref": "SignedMessageTemplate.json"
+  }],
   "properties": {
-    "algorithm": {
-      "type": { "enum": [ "rsa-sha256", "rsa-sha512", "hmac-sha256", "hmac-sha512", "sha3-256", "sha3-512", "ed25519-sha512", "ed25519-sha3-512" ] },
-      "default": "ed25519-sha512"
-    },
-    "signature": {
-      "type": "string"
-    }
+    "message": { }
   },
-  "required": ["algorithm"],
-  "additionalProperties": false
+  "required": ["algorithm"]
 }

@@ -1,10 +1,10 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
   "title": "TransferStateReceipt",
-  "description": "Signed reciept ",
+  "description": "Signed receipt",
   "type": "object",
   "allOf": [
-    { "$ref": "ExecutionCondition.json" }
+    { "$ref": "SignedMessageTemplate.json" }
   ],
   "properties": {
     "message": {
@@ -20,12 +20,7 @@
           "$ref": "TransferState.json"
         }
       }
-    },
-    "signature": {
-      "description": "Base64-encoded signature in the signature scheme and by the public key specified by the corresponding ExecutionCondition",
-      "$ref": "Base64.json"
     }
   },
-  "required": ["message", "signature"],
-  "additionalProperties": false
+  "required": ["message", "algorithm", "public_key", "signature"]
 }
