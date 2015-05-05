@@ -5,7 +5,6 @@ const validate = require('../services/validate');
 const InvalidBodyError = require('../errors/invalid-body-error');
 const verifySignedMessage = require('./verifySignedMessage');
 
-// TODO: implement other algorithms
 function verifyExecutionCondition(executionCondition, fulfillment) {
 
   let validationResult = validate('ExecutionCondition', executionCondition);
