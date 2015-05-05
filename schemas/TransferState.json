@@ -5,10 +5,11 @@
   "type": "string",
   "enum": [
     "proposed",
-    "preprepared",
+    "pre_prepared",
     "prepared",
-    "preexecuted",
-    "completed",
+    "pre_executed",
+    "executed",
+    "rejected",
     "failed"
   ]
 }
