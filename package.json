@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ripple/five-bells-shared",
   "dependencies": {
+    "canonical-json": "0.0.4",
     "co": "^4.1.0",
     "co-body": "^1.0.0",
     "mag-colored-output": "^1.0.0",

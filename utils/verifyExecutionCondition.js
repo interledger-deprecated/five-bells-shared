@@ -4,6 +4,7 @@ const tweetnacl = require('tweetnacl');
 const validate = require('../services/validate');
 const InvalidBodyError = require('../errors/invalid-body-error');
 const UnmetConditionError = require('../errors/unmet-condition-error');
+const hashJson = require('./hashJson');
 
 // TODO: implement other algorithms
 function verifyExecutionCondition(executionCondition, fulfillment) {
@@ -21,7 +22,21 @@ function verifyExecutionCondition(executionCondition, fulfillment) {
       validationResult.errors);
   }
 
-  let message = tweetnacl.util.decodeBase64(executionCondition.message_hash);
+  let messageHash;
+  if (executionCondition.message && executionCondition.message_hash) {
+    throw new InvalidBodyError(
+      'JSON request body should include either message or message_hash, but ' +
+      'not both.'
+    );
+  } else if (executionCondition.message) {
+    messageHash = hashJson(executionCondition.message);
+  } else if (executionCondition.message_hash) {
+    messageHash = tweetnacl.util.decodeBase64(executionCondition.message_hash);
+  } else {
+    throw new InvalidBodyError(
+      'JSON request body should include message or message_hash.'
+    );
+  }
   let signature = tweetnacl.util.decodeBase64(fulfillment.signature);
   let publicKey = tweetnacl.util.decodeBase64(executionCondition.public_key);
 
@@ -30,7 +45,7 @@ function verifyExecutionCondition(executionCondition, fulfillment) {
   let valid;
 
   try {
-    valid = tweetnacl.sign.detached.verify(message, signature, publicKey);
+    valid = tweetnacl.sign.detached.verify(messageHash, signature, publicKey);
   } catch(e) {
     throw new UnmetConditionError('Invalid signature');
   }
