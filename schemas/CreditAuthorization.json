@@ -17,6 +17,5 @@
       "type": { "enum": [ "all", "single", "none" ] },
       "default": "all"
     }
-  },
-  "additionalProperties": false
+  }
 }

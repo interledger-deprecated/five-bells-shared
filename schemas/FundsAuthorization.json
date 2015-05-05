@@ -18,6 +18,5 @@
       "default": "all"
     }
   },
-  "required": ["owner"],
-  "additionalProperties": false
+  "required": ["owner"]
 }
