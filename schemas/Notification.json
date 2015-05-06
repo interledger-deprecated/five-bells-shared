@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Notification",
+  "description": "A notification sent by a ledger",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique identifier for this notification",
+      "$ref": "Iri.json"
+    },
+    "event": {
+      "description": "Event identifier for the type of event",
+      "$ref": "EventId.json"
+    },
+    "host": {
+      "description": "Source ledger for the notification",
+      "$ref": "Iri.json"
+    },
+    "resource": {
+      "description": "Transfer that is the subject of the notification",
+      "$ref": "Transfer.json"
+    }
+  },
+  "required": ["id", "event", "resource"],
+  "additionalProperties": false
+}
