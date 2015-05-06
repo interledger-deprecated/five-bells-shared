@@ -35,8 +35,7 @@
     },
     "expires": {
       "description": "Time when the transfer expires",
-      "type": "string",
-      "format": "date-time"
+      "$ref": "Date.json"
     },
     "partOfSettlement": {
       "description": "Larger settlement that this transfer is a part of.",
