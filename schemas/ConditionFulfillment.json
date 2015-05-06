@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "ExecutionConditionFulfillment",
-  "description": "Proof of execution condition completion",
+  "title": "ConditionFulfillment",
+  "description": "Proof of condition completion",
   "type": "object",
   "allOf": [{
     "$ref": "SignedMessageTemplate.json"

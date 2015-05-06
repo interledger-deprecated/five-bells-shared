@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "ExecutionCondition",
-  "description": "Condition for unlocking held funds",
+  "title": "Condition",
+  "description": "A specific signature is required",
   "type": "object",
   "allOf": [{
     "$ref": "SignedMessageTemplate.json"

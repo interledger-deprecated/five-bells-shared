@@ -26,6 +26,13 @@
       "uniqueItems": true,
       "items": { "$ref": "Credit.json" }
     },
+    "rejection_credits": {
+      "description": "Funds that come out of the transfer in the event of a cancellation",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "Credit.json" }
+    },
     "expires": {
       "description": "Time when the transfer expires",
       "type": "string",
@@ -41,11 +48,19 @@
     },
     "execution_condition": {
       "description": "The condition for executing the transfer",
-      "$ref": "ExecutionCondition.json"
+      "$ref": "Condition.json"
     },
     "execution_condition_fulfillment": {
       "description": "Proof that the execution_condition has been met",
-      "$ref": "ExecutionConditionFulfillment.json"
+      "$ref": "ConditionFulfillment.json"
+    },
+    "cancellation_condition": {
+      "description": "The condition for cancelling the transfer",
+      "$ref": "Condition.json"
+    },
+    "cancellation_condition_fulfillment": {
+      "description": "Proof that the cancellation_condition has been met",
+      "$ref": "ConditionFulfillment.json"
     }
   },
   "additionalProperties": false
