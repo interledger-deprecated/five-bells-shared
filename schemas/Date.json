@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Date",
+  "description": "A date",
+  "type": "string",
+  "format": "date-time"
+}
