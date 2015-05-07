@@ -5,25 +5,25 @@ const validate = require('../services/validate');
 const InvalidBodyError = require('../errors/invalid-body-error');
 const verifySignedMessage = require('./verifySignedMessage');
 
-function verifyExecutionCondition(executionCondition, fulfillment) {
+function verifyCondition(condition, fulfillment) {
 
-  let validationResult = validate('ExecutionCondition', executionCondition);
+  let validationResult = validate('Condition', condition);
   if (!validationResult.valid) {
     throw new InvalidBodyError(
-      'JSON request body is not a valid ExecutionCondition',
+      'JSON request body is not a valid Condition',
       validationResult.errors);
   }
-  validationResult = validate('ExecutionConditionFulfillment', fulfillment);
+  validationResult = validate('ConditionFulfillment', fulfillment);
   if (!validationResult.valid) {
     throw new InvalidBodyError(
-      'JSON request body is not a valid ExecutionConditionFulfillment',
+      'JSON request body is not a valid ConditionFulfillment',
       validationResult.errors);
   }
 
-  const signedMessage = _.clone(executionCondition);
+  const signedMessage = _.clone(condition);
   signedMessage.signature = fulfillment.signature;
 
   return verifySignedMessage(signedMessage);
 }
 
-module.exports = verifyExecutionCondition;
+module.exports = verifyCondition;

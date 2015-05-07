@@ -33,10 +33,6 @@
       "uniqueItems": true,
       "items": { "$ref": "Credit.json" }
     },
-    "expires": {
-      "description": "Time when the transfer expires",
-      "$ref": "Date.json"
-    },
     "partOfSettlement": {
       "description": "Larger settlement that this transfer is a part of.",
       "$ref": "Iri.json"
@@ -60,6 +56,34 @@
     "cancellation_condition_fulfillment": {
       "description": "Proof that the cancellation_condition has been met",
       "$ref": "ConditionFulfillment.json"
+    },
+    "expires_at": {
+      "description": "The date when the transfer expires and will be rejected by the ledger",
+      "$ref": "Date.json"
+    },
+    "proposed_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally proposed",
+      "$ref": "Date.json"
+    },
+    "pre_prepared_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally pre_prepared",
+      "$ref": "Date.json"
+    },
+    "prepared_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally prepared",
+      "$ref": "Date.json"
+    },
+    "pre_executed_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally pre_executed",
+      "$ref": "Date.json"
+    },
+    "executed_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally executed",
+      "$ref": "Date.json"
+    },
+    "rejected_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally rejected",
+      "$ref": "Date.json"
     }
   },
   "additionalProperties": false
