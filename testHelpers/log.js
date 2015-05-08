@@ -17,6 +17,7 @@ module.exports = function () {
     const buffer = logger.currentOutput;
     if (this.currentTest.state !== 'passed') {
       buffer.pipe(process.stdout);
+      buffer.unpipe(process.stdout);
     }
     logger.setOutputStream(process.stdout);
   });
