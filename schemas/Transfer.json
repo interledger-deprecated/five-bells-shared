@@ -6,5 +6,8 @@
   "allOf": [
     { "$ref": "TransferTemplate.json" }
   ],
+  "not": {
+    "required": ["expiry_duration"]
+  },
   "required": ["debits", "credits"]
 }
