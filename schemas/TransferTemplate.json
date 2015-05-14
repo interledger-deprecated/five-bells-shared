@@ -37,7 +37,7 @@
       "description": "Time when the transfer expires",
       "$ref": "Date.json"
     },
-    "partOfSettlement": {
+    "part_of_settlement": {
       "description": "Larger settlement that this transfer is a part of.",
       "$ref": "Iri.json"
     },
