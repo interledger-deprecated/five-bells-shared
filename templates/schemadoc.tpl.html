@@ -1,0 +1,27 @@
+<h1><%= title %></h1>
+<%= description %>
+<% if (type === 'object') { %>
+<h3>Fields</h3>
+<ul class="fields">
+<% for (propName in properties) { %>
+<% var prop = properties[propName]; %>
+  <li>
+    <div class="definition">
+      <h5><%= propName %></h5>
+      <span class="type">
+        <% if (prop.type === 'array') { %>
+          <%= getTypeLink(prop.items) %>[]
+        <% } else if (typeof prop.type === 'string') { %>
+          <%= prop.type %>
+        <% } else { %>
+          <%= getTypeLink(prop) %>
+        <% } %>
+      </span>
+    </div>
+    <div class="description">
+      <%= prop.description %>
+    </div>
+  </li>
+<% } %>
+</dl>
+<% } %>

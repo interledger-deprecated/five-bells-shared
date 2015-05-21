@@ -1,0 +1,45 @@
+<head>
+<title><%= title %></title>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:700,400' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link href='assets/style.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+<header>
+<nav class="quick">
+  <select>
+    <% for (var section in fragmentsGrouped) { %>
+      <optgroup label="<%= section %>">
+        <% for (var fragment of fragmentsGrouped[section]) { %>
+          <option value="<%= fragment.id %>"><%= fragment.title %></option>
+        <% } %>
+      </optgroup>
+    <% } %>
+  </select>
+</nav>
+</header>
+<nav class="sidebar">
+  <% for (var section in fragmentsGrouped) { %>
+  <h5><%= section %></h5>
+  <ul>
+    <% for (var fragment of fragmentsGrouped[section]) { %>
+      <li><%= fragment.title %></li>
+    <% } %>
+  </ul>
+  <% } %>
+</nav>
+<div class="background">
+  <div class="inner"></div>
+</div>
+<main>
+  <% for (var fragment of fragments) { %>
+    <section class="object">
+    <div class="block">
+    <div class="text">
+      <%= fragment.content %>
+    </div>
+    </div>
+    </section>
+  <% } %>
+</main>
+</body>

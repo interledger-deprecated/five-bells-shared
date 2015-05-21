@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
   "title": "Funds",
-  "description": "A defined quantity of an asset optionally located on a specified ledger.",
+  "description": "A defined quantity of an asset.",
   "type": "object",
   "properties": {
     "account": {

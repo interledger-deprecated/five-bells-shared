@@ -3,8 +3,11 @@
   "title": "ConditionFulfillment",
   "description": "Proof of condition completion",
   "type": "object",
-  "allOf": [{
-    "$ref": "SignedMessageTemplate.json"
-  }],
+  "properties": {
+    "signature": {
+      "description": "Base64-encoded signature in the signature scheme and by the public key specified by the corresponding ExecutionCondition",
+      "$ref": "Base64.json"
+    }
+  },
   "required": ["signature"]
 }

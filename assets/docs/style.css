@@ -1,0 +1,99 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+}
+
+nav.sidebar {
+  width: 174px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 15px;
+  background-color: #fafafa;
+}
+
+nav.sidebar > h5 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  color: #999;
+}
+
+nav.sidebar > ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.background {
+  bottom: 0;
+  left: 221px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.background .inner {
+  bottom: 0;
+  left: 45%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #fafafa;
+}
+
+main {
+  position: absolute;
+  top: 0;
+  left: 221px;
+  right: 0;
+  bottom: 0;
+}
+
+.object {
+  overflow: hidden;
+}
+
+.object > .block > .text {
+  float: left;
+  width: 45%;
+}
+
+ul.fields {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul.fields > li {
+  overflow: hidden;
+  padding: 17px;
+  border-bottom: 1px solid #f0f4f7;
+}
+
+ul.fields > li > .definition {
+  float: left;
+  text-align: right;
+  width: 180px;
+}
+
+ul.fields > li > .definition > h5 {
+  font-weight: 500;
+  font-size: 1.35rem;
+  margin: 0;
+  line-height: inherit;
+}
+
+ul.fields > li > .definition > .type {
+  font-size: 1.25rem;
+  color: #999;
+}
+
+ul.fields > li > .definition > .type a {
+  color: #999;
+}
+
+ul.fields > li > .description {
+  position: relative;
+  margin: 0 0 0 200px;
+  font-size: 1.35rem;
+}
