@@ -4,7 +4,7 @@
   "description": "Proof of condition completion",
   "type": "object",
   "allOf": [{
-    "$ref": "SignedMessageTemplate.json"
+    "$ref": "Condition.json"
   }],
   "required": ["signature"]
 }
