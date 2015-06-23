@@ -12,13 +12,20 @@
       "description": "Amount as decimal",
       "$ref": "Amount.json"
     },
+    "memo": {
+      "description": "Additional information related to the credit",
+      "type": "string"
+    },
+    "invoice": {
+      "description": "Unique invoice URI - the ledger will only allow one transfer referencing a given invoice ID",
+      "$ref": "Iri.json"
+    },
     "authorization": {
       "description": "Authorization to deliver these funds",
       "anyOf": [
         { "$ref": "CreditAuthorization.json" },
         { "$ref": "DebitAuthorization.json" }
       ]
-      
     }
   },
   "required": ["account", "amount"],
