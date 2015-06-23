@@ -12,7 +12,13 @@ function *handleError(next) {
       yield err.handler(this, log);
     } else {
       log.error((typeof err === 'object' && err.stack) ? err.stack : '' + err);
-      throw err;
+
+      this.status = err.status || 500
+      this.body = err.message
+
+      // We consider the error handled at this point, so we do NOT reemit it,
+      // that's why the following line is commented out.
+      // this.app.emit('error', err, this)
     }
   }
 }
