@@ -1,6 +1,6 @@
 {
   "name": "@ripple/five-bells-shared",
-  "version": "2.6.3",
+  "version": "2.7.0",
   "description": "Shared components for Five Bells projects.",
   "main": "index.js",
   "scripts": {
