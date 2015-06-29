@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Timeline",
+  "description": "Timeline of the transfer's state transitions",
+  "type": "object",
+  "properties": {
+    "proposed_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally proposed",
+      "$ref": "Date.json"
+    },
+    "pre_prepared_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally pre_prepared",
+      "$ref": "Date.json"
+    },
+    "prepared_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally prepared",
+      "$ref": "Date.json"
+    },
+    "pre_executed_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally pre_executed",
+      "$ref": "Date.json"
+    },
+    "executed_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally executed",
+      "$ref": "Date.json"
+    },
+    "rejected_at": {
+      "description": "An informational field added by the ledger to indicate when the transfer was originally rejected",
+      "$ref": "Date.json"
+    }
+  }
+}
