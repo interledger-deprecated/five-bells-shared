@@ -19,6 +19,10 @@
     "identity": {
       "description": "A link to the account holder's API",
       "$ref": "Iri.json"
+    },
+    "password": {
+      "description": "Account password",
+      "type": "string"
     }
   },
   "required": ["name", "balance"],
