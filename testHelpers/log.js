@@ -10,12 +10,14 @@ const through = require('through2');
 module.exports = function () {
   beforeEach(function() {
     const buffer = through();
+    buffer.pause();
     logger.setOutputStream(buffer);
   });
 
   afterEach(function() {
     const buffer = logger.currentOutput;
     if (this.currentTest.state !== 'passed') {
+      buffer.resume();
       buffer.pipe(process.stdout);
       buffer.unpipe(process.stdout);
     }
