@@ -42,14 +42,6 @@
       "description": "Proof that the execution_condition has been met",
       "$ref": "ConditionFulfillment.json"
     },
-    "cancellation_condition": {
-      "description": "The condition for cancelling the transfer",
-      "$ref": "Condition.json"
-    },
-    "cancellation_condition_fulfillment": {
-      "description": "Proof that the cancellation_condition has been met",
-      "$ref": "ConditionFulfillment.json"
-    },
     "expiry_duration": {
       "description": "Time in seconds between proposed_at and expires_at. Set in quotes from settlement systems but not valid in actual transfers",
       "type": "string",
