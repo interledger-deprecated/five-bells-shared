@@ -5,7 +5,7 @@
   "type": "object",
   "properties": {
     "message": {
-      "description": "JSON or string message whose hash is messageHash",
+      "description": "(Optional) JSON or string message whose hash is message_hash",
       "anyOf": [
         {
           "type": "object"
@@ -25,7 +25,7 @@
       "enum": ["ed25519-sha512"]
     },
     "signer": {
-      "description": "IRI of signer",
+      "description": "(Optional) IRI of signer",
       "$ref": "Iri.json"
     },
     "public_key": {
