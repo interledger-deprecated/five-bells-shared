@@ -5,7 +5,7 @@
   "type": "object",
   "properties": {
     "message": {
-      "description": "(Optional) JSON or string message whose hash is messageHash",
+      "description": "(Optional) JSON or string message whose hash is message_hash",
       "anyOf": [
         {
           "type": "object"

@@ -42,14 +42,6 @@
       "description": "Proof that the execution_condition has been met",
       "$ref": "ConditionFulfillment.json"
     },
-    "cancellation_condition": {
-      "description": "The condition for cancelling the transfer",
-      "$ref": "Condition.json"
-    },
-    "cancellation_condition_fulfillment": {
-      "description": "Proof that the cancellation_condition has been met",
-      "$ref": "ConditionFulfillment.json"
-    },
     "expiry_duration": {
       "description": "Time in seconds between proposed_at and expires_at. Set in quotes from settlement systems but not valid in actual transfers",
       "type": "string",
@@ -59,29 +51,9 @@
       "description": "The date when the transfer expires and will be rejected by the ledger",
       "$ref": "Date.json"
     },
-    "proposed_at": {
-      "description": "An informational field added by the ledger to indicate when the transfer was originally proposed",
-      "$ref": "Date.json"
-    },
-    "pre_prepared_at": {
-      "description": "An informational field added by the ledger to indicate when the transfer was originally pre_prepared",
-      "$ref": "Date.json"
-    },
-    "prepared_at": {
-      "description": "An informational field added by the ledger to indicate when the transfer was originally prepared",
-      "$ref": "Date.json"
-    },
-    "pre_executed_at": {
-      "description": "An informational field added by the ledger to indicate when the transfer was originally pre_executed",
-      "$ref": "Date.json"
-    },
-    "executed_at": {
-      "description": "An informational field added by the ledger to indicate when the transfer was originally executed",
-      "$ref": "Date.json"
-    },
-    "rejected_at": {
-      "description": "An informational field added by the ledger to indicate when the transfer was originally rejected",
-      "$ref": "Date.json"
+    "timeline": {
+      "description": "Timeline of the transfer's state transitions",
+      "$ref": "Timeline.json"
     }
   },
   "additionalProperties": false
