@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const schema = require('./schema');
 const shelljs = require('shelljs');
+const slugify = require('slugify');
 const MarkdownIt = require('markdown-it');
 const md = new MarkdownIt();
 
@@ -18,6 +19,7 @@ exports.compile = function (manifest) {
     return fragment.section;
   });
   manifest.fragments = manifest.fragments.map(function (fragment) {
+    fragment.slug = slugify(fragment.title);
     if (_.endsWith(fragment.src, '.md')) {
       fragment.content = md.render(fs.readFileSync(fragment.src, 'utf8'));
     } else if (_.endsWith(fragment.src, '.json')) {

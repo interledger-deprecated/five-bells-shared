@@ -23,7 +23,7 @@
   <h5><%= section %></h5>
   <ul>
     <% for (var fragment of fragmentsGrouped[section]) { %>
-      <li><%= fragment.title %></li>
+      <li><a href="#<%= fragment.slug %>"><%= fragment.title %></a></li>
     <% } %>
   </ul>
   <% } %>
@@ -36,6 +36,7 @@
     <section class="object">
     <div class="block">
     <div class="text">
+      <a name="<%= fragment.slug %>"></a>
       <%= fragment.content %>
     </div>
     </div>
