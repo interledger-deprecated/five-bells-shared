@@ -1,12 +1,12 @@
-'use strict';
+'use strict'
 
-const co = require('co');
-const validate = require('../services/validate');
-const parse = require('co-body');
-const assert = require('assert');
-const InvalidBodyError = require('../errors/invalid-body-error');
+const co = require('co')
+const validate = require('../services/validate')
+const parse = require('co-body')
+const assert = require('assert')
+const InvalidBodyError = require('../errors/invalid-body-error')
 const InvalidUriParameterError =
-  require('../errors/invalid-uri-parameter-error');
+  require('../errors/invalid-uri-parameter-error')
 
 /**
  * Validate path parameter.
@@ -18,12 +18,12 @@ const InvalidUriParameterError =
  * @returns {void}
  */
 exports.validateUriParameter = function (paramId, paramValue, schema) {
-  let validationResult = validate(schema, paramValue);
+  let validationResult = validate(schema, paramValue)
   if (!validationResult.valid) {
     throw new InvalidUriParameterError(paramId + ' is not a valid ' + schema,
-      validationResult.errors);
+      validationResult.errors)
   }
-};
+}
 
 /**
  * Parse the request body JSON and optionally validate it against a schema.
@@ -34,21 +34,20 @@ exports.validateUriParameter = function (paramId, paramValue, schema) {
  * @returns {Object} Parsed JSON body
  */
 exports.validateBody = co.wrap(function *(ctx, schema) {
-  let json = yield parse(ctx);
+  let json = yield parse(ctx)
 
   if (schema) {
-    let validationResult = validate(schema, json);
+    let validationResult = validate(schema, json)
     if (!validationResult.valid) {
       throw new InvalidBodyError('JSON request body is not a valid ' + schema,
-        validationResult.errors);
+        validationResult.errors)
     }
-    // TODO Might be good to do this for safety:
-    // return validationResult.cleanInstance;
+  // TODO Might be good to do this for safety:
+  // return validationResult.cleanInstance
   }
 
-  return json;
-});
-
+  return json
+})
 
 /**
  * Get the base URI.
@@ -58,25 +57,23 @@ exports.validateBody = co.wrap(function *(ctx, schema) {
  * @returns {String} Base URI.
  */
 exports.getBaseUri = function (ctx) {
-  return 'http://' + ctx.request.header.host;
-};
+  return 'http://' + ctx.request.header.host
+}
 
 exports.assert = function (value, message) {
   try {
-    assert(value, message);
+    assert(value, message)
   } catch (err) {
-    throw new InvalidBodyError(err.message);
+    throw new InvalidBodyError(err.message)
   }
-};
-
-['equal', 'notEqual', 'deepEqual', 'notDeepEqual', 'strictEqual',
- 'notStrictEqual'].forEach(function (method) {
+};['equal', 'notEqual', 'deepEqual', 'notDeepEqual', 'strictEqual',
+  'notStrictEqual'].forEach(function (method) {
   exports.assert[method] = function (actual, expected, message) {
     try {
-      assert[method](actual, expected, message);
+      assert[method](actual, expected, message)
     } catch (err) {
       throw new InvalidBodyError(err.message + ' (' + method + ', expected: "' +
-        expected + '", actual: "' + actual + '")');
+        expected + '", actual: "' + actual + '")')
     }
-  };
-});
+  }
+})
