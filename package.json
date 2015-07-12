@@ -4,6 +4,7 @@
   "description": "Shared components for Five Bells projects.",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint .",
     "test": "echo \"no tests\" && exit 0"
   },
   "repository": {
@@ -35,6 +36,8 @@
     "mag-hub": "^0.1.1"
   },
   "devDependencies": {
+    "eslint": "^0.24.1",
+    "eslint-config-standard": "^3.4.1",
     "hogan.js": "^3.0.2"
   }
 }

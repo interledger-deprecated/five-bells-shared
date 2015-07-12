@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 /**
  * Generate a middleware that adds some bells and whistles to Koa.
@@ -11,10 +11,10 @@
  * @returns {Function} Koa middleware
  */
 module.exports = function (config) {
-  return function *bells(next) {
-    this.bells = {};
-    this.bells.base = config.server.base_uri;
+  return function * bells (next) {
+    this.bells = {}
+    this.bells.base = config.server.base_uri
 
-    yield next;
-  };
-};
+    yield next
+  }
+}
