@@ -1,24 +1,24 @@
-'use strict';
+'use strict'
 
-module.exports = handleError;
+module.exports = handleError
 
-const log = require('../services/log')('error-handler');
+const log = require('../services/log')('error-handler')
 
-function *handleError(next) {
+function * handleError (next) {
   try {
-    yield next;
+    yield next
   } catch (err) {
     if (typeof err.handler === 'function') {
-      yield err.handler(this, log);
+      yield err.handler(this, log)
     } else {
-      log.error((typeof err === 'object' && err.stack) ? err.stack : '' + err);
+      log.error((typeof err === 'object' && err.stack) ? err.stack : '' + err)
 
       this.status = err.status || 500
       this.body = err.message
 
-      // We consider the error handled at this point, so we do NOT reemit it,
-      // that's why the following line is commented out.
-      // this.app.emit('error', err, this)
+    // We consider the error handled at this point, so we do NOT reemit it,
+    // that's why the following line is commented out.
+    // this.app.emit('error', err, this)
     }
   }
 }
