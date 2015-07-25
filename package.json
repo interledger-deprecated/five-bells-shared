@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "echo \"no tests\" && exit 0"
+    "test": "NODE_ENV=unit node node_modules/.bin/istanbul test -- _mocha"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "lodash": "^3.8.0",
     "mag-colored-output": "^1.0.0",
     "mag-format-message": "^0.1.1",
+    "path-to-regexp": "^1.2.0",
     "skeemas": "^1.1.1",
     "through2": "^0.6.3",
     "tweetnacl": "^0.13.1"
@@ -33,7 +34,10 @@
     "mag-hub": "^0.1.1"
   },
   "devDependencies": {
+    "chai": "^3.2.0",
     "eslint": "^0.24.1",
-    "eslint-config-standard": "^3.4.1"
+    "eslint-config-standard": "^3.4.1",
+    "istanbul-harmony": "^0.3.16",
+    "mocha": "^2.2.5"
   }
 }
