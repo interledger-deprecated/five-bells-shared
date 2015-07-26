@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "Funds",
+  "title": "FundsTemplate",
   "description": "A defined quantity of an asset optionally located on a specified ledger.",
   "type": "object",
   "properties": {
     "account": {
       "description": "Account holding the funds",
-      "$ref": "Identifier.json"
+      "$ref": "Iri.json"
     },
     "amount": {
       "description": "Amount as decimal",
