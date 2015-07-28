@@ -42,8 +42,8 @@ exports.validateBody = co.wrap(function *(ctx, schema) {
       throw new InvalidBodyError('JSON request body is not a valid ' + schema,
         validationResult.errors)
     }
-  // TODO Might be good to do this for safety:
-  // return validationResult.cleanInstance
+    // TODO Might be good to do this for safety:
+    // return validationResult.cleanInstance
   }
 
   return json
@@ -66,7 +66,9 @@ exports.assert = function (value, message) {
   } catch (err) {
     throw new InvalidBodyError(err.message)
   }
-};['equal', 'notEqual', 'deepEqual', 'notDeepEqual', 'strictEqual',
+}
+
+;['equal', 'notEqual', 'deepEqual', 'notDeepEqual', 'strictEqual',
   'notStrictEqual'].forEach(function (method) {
   exports.assert[method] = function (actual, expected, message) {
     try {
