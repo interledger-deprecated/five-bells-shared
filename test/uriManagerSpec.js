@@ -10,9 +10,8 @@ describe('UriManager', function () {
   })
 
   describe('addResource', function () {
-    it('should create a route parser', function *() {
+    it('should create a route parser', function () {
       this.uri.addResource('foo', '/foo/:id')
-      this.uri.addResource('example', '/example/:id')
 
       expect(this.uri.routes).to.have.length(1)
       expect(this.uri.routes[0]).to.be.a('function')
