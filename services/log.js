@@ -6,4 +6,7 @@ const hub = require('mag-hub')
 const mag = require('mag')
 const log = require('../lib/log')
 
-module.exports = log(mag, hub)
+const logger = module.exports = log(mag, hub)
+
+logger('log').warn('DEPRECATED: Do not use @ripple/five-bells-shared/services/log - create your own logging service using @ripple/five-bells-shared/lib/log')
+logger('log').warn('  required from ' + module.parent.filename)

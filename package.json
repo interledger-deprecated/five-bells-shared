@@ -38,6 +38,8 @@
     "eslint": "^0.24.1",
     "eslint-config-standard": "^3.4.1",
     "istanbul-harmony": "^0.3.16",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0"
   }
 }
