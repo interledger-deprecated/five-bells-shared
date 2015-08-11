@@ -6,7 +6,7 @@
   "properties": {
     "account": {
       "description": "Account holding the funds",
-      "$ref": "Identifier.json"
+      "$ref": "Iri.json"
     },
     "amount": {
       "description": "Amount as decimal",
