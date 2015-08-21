@@ -10,7 +10,7 @@
     },
     "owner": {
       "description": "Owner of this value quantity",
-      "$ref": "Identifier.json"
+      "$ref": "Iri.json"
     },
     "event": {
       "description": "Event identifier for the type of event",
