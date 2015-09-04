@@ -6,7 +6,7 @@
   "properties": {
     "id": {
       "description": "Unique identifier for this subscription",
-      "$ref": "Uuid.json"
+      "$ref": "Iri.json"
     },
     "owner": {
       "description": "Owner of this value quantity",
