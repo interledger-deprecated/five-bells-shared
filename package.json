@@ -8,6 +8,9 @@
     "test": "NODE_ENV=unit node node_modules/.bin/istanbul test -- _mocha",
     "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* ; cp -r docs docs-out"
   },
+  "engines": {
+    "node": ">=4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:ripple/five-bells-shared.git"
