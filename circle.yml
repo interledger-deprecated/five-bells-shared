@@ -7,9 +7,13 @@ test:
   override:
     - npm run lint
     - npm test
+    - npm run jsdoc
 deployment:
   production:
     branch: master
     commands:
       - mv npmrc-env .npmrc
       - if [ -z "$(npm info $(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " ") 2>/dev/null)" ] ; then npm publish ; fi
+general:
+  artifacts:
+    - "docs-out"

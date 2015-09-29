@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "NODE_ENV=unit node node_modules/.bin/istanbul test -- _mocha"
+    "test": "NODE_ENV=unit node node_modules/.bin/istanbul test -- _mocha",
+    "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* ; cp -r docs docs-out"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,8 @@
     "eslint": "^0.24.1",
     "eslint-config-standard": "^3.4.1",
     "istanbul-harmony": "^0.3.16",
+    "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
+    "minami": "^1.1.1",
     "mocha": "^2.2.5",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
