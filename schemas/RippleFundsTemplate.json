@@ -1,12 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "RippledFunds",
+  "title": "RippleFunds",
   "description": "A defined quantity of an asset optionally located on a specified ledger.",
   "type": "object",
   "properties": {
     "address": {
       "description": "Account holding the funds",
-      "$ref": "Address.json"
+      "$ref": "RippleAddress.json"
     },
     "secret": {
       "type": "string"
