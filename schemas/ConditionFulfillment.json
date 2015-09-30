@@ -2,9 +2,36 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "title": "ConditionFulfillment",
   "description": "Proof of condition completion",
-  "type": "object",
-  "allOf": [{
-    "$ref": "SignedMessageTemplate.json"
-  }],
-  "required": ["signature"]
+  "definitions": {
+    "HashSha256Fulfillment": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": ["sha256"]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "message"],
+      "additionalProperties": false
+    },
+    "Ed25519_Sha512": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": ["ed25519-sha512"]
+        },
+        "signature": {
+          "$ref": "Base64.json"
+        }
+      },
+      "required": ["type", "signature"],
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/definitions/HashSha256Fulfillment" },
+    { "$ref": "#/definitions/Ed25519_Sha512" }
+  ]
 }
