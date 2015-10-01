@@ -19,7 +19,7 @@
       "description": "Base64-encoded hash of the message (hash algorithm dependent on signing algorithm) ",
       "$ref": "Base64.json"
     },
-    "algorithm": {
+    "type": {
       "description": "Cryptographic signature algorithm",
       "type": "string",
       "enum": ["ed25519-sha512"]

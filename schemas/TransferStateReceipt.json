@@ -22,5 +22,5 @@
       }
     }
   },
-  "required": ["message", "algorithm", "public_key", "signature"]
+  "required": ["message", "type", "public_key", "signature"]
 }
