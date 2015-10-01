@@ -30,8 +30,7 @@
     },
     "expiry_duration": {
       "description": "Time in seconds between proposed_at and expires_at. Set in quotes from settlement systems but not valid in actual transfers",
-      "type": "string",
-      "pattern": "^[0-9]*[.]?[0-9]+$"
+      "$ref": "NonNegativeDuration.json"
     },
     "expires_at": {
       "description": "The date when the transfer expires and will be rejected by the ledger",
