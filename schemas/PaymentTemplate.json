@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "SettlementTemplate",
-  "description": "A template for a cross-ledger transfer that can have some settlement fields missing",
+  "title": "PaymentTemplate",
+  "description": "A template for a cross-ledger transfer that can have some payment fields missing",
   "type": "object",
   "properties": {
     "id": {
@@ -21,13 +21,13 @@
       "items": { "$ref": "TransferTemplate.json" }
     },
     "source_fee_transfers": {
-      "description": "Fees paid to the settlement system for holding funds or executing the transfer",
+      "description": "Fees paid to the payment system for holding funds or executing the transfer",
       "type": "array",
       "minItems": 1,
       "items": { "$ref": "TransferTemplate.json" }
     },
     "destination_fee_transfers": {
-      "description": "Fees paid by the settlement system to others for holding funds or executing a transfer",
+      "description": "Fees paid by the payment system to others for holding funds or executing a transfer",
       "type": "array",
       "minItems": 1,
       "items": { "$ref": "TransferTemplate.json" }
