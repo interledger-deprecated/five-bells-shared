@@ -1,32 +1,32 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "Settlement",
+  "title": "Payment",
   "description": "A cross-ledger transfer",
   "type": "object",
   "allOf": [{
-    "$ref": "SettlementTemplate.json"
+    "$ref": "PaymentTemplate.json"
   }],
   "properties": {
     "source_transfers": {
-      "description": "Included here even though it is in the SettlementTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
       "type": "array",
       "uniqueItems": true,
       "items": { "$ref": "Transfer.json" }
     },
     "destination_transfers": {
-      "description": "Included here even though it is in the SettlementTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
       "type": "array",
       "uniqueItems": true,
       "items": { "$ref": "Transfer.json" }
     },
     "source_fee_transfers": {
-      "description": "Included here even though it is in the SettlementTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
       "type": "array",
       "uniqueItems": true,
       "items": { "$ref": "Transfer.json" }
     },
     "destination_fee_transfers": {
-      "description": "Included here even though it is in the SettlementTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
       "type": "array",
       "uniqueItems": true,
       "items": { "$ref": "Transfer.json" }

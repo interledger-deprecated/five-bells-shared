@@ -12,8 +12,8 @@
       "description": "The ledger where the transfer will take place",
       "$ref": "Iri.json"
     },
-    "part_of_settlement": {
-      "description": "Larger settlement that this transfer is a part of.",
+    "part_of_payment": {
+      "description": "Larger payment that this transfer is a part of.",
       "$ref": "Iri.json"
     },
     "state": {
@@ -29,7 +29,7 @@
       "$ref": "ConditionFulfillment.json"
     },
     "expiry_duration": {
-      "description": "Time in seconds between proposed_at and expires_at. Set in quotes from settlement systems but not valid in actual transfers",
+      "description": "Time in seconds between proposed_at and expires_at. Set in quotes from payment systems but not valid in actual transfers",
       "$ref": "NonNegativeDuration.json"
     },
     "expires_at": {
