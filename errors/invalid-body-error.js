@@ -8,11 +8,22 @@ class InvalidBodyError extends BaseError {
     this.validationErrors = validationErrors
   }
 
+  debugPrint (log, validationError, indent) {
+    indent = indent || ''
+    log.debug(indent + '-- ' + validationError)
+    log.debug(indent + '   ' + validationError.schemaPath)
+    if (validationError.subErrors) {
+      validationError.subErrors.forEach((subError) => {
+        this.debugPrint(log, subError, '  ' + indent)
+      })
+    }
+  }
+
   * handler (ctx, log) {
     log.warn('Invalid body: ' + this.message)
     if (this.validationErrors) {
       for (let ve of this.validationErrors) {
-        log.debug(' -- ' + ve)
+        this.debugPrint(log, ve)
       }
     }
 
