@@ -6,9 +6,9 @@ const fs = require('fs')
 const path = require('path')
 const tv4 = require('tv4')
 const formats = require('tv4-formats')
-tv4.addFormat(formats)
 
 const validator = tv4.freshApi()
+validator.addFormat(formats)
 
 const baseDir = path.join(__dirname, '/../schemas')
 
