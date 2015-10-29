@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "GenericTransfer",
+  "description": "Represents any kind of transfer as used in the payment object. Note that this schema only verifies that the transfer specifies a type, the actual schema of the transfer has to be validated separately.",
+  "type": "object",
+  "properties": {
+    "type": {
+      "description": "Unique identifier representing the transfer type",
+      "$ref": "Iri.json"
+    }
+  }
+}

@@ -3,33 +3,20 @@
   "title": "Payment",
   "description": "A cross-ledger transfer",
   "type": "object",
-  "allOf": [{
-    "$ref": "PaymentTemplate.json"
-  }],
   "properties": {
     "source_transfers": {
-      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "description": "Set of transfers providing a net benefit to the connector",
       "type": "array",
       "uniqueItems": true,
-      "items": { "$ref": "Transfer.json" }
+      "minItems": 1,
+      "items": { "$ref": "GenericTransfer.json" }
     },
     "destination_transfers": {
-      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
+      "description": "Set of transfers imposing a net cost on the connector",
       "type": "array",
       "uniqueItems": true,
-      "items": { "$ref": "Transfer.json" }
-    },
-    "source_fee_transfers": {
-      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
-      "type": "array",
-      "uniqueItems": true,
-      "items": { "$ref": "Transfer.json" }
-    },
-    "destination_fee_transfers": {
-      "description": "Included here even though it is in the PaymentTemplate to enforce Transfer schema as opposed to merely TransferTemplate",
-      "type": "array",
-      "uniqueItems": true,
-      "items": { "$ref": "Transfer.json" }
+      "minItems": 1,
+      "items": { "$ref": "GenericTransfer.json" }
     }
   },
   "required": ["source_transfers", "destination_transfers"]
