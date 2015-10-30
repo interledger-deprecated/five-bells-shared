@@ -18,8 +18,7 @@ fs.readdirSync(baseDir)
   })
   .forEach(function (fileName) {
     try {
-      let schemaJson = fs.readFileSync(path.join(baseDir, fileName), 'utf8')
-      validator.addSchema(fileName, JSON.parse(schemaJson))
+      validator.addSchema(fileName, require(path.join(baseDir, fileName)))
     } catch (e) {
       throw new Error('Failed to parse schema: ' + fileName)
     }
