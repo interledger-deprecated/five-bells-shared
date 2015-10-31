@@ -1,5 +1,5 @@
 {
-  "name": "@ripple/five-bells-shared",
+  "name": "five-bells-shared",
   "version": "7.2.0",
   "description": "Shared components for Five Bells projects.",
   "main": "index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:ripple/five-bells-shared.git"
+    "url": "git@github.com:interledger/five-bells-shared.git"
   },
   "author": "Ripple <info@ripple.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ripple/five-bells-shared/issues"
+    "url": "https://github.com/interledger/five-bells-shared/issues"
   },
-  "homepage": "https://github.com/ripple/five-bells-shared",
+  "homepage": "https://github.com/interledger/five-bells-shared",
   "dependencies": {
     "canonical-json": "0.0.4",
     "co": "^4.1.0",
