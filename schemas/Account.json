@@ -23,6 +23,14 @@
     "password": {
       "description": "Account password",
       "type": "string"
+    },
+    "public_key": {
+      "description": "Account public key for signing HTTP requests",
+      "type": "string"
+    },
+    "is_admin": {
+      "description": "admin flag",
+      "type": "boolean"
     }
   },
   "required": ["name", "balance"],
