@@ -1,18 +1,20 @@
 'use strict'
 
-module.exports = function UnprocessableEntityError (message) {
-  Error.captureStackTrace(this, this.constructor)
-  this.name = this.constructor.name
-  this.message = message
-}
+const BaseError = require('./base-error')
 
-require('util').inherits(module.exports, Error)
+class UnprocessableEntityError extends BaseError {
+  constructor (message) {
+    super(message)
+  }
 
-module.exports.prototype.handler = function *(ctx, log) {
-  log.warn('Unprocessable: ' + this.message)
-  ctx.status = 422
-  ctx.body = {
-    id: this.name,
-    message: this.message
+  * handler (ctx, log) {
+    log.warn('Unprocessable: ' + this.message)
+    ctx.status = 422
+    ctx.body = {
+      id: this.name,
+      message: this.message
+    }
   }
 }
+
+module.exports = UnprocessableEntityError

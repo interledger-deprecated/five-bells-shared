@@ -1,20 +1,22 @@
 'use strict'
 
-module.exports = function InvalidUriParameterError (message, validationErrors) {
-  Error.captureStackTrace(this, this.constructor)
-  this.name = this.constructor.name
-  this.message = message
-  this.validationErrors = validationErrors
-}
+const BaseError = require('./base-error')
 
-require('util').inherits(module.exports, Error)
+class InvalidUriParameterError extends BaseError {
+  constructor (message, validationErrors) {
+    super(message)
+    this.validationErrors = validationErrors
+  }
 
-module.exports.prototype.handler = function *(ctx, log) {
-  log.warn('Invalid URI parameter: ' + this.message)
-  ctx.status = 400
-  ctx.body = {
-    id: this.name,
-    message: this.message,
-    validationErrors: this.validationErrors
+  * handler (ctx, log) {
+    log.warn('Invalid URI parameter: ' + this.message)
+    ctx.status = 400
+    ctx.body = {
+      id: this.name,
+      message: this.message,
+      validationErrors: this.validationErrors
+    }
   }
 }
+
+module.exports = InvalidUriParameterError
