@@ -9,7 +9,7 @@ class UnauthorizedError extends BaseError {
   }
 
   * handler (ctx, log) {
-    log.warn('Invalid Body: ' + this.message)
+    log.warn('Unauthorized: ' + this.message)
     ctx.status = 403
     ctx.body = {
       id: this.name,
