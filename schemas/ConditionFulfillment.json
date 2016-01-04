@@ -28,10 +28,28 @@
       },
       "required": ["type", "signature"],
       "additionalProperties": false
+    },
+    "BooleanAndFulfillment": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": ["and"]
+        },
+        "subfulfillments": {
+          "type": "array",
+          "items": {
+            "$ref": "#"
+          },
+          "minItems": 1
+        }
+      },
+      "required": ["type", "subfulfillments"],
+      "additionalProperties": false
     }
   },
   "oneOf": [
     { "$ref": "#/definitions/HashSha256Fulfillment" },
-    { "$ref": "#/definitions/Ed25519_Sha512" }
+    { "$ref": "#/definitions/Ed25519_Sha512" },
+    { "$ref": "#/definitions/BooleanAndFulfillment" }
   ]
 }
