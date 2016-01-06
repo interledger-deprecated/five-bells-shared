@@ -16,7 +16,7 @@
       "description": "Balance as decimal",
       "$ref": "Amount.json"
     },
-    "identity": {
+    "connector": {
       "description": "A link to the account holder's API",
       "$ref": "Iri.json"
     },
