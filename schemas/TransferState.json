@@ -4,6 +4,7 @@
   "description": "The state of a transfer",
   "type": "string",
   "enum": [
+    "nonexistent",
     "proposed",
     "pre_prepared",
     "prepared",
