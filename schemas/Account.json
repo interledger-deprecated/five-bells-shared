@@ -41,6 +41,6 @@
       "type": "Iri.json"
     }
   },
-  "required": ["name", "balance"],
+  "required": ["name"],
   "additionalProperties": false
 }
