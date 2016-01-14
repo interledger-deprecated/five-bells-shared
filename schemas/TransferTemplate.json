@@ -16,10 +16,6 @@
       "description": "The ledger where the transfer will take place",
       "$ref": "Iri.json"
     },
-    "part_of_payment": {
-      "description": "Larger payment that this transfer is a part of.",
-      "$ref": "Iri.json"
-    },
     "state": {
       "description": "The current state of the transfer (informational only)",
       "$ref": "TransferState.json"
@@ -65,6 +61,18 @@
       "minItems": 1,
       "uniqueItems": true,
       "items": { "$ref": "FundsTemplate.json" }
+    },
+    "additional_info": {
+      "description": "Includes part_of_payment, case, etc.",
+      "type": "object",
+      "properties": {
+        "cases": {
+          "description": "References to the notary Cases",
+          "type": "array",
+          "items": { "$ref": "Iri.json" }
+        }
+      },
+      "additionalProperties": true
     }
   },
   "additionalProperties": false
