@@ -31,6 +31,10 @@
     "is_admin": {
       "description": "admin flag",
       "type": "boolean"
+    },
+    "is_disabled": {
+      "description": "Admin users may disable/enable an account",
+      "type": "boolean"
     }
   },
   "required": ["name", "balance"],
