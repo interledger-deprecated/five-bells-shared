@@ -35,8 +35,12 @@
     "is_disabled": {
       "description": "Admin users may disable/enable an account",
       "type": "boolean"
+    },
+    "ledger": {
+      "description": "A link the the account's ledger",
+      "type": "Iri.json"
     }
   },
-  "required": ["name", "balance"],
+  "required": ["name"],
   "additionalProperties": false
 }
