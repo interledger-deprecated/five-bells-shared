@@ -30,8 +30,10 @@ describe('Config', function () {
       expect(Config.castBool('true')).to.equal(true)
     })
 
-    it('should return true for castBool("anything")', function () {
-      expect(Config.castBool('anything')).to.equal(true)
+    it('should throw for castBool("anything")', function () {
+      expect(function () {
+        Config.castBool('anything')
+      }).to.throw()
     })
 
     it('should return false for castBool(" false ")', function () {
