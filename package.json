@@ -30,6 +30,7 @@
     "lodash": "^3.8.0",
     "mag-colored-output": "^1.0.0",
     "mag-format-message": "^0.1.1",
+    "passport-strategy": "^1.0.0",
     "path-to-regexp": "^1.2.0",
     "through2": "^0.6.3",
     "tv4": "^1.2.7",
