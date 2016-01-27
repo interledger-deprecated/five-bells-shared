@@ -20,8 +20,8 @@
       "description": "A link to the account holder's API",
       "$ref": "Iri.json"
     },
-    "password": {
-      "description": "Account password",
+    "password_hash": {
+      "description": "Bcrypt hash of account password",
       "type": "string"
     },
     "public_key": {
