@@ -18,11 +18,11 @@
     },
     "subject": {
       "description": "URI of the resource to watch",
-      "type": "string"
+      "$ref": "Iri.json"
     },
     "target": {
       "description": "Target callback URI",
-      "type": "string"
+      "$ref": "Iri.json"
     }
   },
   "required": ["owner", "event", "target"],
