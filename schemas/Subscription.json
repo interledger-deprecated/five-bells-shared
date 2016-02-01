@@ -18,7 +18,10 @@
     },
     "subject": {
       "description": "URI of the resource to watch",
-      "$ref": "Iri.json"
+      "oneOf": [
+        { "$ref": "Iri.json" },
+        { "type": "string", "enum": ["*"] }
+      ]
     },
     "target": {
       "description": "Target callback URI",
