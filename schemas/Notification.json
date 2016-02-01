@@ -8,6 +8,10 @@
       "description": "Unique identifier for this notification",
       "$ref": "Iri.json"
     },
+    "subscription": {
+      "description": "The subscription this notification corresponds to",
+      "$ref": "Iri.json"
+    },
     "event": {
       "description": "Event identifier for the type of event",
       "$ref": "EventId.json"
