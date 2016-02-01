@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/interledger/five-bells-shared",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "canonical-json": "0.0.4",
     "co": "^4.1.0",
     "co-body": "^1.0.0",
