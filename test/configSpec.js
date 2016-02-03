@@ -68,4 +68,17 @@ describe('Config', function () {
       expect(Config.castBool('1', false)).to.equal(true)
     })
   })
+
+  describe('get/set', () => {
+    it('returns a value set at a configuration path', () => {
+      const config = new Config()
+      config.set('server.auth.user', 'foo')
+      expect(config.get('server.auth.user')).to.equal('foo')
+    })
+
+    it('returns undefined when value at path is not set', () => {
+      const config = new Config()
+      expect(config.get('server.auth.user')).to.equal(undefined)
+    })
+  })
 })
