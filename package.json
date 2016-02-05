@@ -10,7 +10,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "NODE_ENV=unit node node_modules/.bin/istanbul test -- _mocha",
+    "test": "istanbul test -- _mocha",
     "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* ; cp -r docs docs-out"
   },
   "repository": {
@@ -28,6 +28,7 @@
     "canonical-json": "0.0.4",
     "co": "^4.1.0",
     "co-body": "^1.0.0",
+    "immutable": "^3.7.6",
     "lodash": "^3.8.0",
     "mag-colored-output": "^1.0.0",
     "mag-format-message": "^0.1.1",
