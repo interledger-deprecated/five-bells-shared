@@ -28,6 +28,7 @@
     "canonical-json": "0.0.4",
     "co": "^4.1.0",
     "co-body": "^1.0.0",
+    "co-defer": "^1.0.0",
     "immutable": "^3.7.6",
     "lodash": "^3.8.0",
     "mag-colored-output": "^1.0.0",
