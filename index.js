@@ -6,6 +6,7 @@ exports.UriManager = require('./lib/uri-manager').UriManager
 exports.Validator = require('./lib/validator')
 exports.Log = require('./lib/log')
 exports.DB = require('./lib/db')
+exports.NotificationScheduler = require('./lib/notificationScheduler')
 
 exports.BaseError = require('./errors/base-error')
 exports.AlreadyExistsError = require('./errors/already-exists-error')
