@@ -17,7 +17,11 @@
         },
         "state": {
           "description": "Transfer state",
-          "$ref": "TransferState.json"
+          "oneOf": [{
+            "$ref": "TransferState.json"
+          }, {
+            "enum": ["nonexistent"]
+          }]
         }
       }
     }
