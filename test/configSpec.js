@@ -4,6 +4,7 @@ const _ = require('lodash')
 const chai = require('chai')
 const expect = chai.expect
 const Config = require('../lib/config')
+const Immutable = require('immutable')
 
 const originalEnv = _.cloneDeep(process.env)
 describe('Config', () => {
@@ -110,22 +111,29 @@ describe('Config', () => {
     }
 
     it('test -- returns default server config when no server env vars set', () => {
-      expect(Config._private.parseServerConfig()).to.deep.equal(testDefaults)
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(testDefaults)
     })
 
     it('returns default server config when no server env vars set', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
-      expect(Config._private.parseServerConfig()).to.deep.equal(defaults)
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(defaults)
     })
 
     it('PUBLIC_HTTPS=true', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.PUBLIC_HTTPS = 'true'
+      // HTTPS requires SSL configuration to be set
+      process.env.SSL_KEY = '/foo/key'
+      process.env.SSL_CERTIFICATE = '/foo/crt'
       const server = _.defaults({
         base_uri: `https://${hostname}:3000`,
         secure: true
       }, defaults)
-      expect(Config._private.parseServerConfig()).to.deep.equal(server)
+
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
     })
 
     it('BIND_IP=10.10.10.10', () => {
@@ -135,7 +143,8 @@ describe('Config', () => {
         bind_ip: '10.10.10.10'
       }, defaults)
 
-      expect(Config._private.parseServerConfig()).to.deep.equal(server)
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
     })
 
     it('PUBLIC_PORT=5000', () => {
@@ -149,7 +158,9 @@ describe('Config', () => {
         secure: false,
         port: 3000
       }, defaults)
-      expect(Config._private.parseServerConfig()).to.deep.equal(server)
+
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
     })
 
     it('PORT=5000', () => {
@@ -163,31 +174,37 @@ describe('Config', () => {
         secure: false,
         port: 5000
       }, defaults)
-      expect(Config._private.parseServerConfig()).to.deep.equal(server)
+
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
     })
   })
 
   describe('parseKeyConfig', () => {
+    beforeEach(() => {
+      process.env.DB_URI = 'localhost:5000'
+    })
+
     it('test env -- ed25519', () => {
-      const keyConfig = Config._private.parseKeyConfig()
-      expect(keyConfig).to.include.keys('ed25519')
-      expect(keyConfig.ed25519).to.include.keys('secret', 'public')
+      const _config = Config.loadConfig()
+      expect(_config.get('keys').toJS()).to.include.keys('ed25519')
+      expect(_config.getIn(['keys', 'ed25519']).toJS()).to.include.keys('secret', 'public')
     })
 
     it('ed25519', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
-      const keyConfig = Config._private.parseKeyConfig()
-      expect(keyConfig).to.include.keys('ed25519')
-      expect(keyConfig.ed25519).to.include.keys('secret', 'public')
+      const _config = Config.loadConfig()
+      expect(_config.get('keys').toJS()).to.include.keys('ed25519')
+      expect(_config.getIn(['keys', 'ed25519']).toJS()).to.include.keys('secret', 'public')
     })
 
     it('ED25519_SECRET_KEY', () => {
       const secret = 'WvWye3P79SXVGWJT8E4NhsGeKgJZlxhMyXDh7cRcbHsEqvDmg2dhC8EWdAAwTf6B8hzzdI/dq7WZXyqEobN9rw=='
       process.env.ED25519_SECRET_KEY = secret
-      const keyConfig = Config._private.parseKeyConfig()
-      expect(keyConfig).to.include.keys('ed25519')
-      expect(keyConfig.ed25519).to.include.keys('secret', 'public')
-      expect(keyConfig.ed25519.secret).to.equal(secret)
+      const _config = Config.loadConfig()
+      expect(_config.get('keys').toJS()).to.include.keys('ed25519')
+      expect(_config.getIn(['keys', 'ed25519']).toJS()).to.include.keys('secret', 'public')
+      expect(_config.getIn(['keys', 'ed25519', 'secret'])).to.equal(secret)
     })
   })
 
@@ -202,22 +219,21 @@ describe('Config', () => {
       uri: undefined
     }
 
-    it('test -- returns default db config when no server env vars set', () => {
-      expect(Config._private.parseDatabaseConfig()).to.deep.equal(testDefaults)
+    it('test -- returns default db config when no db env vars set', () => {
+      const _config = Config.loadConfig()
+      expect(_config.get('db').toJS()).to.deep.equal(testDefaults)
     })
 
-    it('test -- returns default db config when no server env vars set', () => {
-      process.env.UNIT_TEST_OVERRIDE = 'true'
-      expect(Config._private.parseDatabaseConfig()).to.deep.equal(defaults)
-    })
-
-    it('DB_SYNC=true', () => {
+    it('DB_SYNC=true DB_URI=localhost:5000', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.DB_SYNC = 'true'
+      process.env.DB_URI = 'localhost:5000'
       const db = _.defaults({
-        sync: true
+        sync: true,
+        uri: 'localhost:5000'
       }, defaults)
-      expect(Config._private.parseDatabaseConfig()).to.deep.equal(db)
+      const _config = Config.loadConfig()
+      expect(_config.get('db').toJS()).to.deep.equal(db)
     })
 
     it('DB_URI=localhost:5000', () => {
@@ -226,7 +242,92 @@ describe('Config', () => {
       const db = _.defaults({
         uri: 'localhost:5000'
       }, defaults)
-      expect(Config._private.parseDatabaseConfig()).to.deep.equal(db)
+
+      const _config = Config.loadConfig()
+      expect(_config.get('db').toJS()).to.deep.equal(db)
+    })
+  })
+
+  describe('parseAuthConfig', () => {
+    beforeEach(() => {
+      process.env.DB_URI = 'localhost:5000'
+    })
+
+    const defaults = {
+      basic_enabled: true,
+      http_signature_enabled: true,
+      client_certificates_enabled: false
+    }
+
+    it('returns default auth config when no auth env vars set', () => {
+      const _config = Config.loadConfig()
+      expect(_config.get('auth').toJS()).to.deep.equal(defaults)
+    })
+
+    it('AUTH_BASIC_ENABLED=false', () => {
+      process.env.AUTH_BASIC_ENABLED = 'false'
+      const _config = Config.loadConfig()
+      const auth = _.defaults({
+        basic_enabled: false
+      }, defaults)
+      expect(_config.get('auth').toJS()).to.deep.equal(auth)
+    })
+
+    it('AUTH_HTTP_SIGNATURE_ENABLED=false', () => {
+      process.env.AUTH_HTTP_SIGNATURE_ENABLED = 'false'
+      const _config = Config.loadConfig()
+      const auth = _.defaults({
+        http_signature_enabled: false
+      }, defaults)
+      expect(_config.get('auth').toJS()).to.deep.equal(auth)
+    })
+
+    it('AUTH_CLIENT_CERT_ENABLED=true', () => {
+      process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
+      process.env.SSL_KEY = '/foo'
+      const _config = Config.loadConfig()
+      const auth = _.defaults({
+        client_certificates_enabled: true
+      }, defaults)
+      expect(_config.get('auth').toJS()).to.deep.equal(auth)
+    })
+
+    it('AUTH_CLIENT_CERT_ENABLED=true, SSL_KEY=undefined', () => {
+      process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
+      process.env.SSL_KEY = undefined
+      expect(() => Config.loadConfig()).to.throw()
+    })
+  })
+
+  describe('parseSSLConfig', () => {
+    beforeEach(() => {
+      process.env.DB_URI = 'localhost:5000'
+      process.env.PUBLIC_HTTPS = 'true'
+    })
+
+    it('SSL_KEY, SSL_CERTIFICATE, SSL_CRL, SSL_CA', () => {
+      process.env.SSL_KEY = '/foo/key'
+      process.env.SSL_CERTIFICATE = '/foo/crt'
+      process.env.SSL_CRL = '/foo/crl'
+      process.env.SSL_CA = '/foo/ca'
+
+      const _config = Config.loadConfig()
+      expect(_config.get('ssl').toJS()).to.deep.equal({
+        key: '/foo/key',
+        cert: '/foo/crt',
+        crl: '/foo/crl',
+        ca: '/foo/ca'
+      })
+    })
+
+    it('missing SSL_KEY', () => {
+      process.env.SSL_CERTIFICATE = '/foo/crt'
+      expect(() => Config.loadConfig()).to.throw()
+    })
+
+    it('missing SSL_CERTIFICATE', () => {
+      process.env.SSL_KEY = '/foo/key'
+      expect(() => Config.loadConfig()).to.throw()
     })
   })
 
@@ -254,6 +355,9 @@ describe('Config', () => {
       //   public_port: 80,
       //   secure: false
       // }
+      //
+
+      expect(_config).to.be.instanceof(Immutable.Map)
 
       expect(_config.toJSON()).to.include.keys('db', 'keys', 'server')
       expect(_config.get('db').toJS()).to.deep.equal({
