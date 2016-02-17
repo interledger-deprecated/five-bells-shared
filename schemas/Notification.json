@@ -19,6 +19,19 @@
     "resource": {
       "description": "Transfer that is the subject of the notification",
       "$ref": "Transfer.json"
+    },
+    "related_resources": {
+      "type": "object",
+      "description": "Additional resources relevant to the event",
+      "properties": {
+        "execution_condition_fulfillment": {
+          "$ref": "ConditionFulfillment.json"
+        },
+        "cancellation_condition_fulfillment": {
+          "$ref": "ConditionFulfillment.json"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "required": ["id", "event", "resource"],
