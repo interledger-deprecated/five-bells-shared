@@ -124,9 +124,9 @@ describe('Config', () => {
     it('PUBLIC_HTTPS=true', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.PUBLIC_HTTPS = 'true'
-      // HTTPS requires SSL configuration to be set
-      process.env.SSL_KEY = '/foo/key'
-      process.env.SSL_CERTIFICATE = '/foo/crt'
+      // HTTPS requires TLS configuration to be set
+      process.env.TLS_KEY = '/foo/key'
+      process.env.TLS_CERTIFICATE = '/foo/crt'
       const server = _.defaults({
         base_uri: `https://${hostname}:3000`,
         secure: true
@@ -284,7 +284,7 @@ describe('Config', () => {
 
     it('AUTH_CLIENT_CERT_ENABLED=true', () => {
       process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
-      process.env.SSL_KEY = '/foo'
+      process.env.TLS_KEY = '/foo'
       const _config = Config.loadConfig()
       const auth = _.defaults({
         client_certificates_enabled: true
@@ -292,27 +292,27 @@ describe('Config', () => {
       expect(_config.get('auth').toJS()).to.deep.equal(auth)
     })
 
-    it('AUTH_CLIENT_CERT_ENABLED=true, SSL_KEY=undefined', () => {
+    it('AUTH_CLIENT_CERT_ENABLED=true, TLS_KEY=undefined', () => {
       process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
-      process.env.SSL_KEY = undefined
+      process.env.TLS_KEY = undefined
       expect(() => Config.loadConfig()).to.throw()
     })
   })
 
-  describe('parseSSLConfig', () => {
+  describe('parseTLSConfig', () => {
     beforeEach(() => {
       process.env.DB_URI = 'localhost:5000'
       process.env.PUBLIC_HTTPS = 'true'
     })
 
-    it('SSL_KEY, SSL_CERTIFICATE, SSL_CRL, SSL_CA', () => {
-      process.env.SSL_KEY = '/foo/key'
-      process.env.SSL_CERTIFICATE = '/foo/crt'
-      process.env.SSL_CRL = '/foo/crl'
-      process.env.SSL_CA = '/foo/ca'
+    it('TLS_KEY, TLS_CERTIFICATE, TLS_CRL, TLS_CA', () => {
+      process.env.TLS_KEY = '/foo/key'
+      process.env.TLS_CERTIFICATE = '/foo/crt'
+      process.env.TLS_CRL = '/foo/crl'
+      process.env.TLS_CA = '/foo/ca'
 
       const _config = Config.loadConfig()
-      expect(_config.get('ssl').toJS()).to.deep.equal({
+      expect(_config.get('tls').toJS()).to.deep.equal({
         key: '/foo/key',
         cert: '/foo/crt',
         crl: '/foo/crl',
@@ -320,13 +320,13 @@ describe('Config', () => {
       })
     })
 
-    it('missing SSL_KEY', () => {
-      process.env.SSL_CERTIFICATE = '/foo/crt'
+    it('missing TLS_KEY', () => {
+      process.env.TLS_CERTIFICATE = '/foo/crt'
       expect(() => Config.loadConfig()).to.throw()
     })
 
-    it('missing SSL_CERTIFICATE', () => {
-      process.env.SSL_KEY = '/foo/key'
+    it('missing TLS_CERTIFICATE', () => {
+      process.env.TLS_KEY = '/foo/key'
       expect(() => Config.loadConfig()).to.throw()
     })
   })
