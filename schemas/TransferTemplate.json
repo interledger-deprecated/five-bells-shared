@@ -20,6 +20,11 @@
       "description": "The current state of the transfer (informational only)",
       "$ref": "TransferState.json"
     },
+    "rejection_reason": {
+      "description": "The reason the transfer was rejected",
+      "type": "string",
+      "enum": ["cancelled", "expired"]
+    },
     "execution_condition": {
       "description": "The condition for executing the transfer",
       "$ref": "Condition.json"
