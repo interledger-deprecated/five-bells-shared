@@ -285,6 +285,7 @@ describe('Config', () => {
     it('AUTH_CLIENT_CERT_ENABLED=true', () => {
       process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
       process.env.TLS_KEY = '/foo'
+      process.env.TLS_CERTIFICATE = '/foo'
       const _config = Config.loadConfig()
       const auth = _.defaults({
         client_certificates_enabled: true
@@ -294,7 +295,15 @@ describe('Config', () => {
 
     it('AUTH_CLIENT_CERT_ENABLED=true, TLS_KEY=undefined', () => {
       process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
+      process.env.TLS_CERTIFICATE = '/foo'
       process.env.TLS_KEY = undefined
+      expect(() => Config.loadConfig()).to.throw()
+    })
+
+    it('AUTH_CLIENT_CERT_ENABLED=true, SSL_CERTIFICATE=undefined', () => {
+      process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
+      process.env.SSL_KEY = '/foo'
+      process.env.SSL_CERTIFICATE = undefined
       expect(() => Config.loadConfig()).to.throw()
     })
   })
