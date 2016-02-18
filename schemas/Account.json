@@ -38,7 +38,7 @@
     },
     "ledger": {
       "description": "A link the the account's ledger",
-      "type": "Iri.json"
+      "$ref": "Iri.json"
     },
     "fingerprint": {
       "description": "A fingerprint of the account's client certificate",
