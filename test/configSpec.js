@@ -94,6 +94,7 @@ describe('Config', () => {
       base_uri: 'http://localhost',
       bind_ip: '0.0.0.0',
       port: 61337,
+      public_secure: false,
       public_host: 'localhost',
       public_port: 80,
       public_path: '',
@@ -105,6 +106,7 @@ describe('Config', () => {
       base_host: `${hostname}:3000`,
       base_uri: `http://${hostname}:3000`,
       bind_ip: '0.0.0.0',
+      public_secure: false,
       public_host: hostname,
       public_port: 3000,
       public_path: '',
@@ -123,6 +125,22 @@ describe('Config', () => {
       expect(_config.get('server').toJS()).to.deep.equal(defaults)
     })
 
+    it('HTTPS=true', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.USE_HTTPS = 'true'
+      // HTTPS requires TLS configuration to be set
+      process.env.TLS_KEY = '/foo/key'
+      process.env.TLS_CERTIFICATE = '/foo/crt'
+      const server = _.defaults({
+        base_uri: `https://${hostname}:3000`,
+        public_secure: true,
+        secure: true
+      }, defaults)
+
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
+    })
+
     it('PUBLIC_HTTPS=true', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.PUBLIC_HTTPS = 'true'
@@ -131,7 +149,25 @@ describe('Config', () => {
       process.env.TLS_CERTIFICATE = '/foo/crt'
       const server = _.defaults({
         base_uri: `https://${hostname}:3000`,
-        secure: true
+        public_secure: true
+      }, defaults)
+
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
+    })
+
+    it('PUBLIC_HTTPS=true PUBLIC_PORT=443', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_HTTPS = 'true'
+      process.env.PUBLIC_PORT = '443'
+      // HTTPS requires TLS configuration to be set
+      process.env.TLS_KEY = '/foo/key'
+      process.env.TLS_CERTIFICATE = '/foo/crt'
+      const server = _.defaults({
+        base_host: `${hostname}`,
+        base_uri: `https://${hostname}`,
+        public_secure: true,
+        public_port: 443
       }, defaults)
 
       const _config = Config.loadConfig()
@@ -343,7 +379,7 @@ describe('Config', () => {
   describe('parseTLSConfig', () => {
     beforeEach(() => {
       process.env.DB_URI = 'localhost:5000'
-      process.env.PUBLIC_HTTPS = 'true'
+      process.env.USE_HTTPS = 'true'
     })
 
     it('TLS_KEY, TLS_CERTIFICATE, TLS_CRL, TLS_CA', () => {
@@ -414,6 +450,7 @@ describe('Config', () => {
         base_uri: 'http://localhost',
         bind_ip: '0.0.0.0',
         port: 61337,
+        public_secure: false,
         public_host: 'localhost',
         public_port: 80,
         public_path: '',
