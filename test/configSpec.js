@@ -96,6 +96,7 @@ describe('Config', () => {
       port: 61337,
       public_host: 'localhost',
       public_port: 80,
+      public_path: '',
       secure: false
     }
 
@@ -106,6 +107,7 @@ describe('Config', () => {
       bind_ip: '0.0.0.0',
       public_host: hostname,
       public_port: 3000,
+      public_path: '',
       secure: false,
       port: 3000
     }
@@ -175,6 +177,36 @@ describe('Config', () => {
         port: 5000
       }, defaults)
 
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
+    })
+
+    it('PUBLIC_PATH=', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_PATH = ''
+      const server = defaults
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
+    })
+
+    it('PUBLIC_PATH=/example', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_PATH = '/example'
+      const server = _.defaults({
+        base_uri: `http://${hostname}:3000/example`,
+        public_path: '/example'
+      }, defaults)
+      const _config = Config.loadConfig()
+      expect(_config.get('server').toJS()).to.deep.equal(server)
+    })
+
+    it('PUBLIC_PATH=example', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_PATH = 'example'
+      const server = _.defaults({
+        base_uri: `http://${hostname}:3000/example`,
+        public_path: '/example'
+      }, defaults)
       const _config = Config.loadConfig()
       expect(_config.get('server').toJS()).to.deep.equal(server)
     })
@@ -384,6 +416,7 @@ describe('Config', () => {
         port: 61337,
         public_host: 'localhost',
         public_port: 80,
+        public_path: '',
         secure: false
       })
 
