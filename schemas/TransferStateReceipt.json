@@ -5,26 +5,5 @@
   "type": "object",
   "allOf": [
     { "$ref": "SignedMessageTemplate.json" }
-  ],
-  "properties": {
-    "message": {
-      "description": "Transfer state",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Transfer ID",
-          "$ref": "Iri.json"
-        },
-        "state": {
-          "description": "Transfer state",
-          "oneOf": [{
-            "$ref": "TransferState.json"
-          }, {
-            "enum": ["nonexistent"]
-          }]
-        }
-      }
-    }
-  },
-  "required": ["message", "type", "public_key", "signature"]
+  ]
 }

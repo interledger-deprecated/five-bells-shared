@@ -3,39 +3,38 @@
   "title": "SignedMessageTemplate",
   "description": "Object representing a signed message or message to be signed",
   "type": "object",
-  "properties": {
-    "message": {
-      "description": "(Optional) JSON or string message whose hash is message_hash",
-      "anyOf": [
-        {
-          "type": "object"
-        },
-        {
-          "type": "string"
+  "allOf": [
+    {"oneOf": [
+      { "$ref": "Ed25519SignedMessage.json" },
+      { "$ref": "Sha256SignedMessage.json" }
+    ]},
+    { "properties": {
+        "message": {
+          "description": "Information about the transfer",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Transfer ID",
+              "$ref": "Iri.json"
+            },
+            "state": {
+              "description": "Transfer state",
+              "oneOf": [{
+                "$ref": "TransferState.json"
+              }, {
+                "enum": ["nonexistent"]
+              }]
+            },
+            "token": {
+              "description": "Ledger signature of transfer ID and state",
+              "$ref": "Base64.json"
+            }
+          },
+          "required": ["id", "state"],
+          "additionalProperties": false
         }
-      ]
-    },
-    "message_hash": {
-      "description": "Base64-encoded hash of the message (hash algorithm dependent on signing algorithm) ",
-      "$ref": "Base64.json"
-    },
-    "type": {
-      "description": "Cryptographic signature algorithm",
-      "type": "string",
-      "enum": ["ed25519-sha512"]
-    },
-    "signer": {
-      "description": "(Optional) IRI of signer",
-      "$ref": "Iri.json"
-    },
-    "public_key": {
-      "description": "Base64-encoded public key of signer",
-      "$ref": "Base64.json"
-    },
-    "signature": {
-      "description": "Base64-encoded signature in the signature scheme and by the public key specified by the corresponding ExecutionCondition",
-      "$ref": "Base64.json"
+      },
+      "required": ["message"]
     }
-  },
-  "additionalProperties": false
+  ]
 }

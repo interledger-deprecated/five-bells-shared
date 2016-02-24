@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Sha256SignedMessage",
+  "description": "Signed sha256 message",
+  "type": "object",
+  "properties": {
+    "type": {
+      "description": "Cryptographic signature algorithm",
+      "type": "string",
+      "enum": ["sha256"]
+    },
+    "digest": {
+      "description": "Base64-encoded hash of the transfer id, state, and ledger signature",
+      "$ref": "Base64.json"
+    },
+    "signer": {
+      "description": "(Optional) IRI of signer",
+      "$ref": "Iri.json"
+    },
+    "condition_state": {
+      "description": "Requested state of transfer; used to compute condition_digest",
+      "oneOf": [{
+        "$ref": "TransferState.json"
+      }, {
+        "enum": ["nonexistent"]
+      }]
+    },
+    "condition_digest": {
+      "description": "Base64-encoded hash of the transfer id, condition_state, and ledger signature",
+      "$ref": "Base64.json"
+    },
+    "message": {
+      "type": "object"
+    }
+  },
+  "required": ["type", "digest"],
+  "additionalProperties": false
+}
