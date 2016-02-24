@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Ed25519SignedMessage",
+  "description": "Signed ed25519 message",
+  "type": "object",
+  "properties": {
+    "message_hash": {
+      "description": "Base64-encoded hash of the message (hash algorithm dependent on signing algorithm) ",
+      "$ref": "Base64.json"
+    },
+    "type": {
+      "description": "Cryptographic signature algorithm",
+      "type": "string",
+      "enum": ["ed25519-sha512"]
+    },
+    "signer": {
+      "description": "(Optional) IRI of signer",
+      "$ref": "Iri.json"
+    },
+    "public_key": {
+      "description": "Base64-encoded public key of signer",
+      "$ref": "Base64.json"
+    },
+    "signature": {
+      "description": "Base64-encoded signature in the signature scheme and by the public key specified by the corresponding ExecutionCondition",
+      "$ref": "Base64.json"
+    },
+    "message": {
+      "type": "object"
+    }
+  },
+  "required": ["type", "signature"],
+  "additionalProperties": false
+}
