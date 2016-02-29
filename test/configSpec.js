@@ -126,12 +126,12 @@ describe('Config', () => {
       expect(_config.get('server').toJS()).to.deep.equal(defaults)
     })
 
-    it('HTTPS=true', () => {
+    it('USE_HTTPS=true', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.USE_HTTPS = 'true'
       // HTTPS requires TLS configuration to be set
-      process.env.TLS_KEY = '/foo/key'
-      process.env.TLS_CERTIFICATE = '/foo/crt'
+      process.env.TLS_KEY = 'test/data/key'
+      process.env.TLS_CERTIFICATE = 'test/data/crt'
       const server = _.defaults({
         base_uri: `https://${hostname}:3000`,
         public_secure: true,
@@ -140,6 +140,24 @@ describe('Config', () => {
 
       const _config = Config.loadConfig()
       expect(_config.get('server').toJS()).to.deep.equal(server)
+    })
+
+    it('USE_HTTPS=true -- missing TLS_KEY', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.USE_HTTPS = 'true'
+      // HTTPS requires TLS configuration to be set
+      process.env.TLS_CERTIFICATE = 'test/data/crt'
+
+      expect(() => Config.loadConfig()).to.throw()
+    })
+
+    it('USE_HTTPS=true -- missing TLS_CERTIFICATE', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.USE_HTTPS = 'true'
+      // HTTPS requires TLS configuration to be set
+      process.env.TLS_KEY = 'test/data/key'
+
+      expect(() => Config.loadConfig()).to.throw()
     })
 
     it('PUBLIC_HTTPS=true', () => {
@@ -161,9 +179,6 @@ describe('Config', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.PUBLIC_HTTPS = 'true'
       process.env.PUBLIC_PORT = '443'
-      // HTTPS requires TLS configuration to be set
-      process.env.TLS_KEY = '/foo/key'
-      process.env.TLS_CERTIFICATE = '/foo/crt'
       const server = _.defaults({
         base_host: `${hostname}`,
         base_uri: `https://${hostname}`,
@@ -399,21 +414,27 @@ describe('Config', () => {
     })
 
     it('missing TLS_KEY', () => {
-      process.env.TLS_CERTIFICATE = '/foo/'
+      process.env.TLS_KEY = '/foo/'
+      process.env.TLS_CERTIFICATE = '/test/data/cert'
       expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
     })
 
     it('missing TLS_CERTIFICATE', () => {
-      process.env.TLS_KEY = '/foo/'
+      process.env.TLS_KEY = 'test/data/key'
+      process.env.TLS_CERTIFICATE = '/foo'
       expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
     })
 
     it('missing TLS_CRL', () => {
+      process.env.TLS_KEY = 'test/data/key'
+      process.env.TLS_CERTIFICATE = '/test/data/cert'
       process.env.TLS_CRL = '/foo/'
       expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
     })
 
     it('missing TLS_CA', () => {
+      process.env.TLS_KEY = 'test/data/key'
+      process.env.TLS_CERTIFICATE = '/test/data/cert'
       process.env.TLS_CA = '/foo/'
       expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
     })
