@@ -70,12 +70,12 @@ exports.assert = function (value, message) {
 
 ;['equal', 'notEqual', 'deepEqual', 'notDeepEqual', 'strictEqual',
   'notStrictEqual'].forEach(function (method) {
-  exports.assert[method] = function (actual, expected, message) {
-    try {
-      assert[method](actual, expected, message)
-    } catch (err) {
-      throw new InvalidBodyError(err.message + ' (' + method + ', expected: "' +
-        expected + '", actual: "' + actual + '")')
+    exports.assert[method] = function (actual, expected, message) {
+      try {
+        assert[method](actual, expected, message)
+      } catch (err) {
+        throw new InvalidBodyError(err.message + ' (' + method + ', expected: "' +
+          expected + '", actual: "' + actual + '")')
+      }
     }
-  }
-})
+  })

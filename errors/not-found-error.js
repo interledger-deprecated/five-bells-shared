@@ -3,10 +3,6 @@
 const BaseError = require('./base-error')
 
 class NotFoundError extends BaseError {
-  constructor (message) {
-    super(message)
-  }
-
   * handler (ctx, log) {
     log.warn('Not Found: ' + this.message)
     ctx.status = 404
