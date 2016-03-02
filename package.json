@@ -11,7 +11,11 @@
   "scripts": {
     "lint": "eslint .",
     "test": "istanbul test -- _mocha",
-    "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* && cp -r docs docs-out"
+    "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* && cp -r docs docs-out",
+    "bump": "./bin/bump.sh"
+  },
+  "bin": {
+    "version-bump": "./bin/bump.sh"
   },
   "repository": {
     "type": "git",
