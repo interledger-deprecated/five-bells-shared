@@ -1,0 +1,12 @@
+{
+  "id": "http://ledger.example/ferris",
+  "name": "Ferris",
+  "balance": "0.1",
+  "connector": "http://connector.example",
+  "password": "Buehler",
+  "public_key": "myKey",
+  "is_admin": false,
+  "is_disabled": false,
+  "ledger": "http://ledger.example",
+  "fingerprint": "DC:72:92:05:C3:77:00:EE:C8:C5:1C:42:D9:2E:B4:C1:11:CF:07:0A"
+}
