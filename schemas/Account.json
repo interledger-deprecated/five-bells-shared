@@ -43,7 +43,7 @@
     "fingerprint": {
       "description": "A fingerprint of the account's client certificate",
       "type": "string",
-      "pattern": "^[0-9A-F]{2}(:[0-9A-F]{2}){19,127}$."
+      "pattern": "^[0-9A-F]{2}(:[0-9A-F]{2}){19,127}$"
     }
   },
   "required": ["name"],
