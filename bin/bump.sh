@@ -55,6 +55,57 @@ unitTest() {
   npm test
 }
 
+checkCircleBuildStatus() {
+  local circleApiResponse
+  local status
+  local projectName
+
+  projectName=$(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " " | sed 's/@.*//')
+
+
+  # Example API response
+  # [{
+  #   "previous_successful_build": null,
+  #   "build_parameters": null,
+  #   "reponame": "five-bells-ledger",
+  #   "build_url": "https://circleci.com/gh/interledger/five-bells-ledger/724",
+  #   "failed": null,
+  #   "branch": "master",
+  #   "username": "interledger",
+  #   "vcs_tag": null,
+  #   "build_num": 724,
+  #   "infrastructure_fail": false,
+  #   "ssh_enabled": false,
+  #   "committer_email": "alan@ripple.com",
+  #   "previous": {
+  #     "build_num": 723,
+  #     "status": "fixed",
+  #     "build_time_millis": 904645
+  #   },
+  #   "status": "running",
+  #   "committer_name": "Alan Cohen",
+  #   "dont_build": null,
+  #   "lifecycle": "running",
+  #   "no_dependency_cache": null,
+  #   "stop_time": null,
+  #   "build_time_millis": null,
+  #   "vcs_url": "https://github.com/interledger/five-bells-ledger",
+  #   "author_email": "alan@ripple.com"
+  #    ...
+  # }]
+  # See: https://circleci.com/docs/api#recent-builds-project-branch
+  circleApiResponse=$(curl https://circleci.com/api/v1/project/interledger/"$projectName"/tree/master -H "Accept: application/json")
+
+  status=$(echo "$circleApiResponse" | xargs -0 node -e "console.log(JSON.parse(process.argv[1])[0].status)")
+
+  if [[ "$status" != "fixed" && "$status" != "success" ]]; then
+    local buildUrl
+    buildUrl=$(echo "$circleApiResponse" | xargs -0 node -e "console.log(JSON.parse(process.argv[1])[0].build_url)")
+    printf "Build status is %s. Please check the build before proceeding.  %s\n\n" "$status" "$buildUrl"
+    exit 1
+  fi
+}
+
 # https://docs.npmjs.com/cli/version
 versionCommitAndTag() {
   echo "Updating package.json..."
@@ -83,6 +134,7 @@ pushCommitandTags() {
 main() {
   checkOnMaster
   syncAndCheckWithRemote
+  checkCircleBuildStatus
   checkChangesSinceCurrentVersion
   unitTest
   versionCommitAndTag "$1"
