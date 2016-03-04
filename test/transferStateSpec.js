@@ -5,7 +5,6 @@ const expect = chai.expect
 const transferStateDictionary = require('../lib/transferStateDictionary')
 
 describe('transferStateDictionary', function () {
-
   it('should return all valid transfer states', function () {
     expect(transferStateDictionary.transferStates).to.deep.equal({
       TRANSFER_STATE_PROPOSED: 'proposed',
