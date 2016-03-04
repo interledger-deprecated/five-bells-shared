@@ -50,8 +50,8 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
-    "eslint": "^0.24.1",
-    "eslint-config-standard": "^3.4.1",
+    "eslint": "^2.0.0",
+    "eslint-config-standard": "^5.1.0",
     "istanbul-harmony": "^0.3.16",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "minami": "^1.1.1",

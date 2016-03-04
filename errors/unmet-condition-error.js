@@ -3,10 +3,6 @@
 const UnprocessableEntityError = require('./unprocessable-entity-error')
 
 class UnmetConditionError extends UnprocessableEntityError {
-  constructor (message) {
-    super(message)
-  }
-
   * handler (ctx, log) {
     log.warn('Execution Condition Not Met: ' + this.message)
     ctx.status = 422

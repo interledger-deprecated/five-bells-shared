@@ -11,17 +11,9 @@ chai.use(sinonChai)
 
 describe('Model', function () {
   beforeEach(function () {
-    this.Vehicle = class Vehicle extends Model {
-      constructor () {
-        super()
-      }
-    }
+    this.Vehicle = class Vehicle extends Model {}
 
     this.Car = class Car extends this.Vehicle {
-      constructor () {
-        super()
-      }
-
       static convertFromExternal (data) {
         data.make = _.startCase(data.make)
         return data
@@ -63,10 +55,6 @@ describe('Model', function () {
     describe('in a subclassed model', function () {
       beforeEach(function () {
         this.Mercedes = class Mercedes extends this.Car {
-          constructor () {
-            super()
-          }
-
           static convertFromExternal (data) {
             data = super.convertFromExternal(data)
 
