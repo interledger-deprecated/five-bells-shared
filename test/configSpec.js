@@ -294,6 +294,7 @@ describe('Config', () => {
 
   describe('parseDatabaseConfig', () => {
     const testDefaults = {
+      knex_env: 'development',
       sync: true,
       uri: 'sqlite://'
     }
@@ -313,6 +314,7 @@ describe('Config', () => {
       process.env.DB_SYNC = 'true'
       process.env.DB_URI = 'localhost:5000'
       const db = _.defaults({
+        knex_env: 'development',
         sync: true,
         uri: 'localhost:5000'
       }, defaults)
@@ -324,6 +326,7 @@ describe('Config', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.DB_URI = 'localhost:5000'
       const db = _.defaults({
+        knex_env: 'development',
         uri: 'localhost:5000'
       }, defaults)
 
@@ -470,6 +473,7 @@ describe('Config', () => {
 
       expect(_config.toJSON()).to.include.keys('db', 'keys', 'server')
       expect(_config.get('db').toJS()).to.deep.equal({
+        knex_env: 'development',
         sync: true,
         uri: 'sqlite://'
       })
