@@ -44,6 +44,14 @@
       "description": "A fingerprint of the account's client certificate",
       "type": "string",
       "pattern": "^[0-9A-F]{2}(:[0-9A-F]{2}){19,127}$"
+    },
+    "minimum_allowed_balance": {
+      "description": "The minimum balance permitted on this account",
+      "oneOf": [{
+        "$ref": "Amount.json"
+      }, {
+        "enum": ["-infinity"]
+      }]
     }
   },
   "required": ["name"],
