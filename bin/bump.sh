@@ -3,6 +3,9 @@
 # http://www.tldp.org/LDP/abs/html/options.html
 set -eo pipefail
 
+# Debugging
+# set -x
+
 # http://stackoverflow.com/questions/1593051/how-to-programmatically-determine-the-current-checked-out-git-branch
 checkOnMaster() {
   local branch_name
@@ -60,8 +63,7 @@ checkCircleBuildStatus() {
   local status
   local projectName
 
-  projectName=$(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " " | sed 's/@.*//')
-
+  projectName=$(npm ls --depth=-1 | head -1 | cut -f 1 -d " " | sed 's/@.*//')
 
   # Example API response
   # [{
