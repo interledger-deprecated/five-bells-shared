@@ -6,6 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const tv4 = require('tv4')
 const formats = require('tv4-formats')
+const ServerError = require('../errors/server-error')
 
 const validator = tv4.freshApi()
 validator.addFormat(formats)
@@ -20,7 +21,7 @@ fs.readdirSync(baseDir)
     try {
       validator.addSchema(fileName, require(path.join(baseDir, fileName)))
     } catch (e) {
-      throw new Error('Failed to parse schema: ' + fileName)
+      throw new ServerError('Failed to parse schema: ' + fileName)
     }
   })
 

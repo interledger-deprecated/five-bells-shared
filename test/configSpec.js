@@ -5,6 +5,7 @@ const chai = require('chai')
 const expect = chai.expect
 const Config = require('../lib/config')
 const fs = require('fs')
+const ServerError = require('../errors/server-error')
 
 const originalEnv = _.cloneDeep(process.env)
 describe('Config', () => {
@@ -32,7 +33,7 @@ describe('Config', () => {
     it('should throw for castBool("anything")', function () {
       expect(function () {
         Config.castBool('anything')
-      }).to.throw()
+      }).to.throw(ServerError)
     })
 
     it('should return false for castBool(" false ")', function () {
@@ -81,10 +82,10 @@ describe('Config', () => {
     })
 
     it('throws an error on invalid arguments', () => {
-      expect(() => Config.getEnv()).to.throw()
-      expect(() => Config.getEnv('')).to.throw()
-      expect(() => Config.getEnv('', '')).to.throw()
-      expect(() => Config.getEnv(undefined, undefined)).to.throw()
+      expect(() => Config.getEnv()).to.throw(ServerError)
+      expect(() => Config.getEnv('')).to.throw(ServerError)
+      expect(() => Config.getEnv('', '')).to.throw(ServerError)
+      expect(() => Config.getEnv(undefined, undefined)).to.throw(ServerError)
     })
   })
 
@@ -147,7 +148,7 @@ describe('Config', () => {
       // HTTPS requires TLS configuration to be set
       process.env.TLS_CERTIFICATE = 'test/data/crt'
 
-      expect(() => Config.loadConfig()).to.throw()
+      expect(() => Config.loadConfig()).to.throw(ServerError)
     })
 
     it('USE_HTTPS=true -- missing TLS_CERTIFICATE', () => {
@@ -156,7 +157,7 @@ describe('Config', () => {
       // HTTPS requires TLS configuration to be set
       process.env.TLS_KEY = 'test/data/key'
 
-      expect(() => Config.loadConfig()).to.throw()
+      expect(() => Config.loadConfig()).to.throw(ServerError)
     })
 
     it('PUBLIC_HTTPS=true', () => {
@@ -383,14 +384,14 @@ describe('Config', () => {
       process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
       process.env.TLS_CERTIFICATE = '/foo'
       process.env.TLS_KEY = undefined
-      expect(() => Config.loadConfig()).to.throw()
+      expect(() => Config.loadConfig()).to.throw(ServerError)
     })
 
     it('AUTH_CLIENT_CERT_ENABLED=true, SSL_CERTIFICATE=undefined', () => {
       process.env.AUTH_CLIENT_CERT_ENABLED = 'true'
       process.env.SSL_KEY = '/foo'
       process.env.SSL_CERTIFICATE = undefined
-      expect(() => Config.loadConfig()).to.throw()
+      expect(() => Config.loadConfig()).to.throw(ServerError)
     })
   })
 
@@ -418,27 +419,27 @@ describe('Config', () => {
     it('missing TLS_KEY', () => {
       process.env.TLS_KEY = '/foo/'
       process.env.TLS_CERTIFICATE = '/test/data/cert'
-      expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
+      expect(() => Config.loadConfig()).to.throw(ServerError, /Failed to read TLS config/)
     })
 
     it('missing TLS_CERTIFICATE', () => {
       process.env.TLS_KEY = 'test/data/key'
       process.env.TLS_CERTIFICATE = '/foo'
-      expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
+      expect(() => Config.loadConfig()).to.throw(ServerError, /Failed to read TLS config/)
     })
 
     it('missing TLS_CRL', () => {
       process.env.TLS_KEY = 'test/data/key'
       process.env.TLS_CERTIFICATE = '/test/data/cert'
       process.env.TLS_CRL = '/foo/'
-      expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
+      expect(() => Config.loadConfig()).to.throw(ServerError, /Failed to read TLS config/)
     })
 
     it('missing TLS_CA', () => {
       process.env.TLS_KEY = 'test/data/key'
       process.env.TLS_CERTIFICATE = '/test/data/cert'
       process.env.TLS_CA = '/foo/'
-      expect(() => Config.loadConfig()).to.throw().match(/Failed to read TLS config/)
+      expect(() => Config.loadConfig()).to.throw(ServerError, /Failed to read TLS config/)
     })
   })
 
@@ -451,8 +452,8 @@ describe('Config', () => {
       expect(_config).to.be.frozen
       expect(_config.get('db')).to.be.frozen
       expect(_config.get('mySettings.innerSetting')).to.be.frozen
-      expect(() => (_config.get('db').foo = 'bar')).to.throw
-      expect(() => (_config.get('mySettings.innerSetting')[0] = 'bar')).to.throw
+      expect(() => (_config.get('db').foo = 'bar')).to.throw(TypeError)
+      expect(() => (_config.get('mySettings.innerSetting')[0] = 'bar')).to.throw(TypeError)
     })
 
     it('returns a mutable config object when unit testing', () => {
