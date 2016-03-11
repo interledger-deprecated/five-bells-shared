@@ -14,7 +14,7 @@
     },
     "memo": {
       "description": "Additional information related to the credit",
-      "type": "string"
+      "type": "object"
     },
     "invoice": {
       "description": "Unique invoice URI - the ledger will only allow one transfer referencing a given invoice ID",
