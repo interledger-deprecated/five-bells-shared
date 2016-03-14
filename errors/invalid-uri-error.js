@@ -1,15 +1,15 @@
 'use strict'
 
-const InvalidUriError = require('./invalid-uri-error')
+const BaseError = require('./base-error')
 
-class InvalidUriParameterError extends InvalidUriError {
+class InvalidUriError extends BaseError {
   constructor (message, validationErrors) {
     super(message)
     this.validationErrors = validationErrors
   }
 
   * handler (ctx, log) {
-    log.warn('Invalid URI parameter: ' + this.message)
+    log.warn('Invalid URI: ' + this.message)
     ctx.status = 400
     ctx.body = {
       id: this.name,
@@ -19,4 +19,4 @@ class InvalidUriParameterError extends InvalidUriError {
   }
 }
 
-module.exports = InvalidUriParameterError
+module.exports = InvalidUriError

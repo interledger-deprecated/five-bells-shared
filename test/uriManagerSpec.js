@@ -4,6 +4,7 @@ const chai = require('chai')
 const expect = chai.expect
 const UriManager = require('../lib/uri-manager').UriManager
 const InvalidUriParameterError = require('../errors/invalid-uri-parameter-error')
+const InvalidUriError = require('../errors/invalid-uri-error')
 
 describe('UriManager', function () {
   beforeEach(function () {
@@ -88,7 +89,7 @@ describe('UriManager', function () {
       const self = this
       expect(function () {
         self.uri.parse('http://localhost/base/foo/abracadabra', 'example')
-      }).to.throw(InvalidUriParameterError, /URI is not a valid example URI/)
+      }).to.throw(InvalidUriError, /URI is not a valid example URI/)
     })
 
     it('should work if a required type was met', function () {
@@ -128,7 +129,7 @@ describe('UriManager', function () {
       const self = this
       expect(function () {
         self.uri.make('baz', 'bar')
-      }).to.throw(InvalidUriParameterError, /Unknown resource type/)
+      }).to.throw(InvalidUriError, /Unknown resource type/)
     })
 
     it('should refuse to construct a URI when given wrong param count', function () {
@@ -142,7 +143,7 @@ describe('UriManager', function () {
       const self = this
       expect(function () {
         self.uri.makeWithParams('baz', {id: 'bar'})
-      }).to.throw(InvalidUriParameterError, /Unknown resource type/)
+      }).to.throw(InvalidUriError, /Unknown resource type/)
     })
   })
 })
