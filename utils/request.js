@@ -33,7 +33,7 @@ exports.validateUriParameter = function (paramId, paramValue, schema) {
  *
  * @returns {Object} Parsed JSON body
  */
-exports.validateBody = co.wrap(function *(ctx, schema) {
+exports.validateBody = co.wrap(function * (ctx, schema) {
   let json = yield parse(ctx)
 
   if (schema) {
