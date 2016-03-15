@@ -1,0 +1,26 @@
+{
+  "sampleNotification": {
+    "id": "6821484d-6ca7-4157-b15b-388c49637111",
+    "subscription_id":
+    "c6345f6e-d3c9-440b-8aa0-f0077c0c40f4",
+    "transfer_id": "ba32d964-f143-4b67-b470-d258025288d4",
+    "retry_count": 1,
+    "retry_at": 1457645427712
+  },
+  "expectedSignedNotification": {
+    "id": "6821484d-6ca7-4157-b15b-388c49637111",
+    "subscription_id": "c6345f6e-d3c9-440b-8aa0-f0077c0c40f4",
+    "transfer_id": "ba32d964-f143-4b67-b470-d258025288d4",
+    "retry_count": 1,
+    "retry_at": 1457645427712,
+    "signature": {
+      "algorithm": "ES256",
+      "publicKey": {
+        "type": "EC",
+        "curve": "P-256",
+        "x": "fe6c0b5f44f167591005775e2cdb25c9ee6e885f3ff16cce418ce8a67fa2f93e",
+        "y": "4a839e3c4289ccf6a6c341fb860da3fb5173e5ddd4137bf7f44e0271c29f147a"
+      }
+    }
+  } 
+}
