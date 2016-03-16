@@ -14,18 +14,7 @@
     },
     "memo": {
       "description": "Additional information related to the credit",
-      "type": "object",
-      "properties": {
-        "source_transfer_id": {
-          "description": "The previous transfer in the payment",
-          "$ref": "Iri.json"
-        },
-        "destination_transfer": {
-          "description": "The next transfer in the payment",
-          "$ref": "TransferTemplate.json"
-        }
-      },
-      "additionalProperties": true
+      "type": "object"
     },
     "invoice": {
       "description": "Unique invoice URI - the ledger will only allow one transfer referencing a given invoice ID",
