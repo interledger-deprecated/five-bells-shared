@@ -1,0 +1,9 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "JSONSigningPublicKey",
+  "description": "The public key associated with a JSON Cleartext Signature",
+  "oneOf": [
+    { "$ref": "PublicKeyEC.json" },
+    { "$ref": "PublicKeyRSA.json" }
+  ]
+}

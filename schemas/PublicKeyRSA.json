@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "PublicKeyRSA",
+  "description": "The public key for an RSA JSON Cleartext Signature",
+  "type": "object",
+  "properties": {
+    "type": {
+      "description": "RSA key type indicator.",
+      "type": "string",
+      "enum": [
+        "RSA"
+      ]
+    },
+    "n": {
+      "description": "RSA modulus.",
+      "$ref": "Base64URL.json"
+    },
+    "e": {
+      "description": "RSA exponent.",
+      "$ref": "Base64URL.json"
+    },
+    "required": ["type", "n", "e"],
+    "additionalProperties": false
+  }
+}

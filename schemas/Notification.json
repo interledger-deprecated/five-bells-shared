@@ -32,6 +32,10 @@
         }
       },
       "additionalProperties": false
+    },
+    "signature": {
+      "description": "The signature of the notification",
+      "$ref": "NotificationSignature.json"
     }
   },
   "required": ["id", "event", "resource"],
