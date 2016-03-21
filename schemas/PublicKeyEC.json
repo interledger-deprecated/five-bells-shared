@@ -7,9 +7,7 @@
     "type": {
       "description": "EC key type indicator.",
       "type": "string",
-      "enum": [
-        "EC"
-      ]
+      "enum": [ "EC" ]
     },
     "curve": {
       "description": "EC curve ID",
