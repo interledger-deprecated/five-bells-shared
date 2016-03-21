@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Base64URL",
+  "description": "Base64URL-encoded string",
+  "type": "string",
+  "pattern": "^(?:[a-zA-Z0-9_-]*)$"
+}

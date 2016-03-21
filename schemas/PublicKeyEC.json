@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "PublicKeyEC",
+  "description": "The public key for an ECDSA JSON Cleartext Signature",
+  "type": "object",
+  "properties": {
+    "type": {
+      "description": "EC key type indicator.",
+      "type": "string",
+      "enum": [ "EC" ]
+    },
+    "curve": {
+      "description": "EC curve ID",
+      "type": "string",
+      "enum": [
+        "P-256"
+      ]
+    },
+    "x": {
+      "description": "EC curve point X.",
+      "type": "string",
+      "$ref": "Base64RUL.json"
+    },
+    "y": {
+      "description": "EC curve point Y.",
+      "$ref": "Base64RUL.json"
+    },
+    "required": ["type", "curve", "x", "y"],
+    "additionalProperties": false
+  }
+}
