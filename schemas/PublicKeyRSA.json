@@ -15,10 +15,7 @@
     },
     "e": {
       "description": "RSA exponent.",
-      "oneOf": [
-        { "$ref": "Base64.json" },
-        { "$ref": "Base64URL.json" }
-      ]
+      "$ref": "Base64URL.json"
     },
     "required": ["type", "n", "e"],
     "additionalProperties": false
