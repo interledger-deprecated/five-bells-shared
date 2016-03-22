@@ -3,6 +3,8 @@
 # http://www.tldp.org/LDP/abs/html/options.html
 set -eo pipefail
 
+INCREMENT="$1"
+
 # Debugging
 # set -x
 
@@ -47,7 +49,21 @@ checkChangesSinceCurrentVersion() {
   local currentVersion
   local changes
   currentVersion=$(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " " | sed 's/.*@//')
-  changes=$(git --no-pager log v"$currentVersion".. --oneline --no-merges --reverse)
+  changes=$(git --no-pager log v"$currentVersion".. --oneline --reverse)
+
+  if [ "$INCREMENT" == "patch" ] || [ "$INCREMENT" == "minor" ]; then
+    if echo "$changes" | grep --quiet BREAKING; then
+      printf "There are breaking changes. Please bump the major version."
+      exit 1
+    fi
+  fi
+
+  if [ "$INCREMENT" == "patch" ]; then
+    if echo "$changes" | grep --quiet FEATURE; then
+      printf "There are new features. Please bump the major or minor version."
+      exit 1
+    fi
+  fi
 
   printf "These are the changes since the last version\n\n"
   printf "%s\n\n" "$changes"
@@ -111,8 +127,7 @@ checkCircleBuildStatus() {
 # https://docs.npmjs.com/cli/version
 versionCommitAndTag() {
   echo "Updating package.json..."
-  local version=$1
-  case "$version" in
+  case "$INCREMENT" in
     major)
       npm version major
       ;;
@@ -139,8 +154,8 @@ main() {
   checkCircleBuildStatus
   checkChangesSinceCurrentVersion
   unitTest
-  versionCommitAndTag "$1"
+  versionCommitAndTag
   pushCommitandTags
 }
 
-main "$1"
+main
