@@ -10,6 +10,17 @@ const signData = require('./data/signData')
 const fs = require('fs')
 const ServerError = require('../errors/server-error')
 
+const Validator = require('../lib/validator')
+const validator = new Validator()
+validator.loadSharedSchemas()
+
+function validateNotification (json) {
+  const validatorResult = validator.create('Notification')(json)
+  if (!validatorResult.valid) {
+    throw new Error('Notification schema validation error: ' + validatorResult.errors[0])
+  }
+}
+
 // Set up keys
 const prvPEM = fs.readFileSync('test/data/signKeyPrv.pem', 'utf8')
 const pubPEM = fs.readFileSync('test/data/signKeyPub.pem', 'utf8')
@@ -26,6 +37,7 @@ describe('jsonSigningTests', function () {
   describe('jsonSigning', function () {
     it('should sign JSON object successfully', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.ES256, prvKey, pubKey)
+      expect(validateNotification.bind(validator.validateNotification, signedJSON)).to.not.throw(Error)
       // Do not check signature.value, because this value changes every time it signs
       delete signedJSON.signature.value
       expect(signedJSON).to.deep.equal(signData.expectedSignedNotification)
@@ -64,6 +76,7 @@ describe('jsonSigningTests', function () {
   describe('jsonRSASigning', function () {
     it('should sign JSON object with RSA successfully', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.PS256, prvRSAPEM)
+      expect(validateNotification.bind(validator.validateNotification, signedJSON)).to.not.throw(Error)
       // Do not check signature.value, because this value changes every time it signs
       delete signedJSON.signature.value
       expect(signedJSON).to.deep.equal(signData.expectedRSASignedNotification)

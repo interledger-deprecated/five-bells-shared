@@ -4,6 +4,7 @@
 const rsasign = require('jsrsasign') // eslint-disable-line no-unused-vars
 const ServerError = require('../errors/server-error')
 const _ = require('lodash')
+const base64url = require('base64url')
 
 // Constants for crypto algorithm types (ECDSA and RSA)
 const ES256 = 'ES256'
@@ -21,6 +22,19 @@ function parseKey (key) {
   } else {
     return key
   }
+}
+
+/**
+ * Returns a JSON Web Signature (JWS)
+ * @param {string} algorithm - The algorithm used to sign the JSON.
+ * @param {string} payload - The JSON to verify.
+ * @param {Base64URL} signature - The base64URL-encoded signature for the JSON.
+ @ @returns {string}
+ */
+function makeJWSString (algorithm, payload, signature) {
+  return base64url.encode(JSON.stringify({alg: algorithm})) + '\.' +
+    base64url.encode(JSON.stringify(payload)) + '\.' +
+    signature
 }
 
 // Sign JSON object, using ECDSA P-256 private key and public key.
@@ -48,8 +62,8 @@ function signECDSA (json, prvKey, pubKey) {
   if (pubKeyHex.length !== 130 || !_.startsWith(pubKeyHex, '04')) {
     throw new ServerError('Problem decoding public key for JSON signing')
   }
-  const hX = pubKeyHex.slice(2, 66)
-  const hY = pubKeyHex.slice(66, 130)
+  const hX = base64url.encode(pubKeyHex.slice(2, 66))
+  const hY = base64url.encode(pubKeyHex.slice(66, 130))
 
   const signedJSON = _.cloneDeep(json)
   signedJSON.signature = {
@@ -77,8 +91,8 @@ function signRSA (json, prvKey) {
   // TODO: To make e and n exactly compliant with JCS spec, E and N must be represented as
   // "Base64URL-encoded positive integer with arbitrary precision."
   // jsrsasign stores public key components "e" as Number, and "n" as BigInteger
-  const pubkeyE = new Buffer(prvKeyObj.e.toString()).toString('base64')
-  const pubkeyN = new Buffer(prvKeyObj.n.toString()).toString('base64')
+  const pubkeyE = base64url.encode(new Buffer(prvKeyObj.e.toString()))
+  const pubkeyN = base64url.encode(new Buffer(prvKeyObj.n.toString()))
   const signedJSON = _.cloneDeep(json)
   signedJSON.signature = {
     'algorithm': PS256,
@@ -94,23 +108,16 @@ function signRSA (json, prvKey) {
 
 // Verify 'signature' block on the input JSON object has the correct signature value.
 module.exports.verify = function (json, cryptoType, pubKey) {
+  if (!json || !json.signature || !json.signature.value) {
+    throw new ServerError('Invalid input for JSON verification')
+  }
+  if (!pubKey) throw new ServerError('Problem reading public key for JSON signing')
   if (cryptoType === ES256) return verifyECDSA(json, pubKey)
   else if (cryptoType === PS256) return verifyRSA(json, pubKey)
   else throw new ServerError('Unsupported crypto algorithm: ' + cryptoType)
 }
 
 function verifyECDSA (json, pubKey) {
-  if (!json || !json.signature || !json.signature.value) {
-    throw new ServerError('Invalid input for JSON verification')
-  }
-  const jsonWithoutSignature = _.omit(json, 'signature')
-
-  let strPayload = new Buffer(JSON.stringify(jsonWithoutSignature)).toString('base64')
-  // chop trailing '=='
-  if (_.endsWith(strPayload, '==')) {
-    strPayload = strPayload.slice(0, strPayload.length - 2)
-  }
-
   // check pub key coordinates X and Y in signature
   const pubKeyHex = pubKey.pubKeyHex
   // According to jsrsasign documentation,
@@ -119,37 +126,25 @@ function verifyECDSA (json, pubKey) {
   if (pubKeyHex.length !== 130 || !_.startsWith(pubKeyHex, '04')) {
     throw new ServerError('Problem decoding public key for JSON signature verification')
   }
-  const hX = pubKeyHex.slice(2, 66)
-  const hY = pubKeyHex.slice(66, 130)
+  const hX = base64url.encode(pubKeyHex.slice(2, 66))
+  const hY = base64url.encode(pubKeyHex.slice(66, 130))
   if (json.signature.publicKey.x !== hX || json.signature.publicKey.y !== hY) {
     throw new ServerError('Public key mismatch in JSON signature verification')
   }
 
-  const jws = 'eyJhbGciOiJFUzI1NiJ9\.' + // Base64 encoded {"alg":"ES256"}
-        strPayload + '\.' + json.signature.value
+  const jws = makeJWSString(ES256, _.omit(json, 'signature'), json.signature.value)
   return KJUR.jws.JWS.verify(jws, pubKey) // eslint-disable-line no-undef
 }
 
 function verifyRSA (json, pubKey) {
-  if (!json || !json.signature || !json.signature.value) {
-    throw new ServerError('Invalid input for JSON verification')
-  }
-  if (!pubKey) throw new ServerError('Problem reading public key for JSON signing')
   const pubKeyObj = parseKey(pubKey)
-  const jsonWithoutSignature = _.omit(json, 'signature')
-
-  let strPayload = new Buffer(JSON.stringify(jsonWithoutSignature)).toString('base64')
-  // chop trailing '=='
-  if (_.endsWith(strPayload, '==')) {
-    strPayload = strPayload.slice(0, strPayload.length - 2)
-  }
   // Check pub key parameters
-  const pubkeyE = new Buffer(pubKeyObj.e.toString()).toString('base64')
-  const pubkeyN = new Buffer(pubKeyObj.n.toString()).toString('base64')
+  const pubkeyE = base64url.encode(new Buffer(pubKeyObj.e.toString()))
+  const pubkeyN = base64url.encode(new Buffer(pubKeyObj.n.toString()))
   if (json.signature.publicKey.e !== pubkeyE || json.signature.publicKey.n !== pubkeyN) {
     throw new ServerError('Public key mismatch in JSON signature verification')
   }
-  const jws = 'eyJhbGciOiJQUzI1NiJ9\.' + // Base64 encoded {"alg":"PS256"}
-        strPayload + '\.' + json.signature.value
+
+  const jws = makeJWSString(PS256, _.omit(json, 'signature'), json.signature.value)
   return KJUR.jws.JWS.verify(jws, pubKeyObj, [PS256]) // eslint-disable-line no-undef
 }
