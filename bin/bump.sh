@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
 # http://www.tldp.org/LDP/abs/html/options.html
-set -eo pipefail
+set -ex pipefail
 
 INCREMENT="$1"
-
-# Debugging
-# set -x
 
 # http://stackoverflow.com/questions/1593051/how-to-programmatically-determine-the-current-checked-out-git-branch
 checkOnMaster() {
