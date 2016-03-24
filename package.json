@@ -12,10 +12,12 @@
     "lint": "eslint .",
     "test": "istanbul test -- _mocha",
     "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* && cp -r docs docs-out",
-    "bump": "./bin/bump.sh"
+    "bump": "./bin/bump.sh",
+    "ci-publish": "./bin/ci-publish.sh"
   },
   "bin": {
-    "version-bump": "./bin/bump.sh"
+    "version-bump": "./bin/bump.sh",
+    "ci-publish": "./bin/ci-publish.sh"
   },
   "repository": {
     "type": "git",
