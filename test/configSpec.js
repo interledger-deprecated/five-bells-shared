@@ -290,6 +290,12 @@ describe('Config', () => {
       expect(_config.getIn(['keys', 'ed25519'])).to.include.keys('secret', 'public')
       expect(_config.getIn(['keys', 'ed25519', 'secret'])).to.equal(secret)
     })
+
+    it('options.ed25519 = false', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      const _config = Config.loadConfig('', {}, {ed25519: false})
+      expect(_config.get('keys.ed25519')).to.equal(undefined)
+    })
   })
 
   describe('parseDatabaseConfig', () => {
