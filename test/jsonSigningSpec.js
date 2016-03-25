@@ -8,7 +8,6 @@ const jsonSigning = require('../utils/jsonSigning')
 const rsasign = require('jsrsasign')
 const signData = require('./data/signData')
 const fs = require('fs')
-const ServerError = require('../errors/server-error')
 
 const Validator = require('../lib/validator')
 const validator = new Validator()
@@ -33,6 +32,8 @@ const pubKey = rsasign.KEYUTIL.getKey(pubPEM, 'PKCS8PUB')
 const prvRSAPEM = fs.readFileSync('test/data/signKeyRSAPrv.pem', 'utf8')
 const pubRSAPEM = fs.readFileSync('test/data/signKeyRSAPub.pem', 'utf8')
 
+const pubRSAPEM2 = fs.readFileSync('test/data/signKeyRSAPub2.pem', 'utf8')
+
 describe('jsonSigningTests', function () {
   describe('jsonSigning', function () {
     it('should sign JSON object successfully', function () {
@@ -48,7 +49,7 @@ describe('jsonSigningTests', function () {
     it('should sign and verify JSON object successfully', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.ES256, prvKey, pubKey)
       const result = jsonSigning.verify(signedJSON, pubKey)
-      expect(result).to.be.true
+      expect(result.valid).to.be.true
     })
   })
 
@@ -58,18 +59,18 @@ describe('jsonSigningTests', function () {
       // Modify signature value to make verification fail
       signedJSON.signature.value += 'X'
       const result = jsonSigning.verify(signedJSON, pubKey)
-      expect(result).to.be.false
+      expect(result.valid).to.be.false
     })
   })
 
   describe('jsonInvalidPublicKey', function () {
-    it('should catch invalid public key in signed JSON', function () {
+    it('should return valid: false', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.ES256, prvKey, pubKey)
-      // Modify public key in signature to make verification throw error
       signedJSON.signature.publicKey.y += 'X'
-      expect(function () {
-        jsonSigning.verify(signedJSON, pubKey)
-      }).to.throw(ServerError)
+      expect(jsonSigning.verify(signedJSON, pubKey)).to.deep.equal({
+        valid: false,
+        error: 'Public key mismatch in JSON signature verification'
+      })
     })
   })
 
@@ -87,7 +88,7 @@ describe('jsonSigningTests', function () {
     it('should sign and verify JSON object with RSA successfully', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.PS256, prvRSAPEM)
       const result = jsonSigning.verify(signedJSON, pubRSAPEM)
-      expect(result).to.be.true
+      expect(result.valid).to.be.true
     })
   })
 
@@ -96,31 +97,47 @@ describe('jsonSigningTests', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.PS256, prvRSAPEM)
       signedJSON.signature.value += 'X'
       const result = jsonSigning.verify(signedJSON, pubRSAPEM)
-      expect(result).to.be.false
+      expect(result.valid).to.be.false
     })
   })
 
   describe('jsonRSAInvalidPublicKey', function () {
-    it('should catch invalid RSA public key in signed JSON', function () {
+    it('should return valid: false', function () {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.PS256, prvRSAPEM)
-      // Modify public key in signature to make verification throw error
       signedJSON.signature.publicKey.n += 'X'
-      expect(function () {
-        jsonSigning.verify(signedJSON, pubRSAPEM)
-      }).to.throw(ServerError)
+      expect(jsonSigning.verify(signedJSON, pubRSAPEM)).to.deep.equal({
+        valid: false,
+        error: 'Public key mismatch in JSON signature verification'
+      })
     })
   })
 
   describe('verify()', () => {
-    it('returns false on invalid input', () => {
+    it('returns valid: false on invalid input', () => {
       const result = jsonSigning.verify({foo: 'bar'}, pubKey)
-      expect(result).to.equal(false)
+      expect(result).to.deep.equal({
+        valid: false,
+        error: 'Invalid input'
+      })
     })
 
-    it('throws exception on invalid algorithm', () => {
+    it('invalid algorithm', () => {
       const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.PS256, prvRSAPEM)
       signedJSON.signature.algorithm = 'foo'
-      expect(() => jsonSigning.verify(signedJSON, pubKey)).to.throw().match(/Unsupported crypto algorithm: foo/)
+      const result = jsonSigning.verify(signedJSON, pubKey)
+      expect(result).to.deep.equal({
+        valid: false,
+        error: 'Unsupported crypto algorithm'
+      })
+    })
+
+    it('public key mismatch', () => {
+      const signedJSON = jsonSigning.sign(signData.sampleNotification, jsonSigning.types.PS256, prvRSAPEM)
+      const result = jsonSigning.verify(signedJSON, pubRSAPEM2)
+      expect(result).to.deep.equal({
+        valid: false,
+        error: 'Public key mismatch in JSON signature verification'
+      })
     })
   })
 })

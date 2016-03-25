@@ -109,13 +109,32 @@ function signRSA (json, prvKey) {
 // Verify 'signature' block on the input JSON object has the correct signature value.
 module.exports.verify = function (json, pubKey) {
   if (!json || !json.signature || !json.signature.value) {
-    return false
+    return {valid: false, error: 'Invalid input'}
   }
+
+  if (!pubKey) {
+    return {valid: false, error: 'Missing public key'}
+  }
+
   const algorithm = json.signature.algorithm
-  if (!pubKey) throw new ServerError('Missing public key')
-  if (algorithm === ES256) return verifyECDSA(json, pubKey)
-  else if (algorithm === PS256) return verifyRSA(json, pubKey)
-  else throw new ServerError('Unsupported crypto algorithm: ' + algorithm)
+
+  let valid = false
+  let error
+  try {
+    if (algorithm === ES256) {
+      valid = verifyECDSA(json, pubKey)
+    } else if (algorithm === PS256) {
+      valid = verifyRSA(json, pubKey)
+    } else {
+      valid = false
+      error = 'Unsupported crypto algorithm'
+    }
+  } catch (e) {
+    valid = false
+    error = e.message
+  }
+
+  return {valid: valid, error: error}
 }
 
 function verifyECDSA (json, pubKey) {
