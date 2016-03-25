@@ -110,4 +110,11 @@ describe('jsonSigningTests', function () {
       }).to.throw(ServerError)
     })
   })
+
+  describe('verify()', () => {
+    it('returns false on invalid input', () => {
+      const result = jsonSigning.verify({foo: 'bar'}, jsonSigning.types.ES256, pubKey)
+      expect(result).to.equal(false)
+    })
+  })
 })
