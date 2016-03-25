@@ -2,35 +2,44 @@
 
 set -ex pipefail
 
-npmPublish() {
-  npm publish
-}
-
-currentVersion() {
+getCurrentVersion() {
   grep version <package.json | sed 's/[^0-9.]*\([0-9.]*\).*/\1/' | head -n 1
 }
 
-currentProject() {
+getCurrentProject() {
   npm ls --depth=-1 | head -1 | cut -f 1 -d " " | sed 's/@.*//'
 }
 
-checkVersion() {
-  local gitTag
-  gitTag=$(git describe --tags)
+getLatestTag() {
+  git describe --abbrev=0 --tags
+}
 
-  if [ "v$(currentVersion)" != "$gitTag" ]; then
+getCommitHash() {
+  git rev-list -n 1 $1
+}
+
+checkHeadIsLatestTag() {
+  if [ "$(getCommitHash HEAD)" != "$(getCommitHash $(getLatestTag))" ]; then
+    echo 'HEAD does not match latest tag. Skipping npm publish'
+    exit 0
+  fi
+}
+
+checkCurrentVersionIsLatestTag() {
+  if [ "v$(getCurrentVersion)" != "$(getLatestTag)" ]; then
     echo 'Current tag does not match package version. Skipping npm publish'
     exit 0
   fi
 }
 
-checkIsPublished() {
-  if [ -n "$(npm info "$(currentProject)"@"$(currentVersion)")" ]; then
+checkIsNotPublished() {
+  if [ -n "$(npm info "$(getCurrentProject)"@"$(getCurrentVersion)")" ]; then
     echo 'Already published. Skipping npm publish'
     exit 0
   fi
 }
 
-checkVersion
-checkIsPublished
-npmPublish
+checkHeadIsLatestTag
+checkCurrentVersionIsLatestTag
+checkIsNotPublished
+npm publish
