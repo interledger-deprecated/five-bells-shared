@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -ex pipefail
+set -e
+set -o pipefail
 
 getCurrentVersion() {
   grep version <package.json | sed 's/[^0-9.]*\([0-9.]*\).*/\1/' | head -n 1
@@ -15,11 +16,11 @@ getLatestTag() {
 }
 
 getCommitHash() {
-  git rev-list -n 1 $1
+  git rev-list -n 1 "$1"
 }
 
 checkHeadIsLatestTag() {
-  if [ "$(getCommitHash HEAD)" != "$(getCommitHash $(getLatestTag))" ]; then
+  if [ "$(getCommitHash HEAD)" != "$(getCommitHash "$(getLatestTag)")" ]; then
     echo 'HEAD does not match latest tag. Skipping npm publish'
     exit 0
   fi
