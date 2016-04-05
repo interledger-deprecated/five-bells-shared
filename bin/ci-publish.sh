@@ -40,7 +40,12 @@ checkIsNotPublished() {
   fi
 }
 
+npmPublish() {
+  mv npmrc-env .npmrc
+  npm publish
+}
+
 checkHeadIsLatestTag
 checkCurrentVersionIsLatestTag
 checkIsNotPublished
-npm publish
+npmPublish
