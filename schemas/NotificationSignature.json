@@ -9,7 +9,8 @@
       "type": "string",
       "enum": [
         "PS256",
-        "ES256"
+        "ES256",
+        "CC"
       ]
     },
     "publicKey": {
@@ -19,7 +20,6 @@
     "value": {
       "description": "The signature data.",
       "$ref": "Base64URL.json"
-
     },
     "required": ["algorithm", "value"],
     "additionalProperties": false
