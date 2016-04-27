@@ -2,6 +2,7 @@
 'use strict'
 
 const rsasign = require('jsrsasign') // eslint-disable-line no-unused-vars
+const cc = require('five-bells-condition')
 const ServerError = require('../errors/server-error')
 const _ = require('lodash')
 const base64url = require('base64url')
@@ -9,9 +10,11 @@ const base64url = require('base64url')
 // Constants for crypto algorithm types (ECDSA and RSA)
 const ES256 = 'ES256'
 const PS256 = 'PS256'
+const CC = 'CC'
 module.exports.types = {
   ES256,
-  PS256
+  PS256,
+  CC
 }
 
 // If given key is PEM formatted string, convert it to key object
@@ -43,6 +46,7 @@ function makeJWSString (algorithm, payload, signature) {
 module.exports.sign = function (json, cryptoType, prvKey, pubKey) {
   if (cryptoType === ES256) return signECDSA(json, prvKey, pubKey)
   else if (cryptoType === PS256) return signRSA(json, prvKey)
+  else if (cryptoType === CC) return signCC(json, prvKey)
   else throw new ServerError('Unsupported crypto algorithm: ' + cryptoType)
 }
 
@@ -106,6 +110,29 @@ function signRSA (json, prvKey) {
   return signedJSON
 }
 
+// Sign JSON object using CC
+function signCC (json, privateKey) {
+  if (!privateKey) throw new ServerError('Problem reading private key for JSON signing')
+
+  let fulfillment
+  const message = new Buffer(JSON.stringify(json), 'utf8')
+  if (privateKey.indexOf('-----BEGIN RSA PRIVATE KEY-----') === 0) {
+    fulfillment = new cc.RsaSha256()
+    fulfillment.sign(message, privateKey)
+  } else {
+    fulfillment = new cc.Ed25519()
+    fulfillment.sign(message, new Buffer(privateKey, 'base64'))
+  }
+
+  const signedJson = _.cloneDeep(json)
+  signedJson.signature = {
+    algorithm: CC,
+    value: cc.base64url.encode(fulfillment.serializeBinary())
+  }
+
+  return signedJson
+}
+
 // Verify 'signature' block on the input JSON object has the correct signature value.
 module.exports.verify = function (json, pubKey) {
   if (!json || !json.signature || !json.signature.value) {
@@ -125,6 +152,8 @@ module.exports.verify = function (json, pubKey) {
       valid = verifyECDSA(json, pubKey)
     } else if (algorithm === PS256) {
       valid = verifyRSA(json, pubKey)
+    } else if (algorithm === CC) {
+      valid = verifyCC(json, pubKey)
     } else {
       valid = false
       error = 'Unsupported crypto algorithm'
@@ -167,4 +196,10 @@ function verifyRSA (json, pubKey) {
 
   const jws = makeJWSString(PS256, _.omit(json, 'signature'), json.signature.value)
   return KJUR.jws.JWS.verify(jws, pubKeyObj, [PS256]) // eslint-disable-line no-undef
+}
+
+function verifyCC (json, pubKey) {
+  const fulfillment = cc.fromFulfillmentBinary(new Buffer(json.signature.value, 'base64'))
+  const message = new Buffer(JSON.stringify(_.omit(json, 'signature')), 'utf8')
+  return cc.validateFulfillment(fulfillment, pubKey, message)
 }
