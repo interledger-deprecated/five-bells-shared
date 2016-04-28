@@ -36,7 +36,7 @@
     "co": "^4.1.0",
     "co-body": "^1.0.0",
     "co-defer": "^1.0.0",
-    "five-bells-condition": "^3.1.0",
+    "five-bells-condition": "^3.2.0",
     "jsrsasign": "^5.0.7",
     "lodash": "^4.6.1",
     "mag-colored-output": "^1.0.0",
