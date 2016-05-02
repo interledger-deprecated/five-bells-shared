@@ -4,10 +4,6 @@
   "description": "A template for ledger-local transfer of funds that can be missing some transfer fields",
   "type": "object",
   "properties": {
-    "type": {
-      "description": "Unique identifier representing the transfer type",
-      "$ref": "Iri.json"
-    },
     "id": {
       "description": "Resource identifier",
       "$ref": "Iri.json"

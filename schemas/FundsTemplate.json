@@ -6,7 +6,10 @@
   "properties": {
     "account": {
       "description": "Account holding the funds",
-      "$ref": "Iri.json"
+      "oneOf": [
+        {"$ref": "Iri.json"},
+        {"type": "null", "description": "this is used as a placeholder in quotes when the IRI is not known"}
+      ]
     },
     "amount": {
       "description": "Amount as decimal",
