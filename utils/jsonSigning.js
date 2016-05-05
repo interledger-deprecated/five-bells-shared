@@ -35,8 +35,8 @@ function parseKey (key) {
  @ @returns {string}
  */
 function makeJWSString (algorithm, payload, signature) {
-  return base64url.encode(JSON.stringify({alg: algorithm})) + '\.' +
-    base64url.encode(JSON.stringify(payload)) + '\.' +
+  return base64url.encode(JSON.stringify({alg: algorithm})) + '.' +
+    base64url.encode(JSON.stringify(payload)) + '.' +
     signature
 }
 
