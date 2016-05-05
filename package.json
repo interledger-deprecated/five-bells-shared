@@ -58,7 +58,7 @@
     "eslint-config-standard": "^5.1.0",
     "istanbul-harmony": "^0.3.16",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
-    "minami": "^1.1.1",
+    "interledger-jsdoc-template": "^1.0.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
