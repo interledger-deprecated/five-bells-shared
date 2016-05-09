@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Routes",
+  "description": "a list of routes from a connector",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "source_ledger": {"$ref": "Iri.json"},
+      "destination_ledger": {"$ref": "Iri.json"},
+      "connector": {
+        "$ref": "Iri.json",
+        "description": "the first hop of this route"
+      },
+      "min_message_window": {
+        "type": "number",
+        "minimum": 0,
+        "description": "the minimum difference (in seconds) between the source and destination transfers' expiries"
+      },
+      "source_account": {
+        "$ref": "Iri.json",
+        "description": "the connector's account on source_ledger"
+      },
+      "destination_account": {
+        "$ref": "Iri.json",
+        "description": "the connector's account on destination_ledger; (this property is only for local routes)"
+      },
+      "points": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {"type": "number"},
+          "description": "[source_amount, destination_amount]"
+        },
+        "description": "a list of points describing the exchange rate curve"
+      }
+    },
+    "required": [
+      "source_ledger",
+      "destination_ledger",
+      "connector",
+      "min_message_window",
+      "source_account",
+      "points"
+    ],
+    "additionalProperties": false
+  }
+}
