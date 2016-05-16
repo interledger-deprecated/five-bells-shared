@@ -44,33 +44,3 @@ describe('Transfers', function () {
   // ...
 });
 ```
-## JSON signing
-
-JSONSigning module provides API for adding signature block, and verifying it, in a JSON object.  The format follows JSON Cleartext Signature (JCS) specification.
-
-### Usage
-
-```
-JSONSigning.sign (json, cryptoType, privateKey, publicKey)
-
-  json : JSON object.  Must not have "signature" block at the top level.
-  cryptoType : "PS256" for RSA PSS, or "ES256" for ECDSA
-  privateKey : Private key.
-               For RSA, it can be a PEM format string, or jsrsasign RSA key object.
-               For ECDSA, it has to be jsrsasign ECDSA key object.
-  publicKey  : Public key.
-               This is not needed for
-               For ECDSA, it has to be jsrsasign ECDSA key object.
-
-  Returns copy of JSON object with "signature" block added.  It does not modify the original JSON object.
-
-JSONSigning.verify (json, cryptoType, publicKey)
-
-  json : JSON object.  Must have "signature" block at the top level.
-  cryptoType : "PS256" for RSA PSS, or "ES256" for ECDSA
-  publicKey  : Public key.
-               For RSA, it can be a PEM format string, or jsrsasign RSA key object.
-               For ECDSA, it has to be jsrsasign ECDSA key object.
-
-  Returns true (signature is valid) or false (otherwise)
-```
