@@ -3,6 +3,7 @@
   "opts": {
     "template": "node_modules/interledger-jsdoc-template",
     "destination": "./docs-out/",
-    "readme": "./README.md"
+    "readme": "./README.md",
+    "reponame": "Five Bells Shared"
   }
 }
