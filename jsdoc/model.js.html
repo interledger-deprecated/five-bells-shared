@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>model.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">model.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+const _ = require('lodash')
+const parseBody = require('co-body')
+
+const InvalidBodyError = require('../errors/invalid-body-error')
+const ServerError = require('../errors/server-error')
+
+/**
+ * Parent class for all models.
+ *
+ * @example
+ * const Model = require('five-bells-shared/lib/model').Model
+ *
+ * class Car extends Model {
+ *   constructor () {
+ *     super()
+ *   }
+ *
+ *   // Define filters for external data formats
+ *   static convertFromExternal (data) {
+ *     // Convert year to number
+ *     data.year = parseInt(data.year)
+ *     return data
+ *   }
+ *   static convertToExternal (data) {
+ *     // Year is presented as a string to the outside world
+ *     data.year = String(model.year)
+ *     return data
+ *   }
+ *
+ *   // Add a validator for external data
+ *   static validateExternal (data) {
+ *     if (typeof data.year !== 'string' || data.year.length > 4) {
+ *       throw new Error('Invalid year')
+ *     }
+ *     return true
+ *   }
+ *
+ *   // Add virtual properties via getters and setters
+ *   get description () {
+ *     return this.make + ' ' + this.model + ' ' + this.year
+ *   }
+ * }
+ */
+class Model {
+  clone () {
+    const cloned = new this.constructor()
+    cloned.setData(this.getData())
+    return cloned
+  }
+
+  /**
+   * Creates instance from data.
+   *
+   * @param {Object} data Raw data.
+   * @return {Model} Instance populated with data.
+   */
+  static fromData (data) {
+    const Self = this
+
+    if (data instanceof Self) {
+      return data
+    }
+
+    // TODO We may wish to validate the data against the schema
+
+    const model = new Self()
+    model.setData(data)
+    return model
+  }
+
+  /**
+   * Creates instance from raw data.
+   *
+   * @param {Object} data Raw data.
+   * @return {Model} Instance populated with data.
+   */
+  static fromDataExternal (data) {
+    const Self = this
+
+    if (!data) {
+      return data
+    }
+
+    if (data instanceof Self) {
+      return data
+    }
+
+    const model = new Self()
+    model.setDataExternal(data)
+
+    return model
+  }
+
+  /**
+   * Set data to the model instance, bypassing filters.
+   *
+   * @param {Object} data Input data
+   * @function Model.setData
+   */
+  setData (data) {
+    return _.merge(this, data)
+  }
+
+  /**
+   * Apply a set of JSON data (in external format) to this instance.
+   *
+   * @param {Object} data Input data
+   */
+  setDataExternal (data) {
+    this.setData(this._applyFilter(this.constructor.convertFromExternal, data))
+  }
+
+  /**
+   * Get model data as plain old JS object.
+   *
+   * Bypasses output filters.
+   *
+   * @return {Object} Plain representation of model
+   */
+  getData () {
+    return _.assign({}, _.cloneDeep(this))
+  }
+
+  /**
+   * Get model data as plain old JS object.
+   *
+   * Applies output filters.
+   *
+   * @return {Object} Plain, normalized representation of model
+   */
+  getDataExternal () {
+    return this._applyFilter(this.constructor.convertToExternal, this.getData())
+  }
+
+  _applyFilter (filter, data0) {
+    let data = _.isObject(data0) ? _.assign({}, _.cloneDeep(data0)) : data0
+
+    data = filter(data, this)
+
+    if (!data) {
+      throw new ServerError('Invalid filter, did not return data: ' + filter)
+    }
+    return data
+  }
+
+  /**
+   * Filter any data incoming from the outside world.
+   *
+   * You can override this method to add data mutations anytime external
+   * data is passed in. This can include format conversions, sanitization and
+   * the like.
+   *
+   * The data passed in is cloned, so feel free to modify the data object.
+   *
+   * You must return the data object, or you will trigger an error.
+   *
+   * @param {Object} data External data
+   * @return {Object} Internal data
+   */
+  static convertFromExternal (data) {
+    return data
+  }
+
+  /**
+   * Filter any data being sent to the outside world.
+   *
+   * You can override this method to add filtering behavior anytime data is
+   * passed to the outside. This can include format conversions, converting
+   * local IDs to URIs and the like.
+   *
+   * The data passed to this method is cloned, so feel free to modify the data
+   * object.
+   *
+   * filterInput(filterOutput(data)) should be idempotent although it may
+   * normalize the data.
+   *
+   * You must return the data object, or you will trigger an error.
+   *
+   * @param {Object} data Internal data
+   * @return {Object} External data
+   */
+  static convertToExternal (data) {
+    return data
+  }
+
+  /**
+   * Validate incoming external data.
+   *
+   * Models may override this method to validate external data against a
+   * schema.
+   *
+   * @param {object} data Data to be validated
+   * @return {ValidationResult} Result of the validation
+   */
+  static validateExternal (data) {
+    return {
+      valid: true,
+      errors: []
+    }
+  }
+
+  /**
+   * Generate a middleware that creates an instance from the request body.
+   *
+   * This method returns a middleware which will read the request body, parse
+   * it, validate it (if the model has set a schema) and create an instace of
+   * the model with that data.
+   *
+   * The resulting model will be added to the Koa context as `this.body`.
+   *
+   * @return {bodyParserMiddleware} Middleware for parsing model out of JSON body
+   */
+  static createBodyParser () {
+    const Self = this
+
+    return function * (next) {
+      let json = yield parseBody(this)
+      const validationResult = Self.validateExternal(json)
+      if (validationResult.valid !== true) {
+        const message = validationResult.schema
+          ? 'Body did not match schema ' + validationResult.schema
+          : 'Body did not pass validation'
+        throw new InvalidBodyError(message, validationResult.errors)
+      }
+
+      const model = new Self()
+      model.setDataExternal(json)
+      this.body = model
+
+      yield next
+    }
+  }
+}
+
+module.exports = Model
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu May 26 2016 18:40:52 GMT-0700 (PDT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
