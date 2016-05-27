@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>config.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200,600,700|Droid+Sans+Mono|Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="assets/favicon-new.ico" rel="icon" type="image/x-icon">
+     <!-- Bootstrap core CSS -->
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link type="text/css" rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img class="logo" alt="interledger" src="assets/ilp_icon.png"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/overview.html">Docs</a></li>
+        <li><a href="/community.html">Community</a></li>
+        <li><a href="/news.html">News</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+            <label class="onoffswitch-label" for="myonoffswitch"></label>
+          </div>
+        </li>
+        <li><a target="_blank" href="https://github.com/interledger">Github</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container main-wrapper">
+<nav class="col-sm-4 hidden-xs sidebar-wrapper">
+    <div id="sidebar" class="sidebar">
+        <div class="overview-back"><a href="/overview.html"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to Overview</a></div>
+        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+    </div>
+</nav>
+
+<div id="main" class="col-sm-8 col-xs-12">
+    
+    <h1 class="page-title">config.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+
+const crypto = require('crypto')
+const url = require('url')
+const tweetnacl = require('tweetnacl')
+const _ = require('lodash')
+const fs = require('fs')
+const ServerError = require('../errors/server-error')
+
+function isRunningTests () {
+  return process.argv[0].endsWith('mocha') ||
+    (process.argv.length > 1 &amp;&amp; process.argv[0].endsWith('node') &amp;&amp;
+     process.argv[1].endsWith('mocha'))
+}
+
+function useTestConfig () {
+  return !castBool(process.env.UNIT_TEST_OVERRIDE) &amp;&amp; isRunningTests()
+}
+
+function removeUndefined (obj) {
+  return _.omitBy(obj, _.isUndefined)
+}
+
+function removeEmpty (obj) {
+  return _.omitBy(obj, _.isEmpty)
+}
+
+function ensureLeadingSlash (path) {
+  return path.length &amp;&amp; path[0] !== '/' ? '/' + path : path
+}
+
+/**
+ * Parse a boolean config variable.
+ *
+ * Environment variables are passed in as strings, but this function can turn
+ * values like `undefined`, `''`, `'0'` and `'false'` into `false`.
+ *
+ * If a default value is provided, `undefined` and `''` will return the
+ * default value.
+ *
+ * Values other than `undefined`, `''`, `'1'`, `'0'`, `'true'`, and `'false'` will throw.
+ *
+ * @param {String} value Config value
+ * @param {Boolean} defaultValue Value to be returned for undefined or empty inputs
+ * @param {Boolean} Same config value intelligently cast to bool
+ */
+function castBool (value, defaultValue) {
+  value = value &amp;&amp; value.trim()
+  if (value === undefined || value === '') return Boolean(defaultValue)
+  if (value === 'true' || value === '1') return true
+  if (value === 'false' || value === '0') return false
+  throw new ServerError('castBool unexpected value: ' + value)
+}
+
+/**
+ * Get a config value from the environment.
+ *
+ * Applies the config prefix defined in the constructor.
+ *
+ *
+ * @param {String} prefix prefix
+ * @param {String} name Config key (will be prefixed)
+ * @return {String} Config value or undefined
+ *
+ * getEnv('example', 'my_setting') === process.env.EXAMPLE_MY_SETTING
+ */
+function getEnv (prefix, name) {
+  let envVar
+  if (name &amp;&amp; prefix) envVar = `${prefix}_${name}`
+  else if (name &amp;&amp; !prefix) envVar = name
+  else if (!name &amp;&amp; prefix) envVar = prefix
+  else throw new ServerError('Invalid environment variable')
+
+  return process.env[envVar.toUpperCase().replace(/-/g, '_')]
+}
+
+/**
+ * Parse the server configuration settings from the environment.
+ */
+function parseServerConfig (prefix) {
+  const secure = castBool(getEnv(prefix, 'USE_HTTPS'))
+  const bindIp = getEnv(prefix, 'BIND_IP') || '0.0.0.0'
+
+  let port = parseInt(getEnv(prefix, 'PORT'), 10) || 3000
+  const publicSecure = castBool(getEnv(prefix, 'PUBLIC_HTTPS'), secure)
+  let publicHost = getEnv(prefix, 'HOSTNAME') || require('os').hostname()
+  let publicPort = parseInt(getEnv(prefix, 'PUBLIC_PORT'), 10) || port
+  const publicPath = ensureLeadingSlash(getEnv(prefix, 'PUBLIC_PATH') || '')
+
+  if (useTestConfig()) {
+    publicHost = 'localhost'
+    port = 61337
+    publicPort = 80
+  }
+
+  // Depends on previously defined config values
+  const isCustomPort = publicSecure
+    ? +publicPort !== 443
+    : +publicPort !== 80
+
+  const baseHost = publicHost + (isCustomPort ? ':' + publicPort : '')
+  const baseUri = url.format({
+    protocol: 'http' + (publicSecure ? 's' : ''),
+    host: baseHost,
+    pathname: publicPath
+  })
+
+  return {
+    secure,
+    bind_ip: bindIp,
+    port,
+    public_secure: publicSecure,
+    public_host: publicHost,
+    public_port: publicPort,
+    public_path: publicPath,
+    base_host: baseHost,
+    base_uri: baseUri
+  }
+}
+
+function parseTLSEnv (prefix) {
+  const key = getEnv(prefix, 'TLS_KEY')
+  const cert = getEnv(prefix, 'TLS_CERTIFICATE')
+  const crl = getEnv(prefix, 'TLS_CRL')
+  const ca = getEnv(prefix, 'TLS_CA')
+
+  return removeUndefined({key, cert, crl, ca})
+}
+
+function parseTLSConfig (prefix) {
+  const tlsEnvConfig = parseTLSEnv(prefix)
+  const useTLS = !_.isEmpty(tlsEnvConfig)
+  if (useTLS) {
+    return _.mapValues(tlsEnvConfig, (file) => fs.readFileSync(file))
+  }
+  return {}
+}
+
+/*
+ * Parse the database configuration settings from the environment.
+ */
+function parseDatabaseConfig (prefix) {
+  // Database URI
+  let uri = getEnv(prefix, 'DB_URI')
+
+  if (useTestConfig()) {
+    // We use a different config parameter for unit tests, because typically one
+    // wouldn't want to use their production or even dev databases for unit tests
+    // and it'd be far to easy to do that accidentally by running npm test.
+    uri = getEnv(prefix, 'UNIT_DB_URI') || 'sqlite://'
+  }
+
+  // Synchronize schema when the application starts
+  // When using SQLite in-memory database, default to sync enabled
+  const sync = castBool(getEnv(prefix, 'DB_SYNC'), uri === 'sqlite://')
+
+  // Knex
+  const knexEnv = getEnv(prefix, 'DB_KNEX_ENV') || 'development'
+
+  // User for connecting to DB
+  const connectionUser = getEnv(prefix, 'DB_CONNECTION_USER')
+  const connectionPassword = getEnv(prefix, 'DB_CONNECTION_PASSWORD')
+
+  return removeUndefined({
+    uri,
+    sync,
+    knex_env: knexEnv,
+    connection_user: connectionUser,
+    connection_password: connectionPassword
+  })
+}
+
+function parseED25519 (prefix) {
+  const ed25519 = {
+    secret: getEnv(prefix, 'ED25519_SECRET_KEY'),
+    public: getEnv(prefix, 'ED25519_PUBLIC_KEY')
+  }
+
+  let keyPair
+  if (!ed25519.secret) {
+    if (process.env.NODE_ENV === 'production') {
+      throw new ServerError('No ' + (prefix ? prefix.toUpperCase() + '_' : '') +
+        'ED25519_SECRET_KEY provided.')
+    }
+    const seed = crypto.randomBytes(32)
+    keyPair = tweetnacl.sign.keyPair.fromSeed(seed)
+    ed25519.secret = seed.toString('base64')
+  }
+
+  if (!ed25519.public) {
+    if (!keyPair) {
+      keyPair = tweetnacl.sign.keyPair.fromSeed(
+        new Buffer(ed25519.secret, 'base64'))
+    }
+    ed25519.public = new Buffer(keyPair.publicKey).toString('base64')
+  }
+
+  return ed25519
+}
+
+/**
+ * Parse keypair configuration from the environment
+ */
+function parseKeyConfig (prefix, options) {
+  return removeUndefined({
+    ed25519: options.ed25519 !== false ? parseED25519(prefix) : undefined
+  })
+}
+
+function parseAuthConfig (prefix) {
+  return {
+    basic_enabled: castBool(getEnv(prefix, 'AUTH_BASIC_ENABLED'), true),
+    http_signature_enabled: castBool(getEnv(prefix, 'AUTH_HTTP_SIGNATURE_ENABLED'), true),
+    client_certificates_enabled: castBool(getEnv(prefix, 'AUTH_CLIENT_CERT_ENABLED'), false)
+  }
+}
+
+function validateEnvConfig (prefix) {
+  const authConfig = parseAuthConfig(prefix)
+  const secureOrClientCertEnabled = castBool(getEnv(prefix, 'USE_HTTPS')) ||
+    authConfig.client_certificates_enabled
+
+  const tls = parseTLSEnv(prefix)
+  if (secureOrClientCertEnabled &amp;&amp; (tls.key === undefined || tls.cert === undefined)) {
+    const _prefix = prefix ? prefix + '_' : ''
+    throw new ServerError(
+        `Missing ${_prefix}TLS_KEY or ${_prefix}TLS_CERTIFICATE`)
+  }
+
+  try {
+    _.forEach(tls, (file) => fs.accessSync(file, fs.R_OK))
+  } catch (e) {
+    throw new ServerError(`Failed to read TLS config: ${e.message}`)
+  }
+}
+
+function deepFreeze (o) {
+  Object.freeze(o)
+
+  Object.getOwnPropertyNames(o).forEach(function (prop) {
+    if (o[prop] &amp;&amp;
+        (o[prop].constructor === Object ||
+         o[prop].constructor === Array ||
+         typeof o[prop] === 'function') &amp;&amp;
+        !Object.isFrozen(o[prop])) {
+      deepFreeze(o[prop])
+    }
+  })
+
+  return o
+}
+
+const configProto = {}
+
+/**
+ * @this {Object} The config object
+ * @param {String} propertyPath - The config property path. Follows lodash.get
+ *   syntax https://lodash.com/docs#get
+ * @param {any} [defaultValue] - A default value to return if config value is undefined
+ * @returns {any} - The config value at the specified path
+ *
+ */
+configProto.get = function get (propertyPath, defaultValue) {
+  return _.get(this, propertyPath, defaultValue)
+}
+configProto.getIn = function getIn (propertyList, defaultValue) {
+  return _.get(this, propertyList, defaultValue)
+}
+
+/**
+ * @param {String} prefix Prefix to apply to all env variable names. Should be
+ *   in lowercase with dashes as separators. Will automatically be converted
+ *   to uppercase with underscores or other formats as necessary.
+ *
+ * @param {Object} [localConfig]
+ * @param {Object} [options]
+ * @param {Boolean} [options.ed25519] - 'false' if config should not parse ed25519 keypair
+ * @returns {Object} - Frozen Config
+ *
+ * @example
+ *   const config = loadConfig('prefix', localConfig)
+ *   config.toJS()
+ *   => { foo: {bar: 'baz'} }
+ *
+ *   config.getIn(['foo', 'bar'])
+ *   => 'baz'
+ *
+ *   config.get('foo').toJS()
+ *   => {bar: 'baz'}
+ *
+ */
+function loadConfig (prefix, localConfig, options) {
+  const _options = options || {}
+
+  validateEnvConfig(prefix)
+  const server = parseServerConfig(prefix)
+  const db = parseDatabaseConfig(prefix)
+  const keys = parseKeyConfig(prefix, _options)
+  const auth = parseAuthConfig(prefix)
+  const tls = parseTLSConfig(prefix)
+
+  const commonConfig = removeEmpty({server, db, keys, auth, tls})
+  const completeConfig = Object.assign(Object.create(configProto), _.merge(commonConfig, localConfig || {}))
+
+  if (!useTestConfig()) {
+    deepFreeze(completeConfig)
+  }
+  return completeConfig
+}
+
+module.exports = {
+  getEnv,
+  loadConfig,
+  castBool
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+</div>
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu May 26 2016 18:50:46 GMT-0700 (PDT)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/custom.js"></script>
+</body>
+</html>

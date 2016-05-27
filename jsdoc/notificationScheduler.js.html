@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>notificationScheduler.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200,600,700|Droid+Sans+Mono|Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="assets/favicon-new.ico" rel="icon" type="image/x-icon">
+     <!-- Bootstrap core CSS -->
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link type="text/css" rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img class="logo" alt="interledger" src="assets/ilp_icon.png"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/overview.html">Docs</a></li>
+        <li><a href="/community.html">Community</a></li>
+        <li><a href="/news.html">News</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+            <label class="onoffswitch-label" for="myonoffswitch"></label>
+          </div>
+        </li>
+        <li><a target="_blank" href="https://github.com/interledger">Github</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container main-wrapper">
+<nav class="col-sm-4 hidden-xs sidebar-wrapper">
+    <div id="sidebar" class="sidebar">
+        <div class="overview-back"><a href="/overview.html"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to Overview</a></div>
+        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+    </div>
+</nav>
+
+<div id="main" class="col-sm-8 col-xs-12">
+    
+    <h1 class="page-title">notificationScheduler.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict'
+const co = require('co')
+const defer = require('co-defer')
+const MAX_32INT = 2147483647
+
+/**
+ * Callback to process a notification.
+ * @callback processNotification
+ * @param {Object} notification
+ * @return {Promise}
+ */
+
+/**
+ * @param {Object} options
+ * @param {Class} options.Notification
+ * @param {Object} options.knex
+ * @param {Logger} options.log
+ * @param {processNotification} options.processNotification
+ */
+function NotificationScheduler (options) {
+  this.Notification = options.Notification
+  this.knex = options.knex
+  this.log = options.log
+  this.processNotification = options.processNotification
+  this._timeout = null
+}
+
+NotificationScheduler.prototype.isEnabled = function () { return !!this._timeout }
+
+NotificationScheduler.prototype.start = function () {
+  if (this._timeout) return
+  this._timeout = defer.setTimeout(this.processQueue.bind(this), 0)
+}
+
+NotificationScheduler.prototype.stop = function () {
+  if (!this._timeout) return
+  clearTimeout(this._timeout)
+  this._timeout = null
+}
+
+// Be sure to call this to schedule any retries, otherwise they will never be executed.
+NotificationScheduler.prototype.scheduleProcessing = co.wrap(function * () {
+  if (!this._timeout) return
+  clearTimeout(this._timeout)
+  const timeToEarliestNotification = yield this._getTimeToEarliestNotification()
+  if (!timeToEarliestNotification) return
+
+  this._timeout = defer.setTimeout(
+    this.processQueue.bind(this),
+    timeToEarliestNotification)
+})
+
+NotificationScheduler.prototype.retryNotification = function (notification) {
+  const retries = notification.retry_count = (notification.retry_count || 0) + 1
+  // Exponential backoff
+  const delay = Math.pow(2, retries)
+  // If delay becomes really long (over 1 week), give up.
+  if (delay >= 60 * 60 * 24 * 7) {
+    this.log.debug('Give up on notification ' + notification.id)
+    return notification.destroy()
+  }
+  // Add random jitter
+  notification.retry_at = new Date(Date.now() + Math.round(1000 * delay * (0.8 + Math.random() * 0.4)))
+  this.log.debug('Notification ' + notification.id + ' new retry_count: ' + notification.retry_count + ', new retry_at: ' + notification.retry_at)
+  return notification.save()
+}
+
+NotificationScheduler.prototype.processQueue = function * () {
+  const notifications = yield this._getReadyNotifications()
+  this.log.debug('processing ' + notifications.length + ' notifications')
+  yield notifications.map(this.processNotification.bind(this))
+  yield this.scheduleProcessing()
+}
+
+NotificationScheduler.prototype._getReadyNotifications = function () {
+  // Fetch notifications that are ready to be retries. The 100ms padding
+  // reduces the number of queries made by fetching clusters of notifications.
+  return this.knex(this.Notification.tableName)
+    .select()
+    .where('retry_at', null)
+    .orWhere('retry_at', '&lt;', new Date(Date.now() + 100))
+    .then()
+}
+
+NotificationScheduler.prototype._getEarliestNotification = function () {
+  return this.knex(this.Notification.tableName)
+    .select()
+    .whereNot('retry_at', null)
+    .orderBy('retry_at', 'ASC')
+    .limit(1)
+    .then(getFirstRecord)
+}
+
+function getFirstRecord (results) { return results &amp;&amp; results[0] }
+
+NotificationScheduler.prototype._getTimeToEarliestNotification = function * () {
+  // Get Date.now() for the diff _before_ calling _getEarliestNotification()
+  // to ensure that the diff is >=0.
+  const now = Date.now()
+  const earliestNotification = yield this._getEarliestNotification()
+  const retryAt = earliestNotification &amp;&amp; earliestNotification.retry_at
+  if (!retryAt) return
+  return Math.min(retryAt - now, MAX_32INT)
+}
+
+module.exports = NotificationScheduler
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+</div>
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu May 26 2016 18:50:46 GMT-0700 (PDT)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/custom.js"></script>
+</body>
+</html>
