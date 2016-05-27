@@ -34,9 +34,9 @@ p, ul, ol, blockquote {
   margin-bottom: 1em;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/*h1, h2, h3, h4, h5, h6 {
   font-family: 'Montserrat', sans-serif;
-}
+}*/
 
 h1, h2, h3, h4, h5, h6 {
   color: #000;
@@ -52,7 +52,7 @@ h1 {
 
 h1.page-title {
   font-size: 48px;
-  margin: 1em 30px;
+  padding-top: 9px;
 }
 
 h2 {
@@ -102,11 +102,11 @@ tt, code, kbd, samp {
   margin: 0
 }
 
-#main {
+/*#main {
   float: right;
   min-width: 360px;
   width: calc(100% - 250px);
-}
+}*/
 
 header {
   display: block
@@ -129,7 +129,7 @@ section {
   font-weight: lighter;
 }
 
-nav {
+/*nav {
   float: left;
   display: block;
   width: 250px;
@@ -137,7 +137,7 @@ nav {
   overflow: auto;
   position: fixed;
   height: 100%;
-}
+}*/
 
 nav h3 {
   margin-top: 12px;
@@ -152,7 +152,7 @@ nav h3 {
 }
 
 nav ul {
-  font-family: 'Lucida Grande', 'Lucida Sans Unicode', arial, sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: 100%;
   line-height: 17px;
   padding: 0;
@@ -162,7 +162,7 @@ nav ul {
 
 nav ul a,
 nav ul a:active {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   line-height: 18px;
   padding: 0;
   display: block;
@@ -189,12 +189,12 @@ nav ul ul {
 
 nav ul ul a {
   color: hsl(207, 1%, 60%);
-  border-left: 1px solid hsl(207, 10%, 86%);
+ /* border-left: 1px solid hsl(207, 10%, 86%);*/
 }
 
 nav ul ul a,
 nav ul ul a:active {
-  padding-left: 20px
+ /* padding-left: 20px*/
 }
 
 nav h2 {
@@ -210,6 +210,7 @@ nav > h2 > a {
 }
 
 footer {
+  float: right;
   color: hsl(0, 0%, 28%);
   margin-left: 250px;
   display: block;
@@ -219,7 +220,7 @@ footer {
 }
 
 .ancestors {
-  color: #999
+  color: #999;
 }
 
 .ancestors a {
@@ -237,15 +238,16 @@ footer {
 }
 
 .yes-def {
-  text-indent: -1000px
+  text-indent: -1000px;
 }
 
 .type-signature {
-  color: #aaa
+  color: #aaa;
+  font-weight: 400;
 }
 
 .name, .signature {
-  font-family: Consolas, Monaco, 'Andale Mono', monospace
+  font-family: 'Droid Sans Mono', Menlo, Monaco,Consolas, "Courier New", monospace;
 }
 
 .details {
@@ -297,9 +299,7 @@ footer {
 
 .prettyprint {
   font-size: 13px;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.05);
+  border-radius: 2px;
   overflow: auto;
 }
 
@@ -309,10 +309,10 @@ footer {
 
 .prettyprint code {
   font-size: 100%;
-  line-height: 18px;
+  line-height: 17px;
   display: block;
-  margin: 0 30px;
-  background-color: #fff;
+  margin: 0 0;
+ /* background-color: #fff;*/
   color: #4D4E53;
 }
 
@@ -364,22 +364,22 @@ footer {
   border: 1px solid #ddd;
   border-collapse: collapse;
   border-radius: 3px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   width: 100%;
   font-size: 14px;
 }
 
 .params .name, .props .name, .name code {
    color: #4D4E53;
-   font-family: Consolas, Monaco, 'Andale Mono', monospace;
+   font-family: 'Droid Sans Mono', Menlo, Monaco,Consolas, "Courier New", monospace;
    font-size: 100%;
+   background: transparent;
 }
 
 .params td, .params th, .props td, .props th {
    margin: 0px;
    text-align: left;
    vertical-align: top;
-   padding: 10px;
+   padding: 4px 8px;
    display: table-cell;
 }
 
@@ -408,9 +408,11 @@ footer {
 }
 
 dl.param-type {
-  border-bottom: 1px solid hsl(0, 0%, 87%);
-  margin-bottom: 30px;
-  padding-bottom: 30px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  padding-top: 10px;
+  line-height: 26px
 }
 
 .param-type dt, .param-type dd {

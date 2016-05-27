@@ -12,6 +12,13 @@
     <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
     <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,200,600,700|Droid+Sans+Mono|Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+    <link href="assets/favicon-new.ico" rel="icon" type="image/x-icon">
+     <!-- Bootstrap core CSS -->
+    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link type="text/css" rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
@@ -21,12 +28,44 @@
 </label>
 
 <label for="nav-trigger" class="overlay"></label>
-
-<nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/"><img class="logo" alt="interledger" src="assets/ilp_icon.png"/></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="/overview.html">Docs</a></li>
+        <li><a href="/community.html">Community</a></li>
+        <li><a href="/news.html">News</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <div class="onoffswitch">
+            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch">
+            <label class="onoffswitch-label" for="myonoffswitch"></label>
+          </div>
+        </li>
+        <li><a target="_blank" href="https://github.com/interledger">Github</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container main-wrapper">
+<nav class="col-sm-4 hidden-xs sidebar-wrapper">
+    <div id="sidebar" class="sidebar">
+        <div class="overview-back"><a href="/overview.html"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to Overview</a></div>
+        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+    </div>
 </nav>
 
-<div id="main">
+<div id="main" class="col-sm-8 col-xs-12">
     
 
     
@@ -96,14 +135,17 @@ JSONSigning.verify (json, cryptoType, publicKey)
 
 
 </div>
-
+</div>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu May 26 2016 18:40:52 GMT-0700 (PDT) using the Minami theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu May 26 2016 18:43:13 GMT-0700 (PDT)
 </footer>
 
 <script>prettyPrint();</script>
 <script src="scripts/linenumber.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<script src="scripts/custom.js"></script>
 </body>
 </html>
