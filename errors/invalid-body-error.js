@@ -11,7 +11,15 @@ class InvalidBodyError extends BaseError {
   debugPrint (log, validationError, indent) {
     indent = indent || ''
     log.debug(indent + '-- ' + validationError)
-    log.debug(indent + '   ' + validationError.schemaPath)
+
+    // For additionalProperties errors we want to show the name of the property
+    // that violated the constraint.
+    if (validationError.code === 303) {
+      log.debug(indent + '   ' + validationError.dataPath)
+    } else {
+      log.debug(indent + '   ' + validationError.schemaPath)
+    }
+
     if (validationError.subErrors) {
       validationError.subErrors.forEach((subError) => {
         this.debugPrint(log, subError, '  ' + indent)
