@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "IlpHeader",
+  "description": "Header denoting the packet's final destination",
+  "type": "object",
+  "properties": {
+    "ledger": {
+      "description": "The ledger where the transfer will take place",
+      "$ref": "Iri.json"
+    },
+    "account": {
+      "description": "Account holding the funds",
+      "$ref": "Iri.json"
+    },
+    "amount": {
+      "description": "Amount as decimal",
+      "$ref": "Amount.json"
+    },
+    "data": {
+      "description": "User-specified memo, will be the memo of the final transfer",
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}
