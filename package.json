@@ -13,7 +13,8 @@
     "test": "istanbul test -- _mocha",
     "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* && cp -r docs jsdoc-out",
     "bump": "./bin/bump.sh",
-    "ci-publish": "./bin/ci-publish.sh"
+    "ci-publish": "./bin/ci-publish.sh",
+    "report-coverage": "codecov"
   },
   "bin": {
     "version-bump": "./bin/bump.sh",
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "chai": "^3.2.0",
+    "codecov": "^1.0.1",
     "eslint": "^2.0.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-plugin-promise": "^1.1.0",

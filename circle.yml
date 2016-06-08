@@ -8,6 +8,8 @@ test:
     - npm run lint
     - npm test
     - npm run jsdoc
+  post:
+    - npm run report-coverage
 deployment:
   production:
     branch: master
