@@ -9,13 +9,21 @@ test:
     - npm test --coverage
     - npm run jsdoc
   post:
+    # Upload test coverage data
     - npm run report-coverage
 deployment:
   production:
     branch: master
     commands:
+      # Publish NPM package (if newer)
       - mv npmrc-env .npmrc
       - if [ -z "$(npm info $(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " ") 2>/dev/null)" ] ; then npm publish ; fi
+      # Necessary git config to run website deployment on CircleCI
+      - git config --global user.email "info@circleci.com"
+      - git config --global user.name "CircleCI"
+      - git config --global push.default simple
+      # Publish docs to website
+      - node scripts/publish_web.js
 general:
   artifacts:
     - "coverage/lcov-report"
