@@ -61,7 +61,7 @@
 <nav class="col-sm-4 hidden-xs sidebar-wrapper">
     <div id="sidebar" class="sidebar">
         <div class="overview-back"><a href="/overview.html"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to Overview</a></div>
-        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li><li data-type='method'><a href="Validator.html#validateBody">validateBody</a></li><li data-type='method'><a href="Validator.html#validateUriParameter">validateUriParameter</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
     </div>
 </nav>
 
@@ -79,9 +79,14 @@
         <article>
             <pre class="prettyprint source linenums"><code>'use strict'
 
+const co = require('co')
 const fs = require('fs')
 const path = require('path')
+const parse = require('co-body')
 const ServerError = require('../errors/server-error')
+const InvalidBodyError = require('../errors/invalid-body-error')
+const InvalidUriParameterError =
+  require('../errors/invalid-uri-parameter-error')
 
 const tv4 = require('tv4')
 const formats = require('tv4-formats')
@@ -157,6 +162,51 @@ class Validator {
       return result
     }
   }
+
+  /**
+   * Validate path parameter.
+   *
+   * @param {String} paramId Name of URL parameter.
+   * @param {String} paramValue Value of URL parameter.
+   * @param {String} schema Name of JSON schema.
+   *
+   * @returns {void}
+   */
+  validateUriParameter (paramId, paramValue, schema) {
+    const validationResult = this.tv4.validateMultiple(paramValue, schema + '.json')
+    if (!validationResult.valid) {
+      throw new InvalidUriParameterError(paramId + ' is not a valid ' + schema,
+        validationResult.errors)
+    }
+  }
+
+  /**
+   * Parse the request body JSON and optionally validate it against a schema.
+   *
+   * @param {Object} ctx Koa context.
+   * @param {String} schema Name of JSON schema.
+   *
+   * @returns {Promise.&lt;Mixed>} Parsed JSON body
+   */
+  validateBody (ctx, schema) {
+    return co.wrap(this._validateBody).call(this, ctx, schema)
+  }
+
+  * _validateBody (ctx, schema) {
+    const json = yield parse(ctx)
+
+    if (schema) {
+      const validationResult = this.tv4.validateMultiple(json, schema + '.json')
+      if (!validationResult.valid) {
+        throw new InvalidBodyError('JSON request body is not a valid ' + schema,
+          validationResult.errors)
+      }
+      // TODO Might be good to do this for safety:
+      // return validationResult.cleanInstance
+    }
+
+    return json
+  }
 }
 
 module.exports = Validator
@@ -172,7 +222,7 @@ module.exports = Validator
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu May 26 2016 18:50:46 GMT-0700 (PDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu Jun 09 2016 13:56:04 GMT+0000 (UTC)
 </footer>
 
 <script>prettyPrint();</script>
