@@ -45,7 +45,7 @@ syncAndCheckWithRemote() {
 checkChangesSinceCurrentVersion() {
   local currentVersion
   local changes
-  currentVersion=$(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " " | sed 's/.*@//')
+  currentVersion=$(npm view . version)
   changes=$(git --no-pager log v"$currentVersion".. --oneline --reverse)
 
   if [ "$INCREMENT" == "patch" ] || [ "$INCREMENT" == "minor" ]; then
@@ -76,7 +76,7 @@ checkCircleBuildStatus() {
   local status
   local projectName
 
-  projectName=$(npm ls --depth=-1 | head -1 | cut -f 1 -d " " | sed 's/@.*//')
+  projectName=$(npm view . name)
 
   # Example API response
   # [{
