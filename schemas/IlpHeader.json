@@ -6,11 +6,11 @@
   "properties": {
     "ledger": {
       "description": "The ledger where the transfer will take place",
-      "$ref": "Iri.json"
+      "type": "string"
     },
     "account": {
       "description": "Account holding the funds",
-      "$ref": "Iri.json"
+      "type": "string"
     },
     "amount": {
       "description": "Amount as decimal",
