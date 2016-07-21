@@ -16,6 +16,14 @@
       "description": "Amount as decimal",
       "$ref": "Amount.json"
     },
+    "expiresAt": {
+      "description": "Expiry timestamp",
+      "$ref": "Date.json"
+    },
+    "executionCondition": {
+      "description": "Crypto condition triggering execution of the payment",
+      "$ref": "Condition.json"
+    },
     "data": {
       "description": "User-specified memo, will be the memo of the final transfer",
       "type": "object",
