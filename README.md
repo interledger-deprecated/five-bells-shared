@@ -27,13 +27,34 @@ The log service uses [mag](https://github.com/mahnunchik/mag) and a custom forma
 
 ### Usage
 
-``` js
-const log = require('five-bells-shared/services/log')('transfers');
+Set up the logger somewhere in your top-level app:
 
-log.debug('very boring information');
-log.info('somewhat useful information');
-log.warn('sort of important information');
-log.error('super-important information');
+``` js
+const hub = require('mag-hub')
+const mag = require('mag')
+const log = require('five-bells-shared/lib/log')
+
+module.exports = log(mag, hub)
+```
+
+Then use it from anywhere using `require('mag')`:
+
+``` js
+const log = require('mag')('transfers')
+
+log.debug('very boring information')
+log.info('somewhat useful information')
+log.warn('sort of important information')
+log.error('super-important information')
+```
+
+### Caveat
+
+If you're using `mag` in a module which is `npm link`ed, it will receive its own instance of `mag` and messages will not be formatted correctly. To solve this problem, you can install the `mag` module globally and link it in all of your local modules:
+
+``` sh
+sudo npm install -g mag
+npm link mag # in each module directory
 ```
 
 ## Log Test Helper
