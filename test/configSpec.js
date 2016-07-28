@@ -160,6 +160,44 @@ describe('Config', () => {
       expect(() => Config.loadConfig()).to.throw(ServerError)
     })
 
+    it('PUBLIC_URI', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_URI = 'https://example.com:1234/ledger/path/'
+      const _config = Config.loadConfig()
+      expect(_config.getIn(['server', 'public_secure'])).to.equal(true)
+      expect(_config.getIn(['server', 'public_host'])).to.equal('example.com')
+      expect(_config.getIn(['server', 'public_port'])).to.equal(1234)
+      expect(_config.getIn(['server', 'public_path'])).to.equal('/ledger/path/')
+      expect(_config.getIn(['server', 'base_uri'])).to.equal(
+        'https://example.com:1234/ledger/path/')
+    })
+
+    it('PUBLIC_URI - no port or path', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_URI = 'http://www.example.com'
+      const _config = Config.loadConfig()
+      expect(_config.getIn(['server', 'public_secure'])).to.equal(false)
+      expect(_config.getIn(['server', 'public_host']))
+        .to.equal('www.example.com')
+      expect(_config.getIn(['server', 'public_port'])).to.equal(80)
+      expect(_config.getIn(['server', 'public_path'])).to.equal('/')
+      expect(_config.getIn(['server', 'base_uri'])).to.equal(
+        'http://www.example.com/')
+    })
+
+    it('PUBLIC_URI - https without explicit port', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_URI = 'https://www.example.com/path'
+      const _config = Config.loadConfig()
+      expect(_config.getIn(['server', 'public_secure'])).to.equal(true)
+      expect(_config.getIn(['server', 'public_host']))
+        .to.equal('www.example.com')
+      expect(_config.getIn(['server', 'public_port'])).to.equal(443)
+      expect(_config.getIn(['server', 'public_path'])).to.equal('/path')
+      expect(_config.getIn(['server', 'base_uri'])).to.equal(
+        'https://www.example.com/path')
+    })
+
     it('PUBLIC_HTTPS=true', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.PUBLIC_HTTPS = 'true'
