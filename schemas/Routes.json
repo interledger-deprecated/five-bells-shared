@@ -6,8 +6,8 @@
   "items": {
     "type": "object",
     "properties": {
-      "source_ledger": {"$ref": "Iri.json"},
-      "destination_ledger": {"$ref": "Iri.json"},
+      "source_ledger": {"$ref": "IlpAddress.json"},
+      "destination_ledger": {"$ref": "IlpAddress.json"},
       "connector": {
         "$ref": "Iri.json",
         "description": "the first hop of this route"
@@ -18,11 +18,11 @@
         "description": "the minimum difference (in seconds) between the source and destination transfers' expiries"
       },
       "source_account": {
-        "$ref": "Iri.json",
+        "$ref": "IlpAddress.json",
         "description": "the connector's account on source_ledger"
       },
       "destination_account": {
-        "$ref": "Iri.json",
+        "$ref": "IlpAddress.json",
         "description": "the connector's account on destination_ledger; (this property is only for local routes)"
       },
       "points": {

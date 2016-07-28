@@ -4,13 +4,9 @@
   "description": "Header denoting the packet's final destination",
   "type": "object",
   "properties": {
-    "ledger": {
-      "description": "The ledger where the transfer will take place",
-      "$ref": "Iri.json"
-    },
     "account": {
       "description": "Account holding the funds",
-      "$ref": "Iri.json"
+      "$ref": "IlpAddress.json"
     },
     "amount": {
       "description": "Amount as decimal",
