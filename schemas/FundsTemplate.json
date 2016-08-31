@@ -26,6 +26,14 @@
     "authorized": {
       "description": "Indicates whether the debits or credits have been authorized by the required account holder",
       "type": "boolean"
+    },
+    "rejected": {
+      "description": "Indicates whether the credit has been rejected by the required account holder",
+      "type": "boolean"
+    },
+    "rejection_message": {
+      "description": "The reason the credit was rejected",
+      "$ref": "Base64.json"
     }
   },
   "required": ["account", "amount"],
