@@ -53,7 +53,7 @@ module.exports.sign = function (json, cryptoType, prvKey, pubKey) {
 function signECDSA (json, prvKey, pubKey) {
   if (!prvKey) throw new ServerError('Problem reading private key for JSON signing')
   if (!pubKey) throw new ServerError('Problem reading public key for JSON signing')
-  const strJWS = KJUR.jws.JWS.sign('ES256', // eslint-disable-line no-undef
+  const strJWS = rsasign.jws.JWS.sign('ES256', // eslint-disable-line no-undef
                                    JSON.stringify({alg: 'ES256'}),
                                    JSON.stringify(json),
                                    prvKey)
@@ -87,7 +87,7 @@ function signECDSA (json, prvKey, pubKey) {
 function signRSA (json, prvKey) {
   if (!prvKey) throw new ServerError('Problem reading private key for JSON signing')
   const prvKeyObj = parseKey(prvKey)
-  const strJWS = KJUR.jws.JWS.sign(PS256, // eslint-disable-line no-undef
+  const strJWS = rsasign.jws.JWS.sign(PS256, // eslint-disable-line no-undef
                                    JSON.stringify({alg: PS256}),
                                    JSON.stringify(json),
                                    prvKeyObj)
@@ -182,7 +182,7 @@ function verifyECDSA (json, pubKey) {
   }
 
   const jws = makeJWSString(ES256, _.omit(json, 'signature'), json.signature.value)
-  return KJUR.jws.JWS.verify(jws, pubKey) // eslint-disable-line no-undef
+  return rsasign.jws.JWS.verify(jws, pubKey) // eslint-disable-line no-undef
 }
 
 function verifyRSA (json, pubKey) {
@@ -195,7 +195,7 @@ function verifyRSA (json, pubKey) {
   }
 
   const jws = makeJWSString(PS256, _.omit(json, 'signature'), json.signature.value)
-  return KJUR.jws.JWS.verify(jws, pubKeyObj, [PS256]) // eslint-disable-line no-undef
+  return rsasign.jws.JWS.verify(jws, pubKeyObj, [PS256]) // eslint-disable-line no-undef
 }
 
 function verifyCC (json, pubKey) {
