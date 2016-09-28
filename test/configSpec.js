@@ -98,7 +98,7 @@ describe('Config', () => {
       public_secure: false,
       public_host: 'localhost',
       public_port: 80,
-      public_path: '',
+      public_path: '/',
       secure: false
     }
 
@@ -110,7 +110,7 @@ describe('Config', () => {
       public_secure: false,
       public_host: hostname,
       public_port: 3000,
-      public_path: '',
+      public_path: '/',
       secure: false,
       port: 3000
     }
@@ -167,9 +167,21 @@ describe('Config', () => {
       expect(_config.getIn(['server', 'public_secure'])).to.equal(true)
       expect(_config.getIn(['server', 'public_host'])).to.equal('example.com')
       expect(_config.getIn(['server', 'public_port'])).to.equal(1234)
-      expect(_config.getIn(['server', 'public_path'])).to.equal('/ledger/path/')
+      expect(_config.getIn(['server', 'public_path'])).to.equal('/ledger/path')
       expect(_config.getIn(['server', 'base_uri'])).to.equal(
-        'https://example.com:1234/ledger/path/')
+        'https://example.com:1234/ledger/path')
+    })
+
+    it('PUBLIC_URI - no trailing slash', () => {
+      process.env.UNIT_TEST_OVERRIDE = 'true'
+      process.env.PUBLIC_URI = 'https://example.com:1234/ledger/path'
+      const _config = Config.loadConfig()
+      expect(_config.getIn(['server', 'public_secure'])).to.equal(true)
+      expect(_config.getIn(['server', 'public_host'])).to.equal('example.com')
+      expect(_config.getIn(['server', 'public_port'])).to.equal(1234)
+      expect(_config.getIn(['server', 'public_path'])).to.equal('/ledger/path')
+      expect(_config.getIn(['server', 'base_uri'])).to.equal(
+        'https://example.com:1234/ledger/path')
     })
 
     it('PUBLIC_URI - no port or path', () => {
@@ -182,7 +194,7 @@ describe('Config', () => {
       expect(_config.getIn(['server', 'public_port'])).to.equal(80)
       expect(_config.getIn(['server', 'public_path'])).to.equal('/')
       expect(_config.getIn(['server', 'base_uri'])).to.equal(
-        'http://www.example.com/')
+        'http://www.example.com')
     })
 
     it('PUBLIC_URI - https without explicit port', () => {
@@ -519,7 +531,7 @@ describe('Config', () => {
         public_secure: false,
         public_host: 'localhost',
         public_port: 80,
-        public_path: '',
+        public_path: '/',
         secure: false
       })
 
