@@ -83,7 +83,17 @@ const crypto = require('crypto')
 const os = require('os')
 const url = require('url')
 const tweetnacl = require('tweetnacl')
-const _ = require('lodash')
+const omitBy = require('lodash/fp/omitBy')
+const isUndefined = require('lodash/isUndefined')
+const isEmpty = require('lodash/isEmpty')
+const get = require('lodash/get')
+const merge = require('lodash/merge')
+const trimCharsEnd = require('lodash/fp/trimCharsEnd')
+const some = require('lodash/fp/some')
+const map = require('lodash/fp/map')
+const forEach = require('lodash/fp/forEach')
+const mapValues = require('lodash/fp/mapValues')
+const startsWith = require('lodash/fp/startsWith')
 const fs = require('fs')
 const ServerError = require('../errors/server-error')
 
@@ -97,17 +107,14 @@ function useTestConfig () {
   return !castBool(process.env.UNIT_TEST_OVERRIDE) &amp;&amp; isRunningTests()
 }
 
-function removeUndefined (obj) {
-  return _.omitBy(obj, _.isUndefined)
-}
-
-function removeEmpty (obj) {
-  return _.omitBy(obj, _.isEmpty)
-}
+const removeUndefined = omitBy(isUndefined)
+const removeEmpty = omitBy(isEmpty)
 
 function ensureLeadingSlash (path) {
-  return path.length &amp;&amp; path[0] !== '/' ? '/' + path : path
+  return path[0] !== '/' ? '/' + path : path
 }
+
+const removeTrailingSlashes = trimCharsEnd('/')
 
 /**
  * Parse a boolean config variable.
@@ -156,9 +163,10 @@ function getEnv (prefix, name) {
 
 function parsePublicURI (prefix, port, secure) {
   const names = ['PUBLIC_HTTPS', 'PUBLIC_PORT', 'PUBLIC_PATH']
-  if (_.some(names, (name) => getEnv(prefix, name))) {
+  if (some((name) => getEnv(prefix, name), names)) {
     const _prefix = prefix ? prefix.toUpperCase() + '_' : ''
-    const vars = _.map(names, (name) => _prefix + name).join(', ')
+    const addPrefix = (name) => _prefix + name
+    const vars = map(addPrefix, names).join(', ')
     console.log('DEPRECATION WARNING: Use ' + _prefix +
       'PUBLIC_URI instead of ' + vars)
   }
@@ -171,14 +179,16 @@ function parsePublicURI (prefix, port, secure) {
       host: parsed.hostname,
       port: parseInt(parsed.port, 10) ||
         (parsed.protocol === 'https:' ? 443 : 80),
-      path: parsed.path
+      path: ensureLeadingSlash(removeTrailingSlashes(parsed.path))
     }
   } else {
     return {
       secure: castBool(getEnv(prefix, 'PUBLIC_HTTPS'), secure),
       host: getEnv(prefix, 'HOSTNAME') || os.hostname(),
       port: parseInt(getEnv(prefix, 'PUBLIC_PORT'), 10) || port,
-      path: ensureLeadingSlash(getEnv(prefix, 'PUBLIC_PATH') || '')
+      path: ensureLeadingSlash(removeTrailingSlashes(
+        getEnv(prefix, 'PUBLIC_PATH') || ''
+      ))
     }
   }
 }
@@ -206,11 +216,11 @@ function parseServerConfig (prefix) {
 
   const baseHost = publicConfig.host +
     (isCustomPort ? ':' + publicConfig.port : '')
-  const baseUri = url.format({
+  const baseUri = removeTrailingSlashes(url.format({
     protocol: 'http' + (publicConfig.secure ? 's' : ''),
     host: baseHost,
     pathname: publicConfig.path
-  })
+  }))
 
   return {
     secure,
@@ -236,9 +246,9 @@ function parseTLSEnv (prefix) {
 
 function parseTLSConfig (prefix) {
   const tlsEnvConfig = parseTLSEnv(prefix)
-  const useTLS = !_.isEmpty(tlsEnvConfig)
+  const useTLS = !isEmpty(tlsEnvConfig)
   if (useTLS) {
-    return _.mapValues(tlsEnvConfig, (file) => fs.readFileSync(file))
+    return mapValues((file) => fs.readFileSync(file), tlsEnvConfig)
   }
   return {}
 }
@@ -259,7 +269,7 @@ function parseDatabaseConfig (prefix) {
 
   // Synchronize schema when the application starts
   // When using SQLite in-memory database, default to sync enabled
-  const sync = castBool(getEnv(prefix, 'DB_SYNC'), _.startsWith(uri, 'sqlite://'))
+  const sync = castBool(getEnv(prefix, 'DB_SYNC'), startsWith('sqlite://', uri))
 
   // User for connecting to DB
   const connectionUser = getEnv(prefix, 'DB_CONNECTION_USER')
@@ -331,7 +341,7 @@ function validateEnvConfig (prefix) {
   }
 
   try {
-    _.forEach(tls, (file) => fs.accessSync(file, fs.R_OK))
+    forEach((file) => fs.accessSync(file, fs.R_OK), tls)
   } catch (e) {
     throw new ServerError(`Failed to read TLS config: ${e.message}`)
   }
@@ -363,11 +373,11 @@ const configProto = {}
  * @returns {any} - The config value at the specified path
  *
  */
-configProto.get = function get (propertyPath, defaultValue) {
-  return _.get(this, propertyPath, defaultValue)
+configProto.get = function (propertyPath, defaultValue) {
+  return get(this, propertyPath, defaultValue)
 }
-configProto.getIn = function getIn (propertyList, defaultValue) {
-  return _.get(this, propertyList, defaultValue)
+configProto.getIn = function (propertyList, defaultValue) {
+  return get(this, propertyList, defaultValue)
 }
 
 /**
@@ -403,7 +413,7 @@ function loadConfig (prefix, localConfig, options) {
   const tls = parseTLSConfig(prefix)
 
   const commonConfig = removeEmpty({server, db, keys, auth, tls})
-  const completeConfig = Object.assign(Object.create(configProto), _.merge(commonConfig, localConfig || {}))
+  const completeConfig = Object.assign(Object.create(configProto), merge(commonConfig, localConfig || {}))
 
   if (!useTestConfig()) {
     deepFreeze(completeConfig)
@@ -428,7 +438,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Tue Sep 20 2016 14:23:04 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Fri Sep 30 2016 09:37:15 GMT+0000 (UTC)
 </footer>
 
 <script>prettyPrint();</script>
