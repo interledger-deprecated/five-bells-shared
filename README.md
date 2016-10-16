@@ -2,10 +2,10 @@
 
 [npm-image]: https://img.shields.io/npm/v/five-bells-shared.svg?style=flat
 [npm-url]: https://npmjs.org/package/five-bells-shared
-[circle-image]: https://circleci.com/gh/interledger/five-bells-shared.svg?style=shield
-[circle-url]: https://circleci.com/gh/interledger/five-bells-shared
-[codecov-image]: https://codecov.io/gh/interledger/five-bells-shared/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/interledger/five-bells-shared
+[circle-image]: https://circleci.com/gh/interledgerjs/five-bells-shared.svg?style=shield
+[circle-url]: https://circleci.com/gh/interledgerjs/five-bells-shared
+[codecov-image]: https://codecov.io/gh/interledgerjs/five-bells-shared/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/interledgerjs/five-bells-shared
 
 > Shared module among Five Bells Node.js apps
 

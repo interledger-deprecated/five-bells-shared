@@ -83,7 +83,7 @@ checkCircleBuildStatus() {
   #   "previous_successful_build": null,
   #   "build_parameters": null,
   #   "reponame": "five-bells-ledger",
-  #   "build_url": "https://circleci.com/gh/interledger/five-bells-ledger/724",
+  #   "build_url": "https://circleci.com/gh/interledgerjs/five-bells-ledger/724",
   #   "failed": null,
   #   "branch": "master",
   #   "username": "interledger",
@@ -104,7 +104,7 @@ checkCircleBuildStatus() {
   #   "no_dependency_cache": null,
   #   "stop_time": null,
   #   "build_time_millis": null,
-  #   "vcs_url": "https://github.com/interledger/five-bells-ledger",
+  #   "vcs_url": "https://github.com/interledgerjs/five-bells-ledger",
   #   "author_email": "alan@ripple.com"
   #    ...
   # }]
