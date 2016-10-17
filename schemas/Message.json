@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Message",
+  "description": "a ledger message",
+  "type": "object",
+  "properties": {
+    "ledger": {
+      "description": "The ledger where the message is to be delivered",
+      "$ref": "Iri.json"
+    },
+    "account": {
+      "description": "The message recipient",
+      "$ref": "Iri.json"
+    },
+    "data": {
+      "description": "The message payload",
+      "type": "object"
+    }
+  },
+  "required": [
+    "ledger",
+    "account",
+    "data"
+  ],
+  "additionalProperties": false
+}
