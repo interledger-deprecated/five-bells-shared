@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
   "title": "Message",
-  "description": "a ledger message",
+  "description": "a five-bells-ledger message",
   "type": "object",
   "properties": {
     "ledger": {
