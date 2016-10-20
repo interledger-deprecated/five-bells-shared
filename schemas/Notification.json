@@ -12,13 +12,16 @@
       "description": "The subscription this notification corresponds to",
       "$ref": "Iri.json"
     },
-    "event": {
+    "type": {
       "description": "Event identifier for the type of event",
       "$ref": "EventId.json"
     },
     "resource": {
-      "description": "Transfer that is the subject of the notification",
-      "$ref": "Transfer.json"
+      "description": "The subject of the notification",
+      "oneOf": [
+        { "$ref": "Transfer.json" },
+        { "$ref": "Message.json" }
+      ]
     },
     "related_resources": {
       "type": "object",
@@ -38,6 +41,6 @@
       "$ref": "NotificationSignature.json"
     }
   },
-  "required": ["id", "event", "resource"],
+  "required": ["id", "type", "resource"],
   "additionalProperties": false
 }

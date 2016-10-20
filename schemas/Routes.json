@@ -8,10 +8,6 @@
     "properties": {
       "source_ledger": {"$ref": "IlpAddress.json"},
       "destination_ledger": {"$ref": "IlpAddress.json"},
-      "connector": {
-        "$ref": "Iri.json",
-        "description": "the first hop of this route"
-      },
       "min_message_window": {
         "type": "number",
         "minimum": 0,
@@ -41,7 +37,6 @@
     "required": [
       "source_ledger",
       "destination_ledger",
-      "connector",
       "min_message_window",
       "source_account",
       "points"
