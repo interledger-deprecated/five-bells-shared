@@ -8,8 +8,16 @@
       "description": "The ledger where the message is to be delivered",
       "$ref": "Iri.json"
     },
-    "account": {
+    "from": {
+      "description": "The message sender",
+      "$ref": "Iri.json"
+    },
+    "to": {
       "description": "The message recipient",
+      "$ref": "Iri.json"
+    },
+    "account": {
+      "description": "The message sender/recipient (depending on whether the message is incoming or outgoing)",
       "$ref": "Iri.json"
     },
     "data": {
@@ -19,7 +27,6 @@
   },
   "required": [
     "ledger",
-    "account",
     "data"
   ],
   "additionalProperties": false
