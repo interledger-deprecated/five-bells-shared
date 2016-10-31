@@ -3,24 +3,46 @@
   "title": "Message",
   "description": "a five-bells-ledger message",
   "type": "object",
-  "properties": {
-    "ledger": {
-      "description": "The ledger where the message is to be delivered",
-      "$ref": "Iri.json"
+  "oneOf": [
+    {
+      "properties": {
+        "ledger": {
+          "description": "The ledger where the message is to be delivered",
+          "$ref": "Iri.json"
+        },
+        "data": {
+          "description": "The message payload",
+          "type": "object"
+        },
+        "from": {
+          "description": "The message sender",
+          "$ref": "Iri.json"
+        },
+        "to": {
+          "description": "The message recipient",
+          "$ref": "Iri.json"
+        }
+      },
+      "required": ["ledger", "data", "from", "to"],
+      "additionalProperties": false
     },
-    "account": {
-      "description": "The message recipient",
-      "$ref": "Iri.json"
-    },
-    "data": {
-      "description": "The message payload",
-      "type": "object"
+    {
+      "properties": {
+        "ledger": {
+          "description": "The ledger where the message is to be delivered",
+          "$ref": "Iri.json"
+        },
+        "data": {
+          "description": "The message payload",
+          "type": "object"
+        },
+        "account": {
+          "description": "The message sender/recipient (depending on whether the message is incoming or outgoing)",
+          "$ref": "Iri.json"
+        }
+      },
+      "required": ["ledger", "data", "account"],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "ledger",
-    "account",
-    "data"
-  ],
-  "additionalProperties": false
+  ]
 }
