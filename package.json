@@ -25,7 +25,7 @@
     "url": "git@github.com:interledgerjs/five-bells-shared.git"
   },
   "author": "Ripple <info@ripple.com>",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/interledgerjs/five-bells-shared/issues"
   },
