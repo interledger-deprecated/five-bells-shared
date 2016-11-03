@@ -21,12 +21,17 @@
         "to": {
           "description": "The message recipient",
           "$ref": "Iri.json"
+        },
+        "account": {
+          "description": "(deprecated) The message sender/recipient (depending on whether the message is incoming or outgoing)",
+          "$ref": "Iri.json"
         }
       },
       "required": ["ledger", "data", "from", "to"],
       "additionalProperties": false
     },
     {
+      "description": "(deprecated; use from/to)",
       "properties": {
         "ledger": {
           "description": "The ledger where the message is to be delivered",
