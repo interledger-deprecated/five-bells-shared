@@ -8,11 +8,7 @@
       "description": "Unique identifier for this notification",
       "$ref": "Iri.json"
     },
-    "subscription": {
-      "description": "The subscription this notification corresponds to",
-      "$ref": "Iri.json"
-    },
-    "type": {
+    "event": {
       "description": "Event identifier for the type of event",
       "$ref": "EventId.json"
     },
@@ -41,6 +37,6 @@
       "$ref": "NotificationSignature.json"
     }
   },
-  "required": ["id", "type", "resource"],
+  "required": ["event", "resource"],
   "additionalProperties": false
 }

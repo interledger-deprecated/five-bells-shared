@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "RpcResponse",
+  "description": "A JSON RPC response",
+  "type": "object",
+  "oneOf": [
+    {
+      "properties": {
+        "jsonrpc": { "enum": ["2.0"] },
+        "id": {
+          "description": "Distinguish responses from other messages",
+          "oneOf": [
+            {"type": "number"},
+            {"type": "string"}
+          ]
+        },
+        "result": { "description": "the method's return value" }
+      },
+      "required": ["jsonrpc", "id", "result"],
+      "additionalProperties": false
+    },
+    {
+      "properties": {
+        "jsonrpc": { "enum": ["2.0"] },
+        "id": {
+          "description": "Distinguish responses from other messages",
+          "oneOf": [
+            {"type": "number"},
+            {"type": "string"}
+          ]
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": { "type": "number", "description": "indicates the error type that occurred" },
+            "message": { "type": "string", "description": "short description of the error" },
+            "data": { "description": "additional information about the error" }
+          },
+          "required": ["code", "message"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["jsonrpc", "id", "error"],
+      "additionalProperties": false
+    }
+  ]
+}
