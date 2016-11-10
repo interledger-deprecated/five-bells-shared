@@ -11,7 +11,8 @@
           "description": "Distinguish responses from other messages",
           "oneOf": [
             {"type": "number"},
-            {"type": "string"}
+            {"type": "string"},
+            {"type": "null"}
           ]
         },
         "result": { "description": "the method's return value" }
