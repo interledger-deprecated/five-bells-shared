@@ -17,7 +17,7 @@
       "$ref": "Amount.json"
     },
     "connector": {
-      "description": "A link to the account holder's API",
+      "description": "DEPRECATED: A link to the account holder's API",
       "$ref": "Iri.json"
     },
     "password": {
