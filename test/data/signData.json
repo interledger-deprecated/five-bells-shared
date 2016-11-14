@@ -1,8 +1,7 @@
 {
   "sampleNotification": {
     "id": "http://localhost/transfers/155dff3f-4915-44df-a707-acc4b527bcbd",
-    "subscription": "c6345f6e-d3c9-440b-8aa0-f0077c0c40f4",
-    "type": "transfer",
+    "event": "transfer.update",
     "resource": {
       "debits": [
         {
@@ -23,8 +22,7 @@
   },
   "expectedSignedNotification": {
     "id": "http://localhost/transfers/155dff3f-4915-44df-a707-acc4b527bcbd",
-    "subscription": "c6345f6e-d3c9-440b-8aa0-f0077c0c40f4",
-    "type": "transfer",
+    "event": "transfer.update",
     "resource": {
       "debits": [
         {
@@ -54,8 +52,7 @@
   },
   "expectedRSASignedNotification": {
     "id": "http://localhost/transfers/155dff3f-4915-44df-a707-acc4b527bcbd",
-    "subscription": "c6345f6e-d3c9-440b-8aa0-f0077c0c40f4",
-    "type": "transfer",
+    "event": "transfer.update",
     "resource": {
       "debits": [
         {

@@ -332,16 +332,6 @@ describe('Config', () => {
       expect(_config.getIn(['keys', 'ed25519'])).to.include.keys('secret', 'public')
     })
 
-    it('ED25519_SECRET_KEY', () => {
-      const secret = 'xreWtZOXBF9VKIStlzFQcQhShnTzxGVX7l5REDr/534='
-      process.env.ED25519_SECRET_KEY = secret
-      const _config = Config.loadConfig()
-      expect(_config.get('keys')).to.include.keys('ed25519')
-      expect(_config.getIn(['keys', 'ed25519'])).to.include.keys('secret', 'public')
-      expect(_config.getIn(['keys', 'ed25519', 'secret'])).to.equal(secret)
-      expect(_config.getIn(['keys', 'ed25519', 'public'])).to.equal('doUky4CUYF8mAQ1v6TOIPf8qC2q52bhBIhIs7ZX9MpA=')
-    })
-
     it('options.ed25519 = false', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       const _config = Config.loadConfig('', {}, {ed25519: false})

@@ -3,5 +3,5 @@
   "title": "EventId",
   "description": "An identifier for a subscription event.",
   "type": "string",
-  "pattern": "^(\\*|[a-z]+)$"
+  "pattern": "^(\\*|[a-z]+\\.(\\*|[a-z]+))$"
 }
