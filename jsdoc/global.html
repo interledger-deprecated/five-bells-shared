@@ -61,7 +61,7 @@
 <nav class="col-sm-4 hidden-xs sidebar-wrapper">
     <div id="sidebar" class="sidebar">
         <div class="overview-back"><a href="/overview.html"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to Overview</a></div>
-        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li><li data-type='method'><a href="Validator.html#validateBody">validateBody</a></li><li data-type='method'><a href="Validator.html#validateUriParameter">validateUriParameter</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li><li data-type='method'><a href="Validator.html#validateBody">validateBody</a></li><li data-type='method'><a href="Validator.html#validateUriParameter">validateUriParameter</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#generateSecret">generateSecret</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
     </div>
 </nav>
 
@@ -305,7 +305,7 @@ default value.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config.js.html">config.js</a>, <a href="config.js.html#line55">line 55</a>
+        <a href="config.js.html">config.js</a>, <a href="config.js.html#line57">line 57</a>
     </li></ul></dd>
     
 
@@ -328,6 +328,178 @@ default value.</p>
 
 
 
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="generateSecret"><span class="type-signature"></span>generateSecret<span class="signature">(prefix, name)</span><span class="type-signature"> &rarr; {Buffer}</span></h4>
+
+    
+
+
+
+<div class="description">
+    <p>Generate a secret based on {prefix}_SECRET.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>prefix</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="config.js.html">config.js</a>, <a href="config.js.html#line94">line 94</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Buffer</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -460,7 +632,7 @@ default value.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config.js.html">config.js</a>, <a href="config.js.html#line75">line 75</a>
+        <a href="config.js.html">config.js</a>, <a href="config.js.html#line77">line 77</a>
     </li></ul></dd>
     
 
@@ -749,7 +921,7 @@ default value.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config.js.html">config.js</a>, <a href="config.js.html#line326">line 326</a>
+        <a href="config.js.html">config.js</a>, <a href="config.js.html#line336">line 336</a>
     </li></ul></dd>
     
 
@@ -1113,7 +1285,7 @@ default value.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config.js.html">config.js</a>, <a href="config.js.html#line238">line 238</a>
+        <a href="config.js.html">config.js</a>, <a href="config.js.html#line248">line 248</a>
     </li></ul></dd>
     
 
@@ -1195,7 +1367,7 @@ default value.</p>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="config.js.html">config.js</a>, <a href="config.js.html#line120">line 120</a>
+        <a href="config.js.html">config.js</a>, <a href="config.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -1688,7 +1860,7 @@ default value.</p>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu Nov 10 2016 13:12:58 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Mon Nov 14 2016 17:54:56 GMT+0000 (UTC)
 </footer>
 
 <script>prettyPrint();</script>

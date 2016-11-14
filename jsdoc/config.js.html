@@ -61,7 +61,7 @@
 <nav class="col-sm-4 hidden-xs sidebar-wrapper">
     <div id="sidebar" class="sidebar">
         <div class="overview-back"><a href="/overview.html"><i class="fa fa-angle-double-left" aria-hidden="true"></i> Back to Overview</a></div>
-        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li><li data-type='method'><a href="Validator.html#validateBody">validateBody</a></li><li data-type='method'><a href="Validator.html#validateUriParameter">validateUriParameter</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
+        <h2><a href="index.html">Five Bells Shared</a></h2><h3>Classes</h3><ul><li><a href="Model.html">Model</a><ul class='methods'><li data-type='method'><a href="Model.html#.convertFromExternal">convertFromExternal</a></li><li data-type='method'><a href="Model.html#.convertToExternal">convertToExternal</a></li><li data-type='method'><a href="Model.html#.createBodyParser">createBodyParser</a></li><li data-type='method'><a href="Model.html#.fromData">fromData</a></li><li data-type='method'><a href="Model.html#.fromDataExternal">fromDataExternal</a></li><li data-type='method'><a href="Model.html#.setData">setData</a></li><li data-type='method'><a href="Model.html#.validateExternal">validateExternal</a></li><li data-type='method'><a href="Model.html#getData">getData</a></li><li data-type='method'><a href="Model.html#getDataExternal">getDataExternal</a></li><li data-type='method'><a href="Model.html#setDataExternal">setDataExternal</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li><li data-type='method'><a href="Model.html#setDataPersistent">setDataPersistent</a></li></ul></li><li><a href="UriManager.html">UriManager</a><ul class='methods'><li data-type='method'><a href="UriManager.html#addResource">addResource</a></li><li data-type='method'><a href="UriManager.html#make">make</a></li><li data-type='method'><a href="UriManager.html#makeWithParams">makeWithParams</a></li><li data-type='method'><a href="UriManager.html#parse">parse</a></li></ul></li><li><a href="Validator.html">Validator</a><ul class='methods'><li data-type='method'><a href="Validator.html#create">create</a></li><li data-type='method'><a href="Validator.html#loadSchemasFromDirectory">loadSchemasFromDirectory</a></li><li data-type='method'><a href="Validator.html#loadSharedSchemas">loadSharedSchemas</a></li><li data-type='method'><a href="Validator.html#validateBody">validateBody</a></li><li data-type='method'><a href="Validator.html#validateUriParameter">validateUriParameter</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#castBool">castBool</a></li><li><a href="global.html#generateSecret">generateSecret</a></li><li><a href="global.html#getEnv">getEnv</a></li><li><a href="global.html#loadConfig">loadConfig</a></li><li><a href="global.html#NotificationScheduler">NotificationScheduler</a></li><li><a href="global.html#parseKeyConfig">parseKeyConfig</a></li><li><a href="global.html#parseServerConfig">parseServerConfig</a></li></ul>
     </div>
 </nav>
 
@@ -96,6 +96,8 @@ const mapValues = require('lodash/fp/mapValues')
 const startsWith = require('lodash/fp/startsWith')
 const fs = require('fs')
 const ServerError = require('../errors/server-error')
+
+const secretNames = {} // { prefix ⇒ { name ⇒ true } }
 
 function isRunningTests () {
   return process.argv[0].endsWith('mocha') ||
@@ -159,6 +161,33 @@ function getEnv (prefix, name) {
   else throw new ServerError('Invalid environment variable')
 
   return process.env[envVar.toUpperCase().replace(/-/g, '_')]
+}
+
+/**
+ * Generate a secret based on {prefix}_SECRET.
+ *
+ * @param {String} prefix
+ * @param {String} name
+ * @returns {Buffer}
+ */
+function generateSecret (prefix, name) {
+  const names = secretNames[prefix] = secretNames[prefix] || {}
+  if (names[name]) throw new Error('Secret "' + name + '" already exists')
+  names[name] = true
+
+  const secret = parseSecret(prefix)
+  return crypto.createHmac('sha256', secret)
+    .update(name)
+    .digest()
+}
+
+function parseSecret (prefix) {
+  const secret = getEnv(prefix, 'SECRET')
+  if (secret) return secret
+  if (process.env.NODE_ENV === 'production') {
+    throw new ServerError('No ' + (prefix ? prefix.toUpperCase() + '_' : '') + 'SECRET provided.')
+  }
+  return crypto.randomBytes(32).toString('base64')
 }
 
 function parsePublicURI (prefix, port, secure) {
@@ -284,31 +313,12 @@ function parseDatabaseConfig (prefix) {
 }
 
 function parseED25519 (prefix) {
-  const ed25519 = {
-    secret: getEnv(prefix, 'ED25519_SECRET_KEY'),
-    public: getEnv(prefix, 'ED25519_PUBLIC_KEY')
+  const seed = generateSecret(prefix, 'ed25519')
+  const keyPair = tweetnacl.sign.keyPair.fromSeed(seed)
+  return {
+    secret: seed.toString('base64'),
+    public: new Buffer(keyPair.publicKey).toString('base64')
   }
-
-  let keyPair
-  if (!ed25519.secret) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new ServerError('No ' + (prefix ? prefix.toUpperCase() + '_' : '') +
-        'ED25519_SECRET_KEY provided.')
-    }
-    const seed = crypto.randomBytes(32)
-    keyPair = tweetnacl.sign.keyPair.fromSeed(seed)
-    ed25519.secret = seed.toString('base64')
-  }
-
-  if (!ed25519.public) {
-    if (!keyPair) {
-      keyPair = tweetnacl.sign.keyPair.fromSeed(
-        new Buffer(ed25519.secret, 'base64'))
-    }
-    ed25519.public = new Buffer(keyPair.publicKey).toString('base64')
-  }
-
-  return ed25519
 }
 
 /**
@@ -403,6 +413,7 @@ configProto.getIn = function (propertyList, defaultValue) {
  *
  */
 function loadConfig (prefix, localConfig, options) {
+  secretNames[prefix] = {}
   const _options = options || {}
 
   validateEnvConfig(prefix)
@@ -423,6 +434,7 @@ function loadConfig (prefix, localConfig, options) {
 
 module.exports = {
   getEnv,
+  generateSecret,
   loadConfig,
   castBool
 }
@@ -438,7 +450,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Thu Nov 10 2016 13:12:58 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.0-dev</a> on Mon Nov 14 2016 17:54:56 GMT+0000 (UTC)
 </footer>
 
 <script>prettyPrint();</script>
