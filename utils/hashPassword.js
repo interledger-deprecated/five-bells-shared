@@ -14,11 +14,11 @@ const crypto = require('crypto')
 // increase this over time. Existing passwords can be refreshed on login by
 // calling hashPassword again.
 //
-// 200 iterations is chosen to take about 5 ms on hardware you might commonly
+// 1024 iterations is chosen to take about 2-5 ms on hardware you might commonly
 // find in a server deployment. Users who need more security or more performance
 // are encouraged to pass a different value via the second parameter in
 // hashPassword.
-const PBKDF2_ITERATIONS = 256
+const PBKDF2_ITERATIONS = 1024
 
 // Number of iterations used during unit tests
 const PBKDF2_ITERATIONS_TEST = 5
@@ -29,14 +29,17 @@ const PBKDF2_ITERATIONS_TEST = 5
 // safe to change without further consideration.
 const PBKDF2_DIGEST = 'sha512'
 
-// Size of the hash algorithm's output in bytes
-const PBKDF2_DIGEST_BYTES = 64
+// Size of the salt
+//
+// 128 bits is enough to ensure that the chance of reusing the same salt is
+// negligible.
+const PBKDF2_SALT_BYTES = 128 / 8
 
-// Size of the salt (should be the same as the hash algorithm output)
-const PBKDF2_SALT_BYTES = PBKDF2_DIGEST_BYTES
-
-// Size of the key in PBKDF2 (should be the same as the hash algorithm in bits)
-const PBKDF2_KEY_BITS = PBKDF2_DIGEST_BYTES * 8
+// Size of the output password hash in PBKDF2
+//
+// 128 bits is enough to make brute force attacks (guessing passwords)
+// impractical, even if the password hash is known to the attacker.
+const PBKDF2_HASH_BYTES = 128 / 8
 
 /**
  * Hash a password using Node's asynchronous pbkdf2 (key derivation) function.
@@ -53,7 +56,7 @@ function hashPassword (password, customIterations) {
     : PBKDF2_ITERATIONS_TEST
 
   if (typeof password === 'string') {
-    password = new Buffer(password, 'utf8')
+    password = Buffer.from(password, 'utf8')
   }
 
   return new Promise((resolve, reject) => {
@@ -68,21 +71,21 @@ function hashPassword (password, customIterations) {
           password,
           salt,
           iterations,
-          PBKDF2_KEY_BITS,
+          PBKDF2_HASH_BYTES,
           PBKDF2_DIGEST,
           (err, hash) => {
             if (err) {
               return reject(err)
             }
 
-            var combined = new Buffer(hash.length + salt.length + 8)
+            var combined = Buffer.alloc(hash.length + salt.length + 8)
 
             // Include the size of the salt so that we can, during verification,
             // figure out how much of the hash is salt
             combined.writeUInt32BE(salt.length, 0, true)
 
             // Similarly, include the iteration count
-            combined.writeUInt32BE(PBKDF2_ITERATIONS, 4, true)
+            combined.writeUInt32BE(iterations, 4, true)
 
             salt.copy(combined, 8)
             hash.copy(combined, salt.length + 8)
