@@ -16,8 +16,8 @@
     "e": {
       "description": "RSA exponent.",
       "$ref": "Base64URL.json"
-    },
-    "required": ["type", "n", "e"],
-    "additionalProperties": false
-  }
+    }
+  },
+  "required": ["type", "n", "e"],
+  "additionalProperties": false
 }
