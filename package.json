@@ -12,6 +12,7 @@
     "lint": "eslint .",
     "test": "istanbul test -- _mocha",
     "jsdoc": "jsdoc -R README.md -c jsdoc.json lib/* && cp -r docs jsdoc-out",
+    "integration": "integration-loader && integration all",
     "bump": "./bin/bump.sh",
     "ci-publish": "./bin/ci-publish.sh",
     "report-coverage": "codecov"
@@ -56,11 +57,18 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
+    "five-bells-integration-test-loader": "^1.0.1",
     "interledger-jsdoc-template": "^2.0.0",
     "istanbul": "^0.4.5",
     "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
     "mocha": "^3.2.0",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
+  },
+  "config": {
+    "five-bells-integration-test-loader": {
+      "module": "five-bells-integration-test",
+      "repo": "interledgerjs/five-bells-integration-test"
+    }
   }
 }
