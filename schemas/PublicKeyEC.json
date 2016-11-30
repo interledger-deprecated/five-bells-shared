@@ -24,8 +24,8 @@
     "y": {
       "description": "EC curve point Y.",
       "$ref": "Base64URL.json"
-    },
-    "required": ["type", "curve", "x", "y"],
-    "additionalProperties": false
-  }
+    }
+  },
+  "required": ["type", "curve", "x", "y"],
+  "additionalProperties": false
 }
