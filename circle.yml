@@ -18,7 +18,7 @@ deployment:
     commands:
       # Publish NPM package (if newer)
       - mv npmrc-env .npmrc
-      - if [ -z "$(npm info $(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " ") 2>/dev/null)" ] ; then npm publish ; fi
+      - if [ $(npm show five-bells-shared version) != $(npm ls --depth=-1 2>/dev/null | head -1 | cut -f 1 -d " " | cut -f 2 -d @) ] ; then npm publish ; fi
       # Necessary git config to run website deployment on CircleCI
       - git config --global user.email "info@circleci.com"
       - git config --global user.name "CircleCI"
