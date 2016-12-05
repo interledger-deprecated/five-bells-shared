@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/interledgerjs/five-bells-shared",
   "dependencies": {
+    "ajv": "^4.9.0",
     "canonical-json": "0.0.4",
     "co": "^4.1.0",
     "co-body": "^4.2.0",
@@ -42,8 +43,6 @@
     "path-to-regexp": "^1.2.0",
     "retry-as-promised": "^2.0.1",
     "through2": "^2.0.1",
-    "tv4": "^1.2.7",
-    "tv4-formats": "^2.2.1",
     "tweetnacl": "^0.14.3"
   },
   "peerDependencies": {

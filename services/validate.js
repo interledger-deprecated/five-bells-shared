@@ -4,12 +4,10 @@ module.exports = validate
 
 const fs = require('fs')
 const path = require('path')
-const tv4 = require('tv4')
-const formats = require('tv4-formats')
+const Ajv = require('ajv')
 const ServerError = require('../errors/server-error')
 
-const validator = tv4.freshApi()
-validator.addFormat(formats)
+const validator = new Ajv()
 
 const baseDir = path.join(__dirname, '/../schemas')
 
@@ -19,12 +17,19 @@ fs.readdirSync(baseDir)
   })
   .forEach(function (fileName) {
     try {
-      validator.addSchema(fileName, require(path.join(baseDir, fileName)))
+      validator.addSchema(require(path.join(baseDir, fileName)), fileName)
     } catch (e) {
       throw new ServerError('Failed to parse schema: ' + fileName)
     }
   })
 
 function validate (schemaId, json) {
-  return validator.validateMultiple(json, schemaId + '.json')
+  const isValid = validator.validate(schemaId + '.json', json)
+
+  // Returning it in the same format as tv4.validateMultiple would do
+  return {
+    valid: isValid,
+    schema: schemaId,
+    errors: (isValid) ? undefined : validator.errors
+  }
 }
