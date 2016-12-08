@@ -2,26 +2,13 @@
 
 module.exports = validate
 
-const fs = require('fs')
-const path = require('path')
 const Ajv = require('ajv')
-const ServerError = require('../errors/server-error')
-
 const validator = new Ajv()
+const schemas = require('../schemas')
 
-const baseDir = path.join(__dirname, '/../schemas')
-
-fs.readdirSync(baseDir)
-  .filter(function (fileName) {
-    return /^[\w\s]+\.json$/.test(fileName)
-  })
-  .forEach(function (fileName) {
-    try {
-      validator.addSchema(require(path.join(baseDir, fileName)), fileName)
-    } catch (e) {
-      throw new ServerError('Failed to parse schema: ' + fileName)
-    }
-  })
+for (const schemaId in schemas) {
+  validator.addSchema(schemas[schemaId], schemaId + '.json')
+}
 
 function validate (schemaId, json) {
   const isValid = validator.validate(schemaId + '.json', json)
