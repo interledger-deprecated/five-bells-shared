@@ -21,6 +21,14 @@
         "$ref": "IlpAddress.json",
         "description": "the connector's account on destination_ledger; (this property is only for local routes)"
       },
+      "destination_precision": {
+        "type": "number",
+        "description": "the precision of the destination ledger"
+      },
+      "destination_scale": {
+        "type": "number",
+        "description": "the scale of the destination ledger"
+      },
       "points": {
         "type": "array",
         "minItems": 1,
