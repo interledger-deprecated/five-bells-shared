@@ -19,7 +19,10 @@
     },
     "params": {
       "description": "Parameter values to be used during the invocation of the method",
-      "type": "object"
+      "oneOf": [
+        {"type": "object"},
+        {"type": "array"}
+      ]
     }
   },
   "required": ["jsonrpc", "method", "id"],
