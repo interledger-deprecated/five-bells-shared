@@ -10,7 +10,7 @@
     },
     "name": {
       "description": "Name of the account",
-      "type": "string"
+      "$ref": "Identifier.json"
     },
     "balance": {
       "description": "Balance as decimal",
