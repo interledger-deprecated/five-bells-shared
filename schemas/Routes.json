@@ -30,15 +30,7 @@
         "description": "the scale of the destination ledger"
       },
       "points": {
-        "type": "array",
-        "minItems": 1,
-        "items": {
-          "type": "array",
-          "minItems": 2,
-          "maxItems": 2,
-          "items": {"type": "number"},
-          "description": "[source_amount, destination_amount]"
-        },
+        "$ref": "LiquidityCurve.json",
         "description": "a list of points describing the exchange rate curve"
       }
     },
