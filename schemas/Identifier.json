@@ -3,5 +3,5 @@
   "title": "Identifier",
   "description": "An identifier for a user or institution.",
   "type": "string",
-  "pattern": "^([a-zA-Z0-9][a-zA-Z0-9-]{0,18}[a-zA-Z0-9]|([a-zA-Z0-9][a-zA-Z0-9-]{0,18}[a-zA-Z0-9]@)?((?!-)[a-zA-Z0-9-]{1,63}\\.)+(?!-)[a-zA-Z0-9-]{1,63})(?:\\:[0-9]{0,5})?$"
+  "pattern": "^[a-zA-Z0-9_-]{1,86}$"
 }
