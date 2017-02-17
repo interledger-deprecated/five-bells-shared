@@ -24,6 +24,7 @@ module.exports = {
   PaymentTemplate: require('./PaymentTemplate.json'),
   PublicKeyEC: require('./PublicKeyEC.json'),
   PublicKeyRSA: require('./PublicKeyRSA.json'),
+  RejectionMessage: require('./RejectionMessage.json'),
   Routes: require('./Routes.json'),
   RpcRequest: require('./RpcRequest.json'),
   RpcResponse: require('./RpcResponse.json'),

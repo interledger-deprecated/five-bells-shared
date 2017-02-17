@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "RejectionMessage",
+  "description": "An error describing a transfer's rejection",
+  "type": "object",
+  "properties": {
+    "code": {
+      "description": "Machine-readable error code",
+      "type": "string"
+    },
+    "name": {
+      "description": "Human-readable description of the error code",
+      "type": "string"
+    },
+    "message": {
+      "description": "Description of the error.",
+      "type": "string"
+    },
+    "triggered_by": {
+      "description": "ILP address or ledger prefix from which the rejection originates",
+      "$ref": "IlpAddress.json"
+    },
+    "forwarded_by": {
+      "description": "ILP address of the last connector to forward the rejection",
+      "$ref": "IlpAddress.json"
+    },
+    "triggered_at": {
+      "description": "The time the rejection occurred.",
+      "$ref": "Date.json"
+    },
+    "additional_info": {
+      "description": "Additional details about the error",
+      "type": "object"
+    }
+  },
+  "required": [
+    "code",
+    "name",
+    "message",
+    "triggered_by",
+    "additional_info"
+  ],
+  "additionalProperties": false
+}
