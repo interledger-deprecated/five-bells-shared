@@ -5,25 +5,18 @@
   "type": "object",
   "properties": {
     "account": {
-      "description": "Account holding the funds",
+      "description": "Account that funds should be delivered to",
       "$ref": "IlpAddress.json"
     },
     "amount": {
-      "description": "Amount as decimal",
-      "$ref": "Amount.json"
-    },
-    "expiresAt": {
-      "description": "Expiry timestamp",
-      "$ref": "Date.json"
-    },
-    "executionCondition": {
-      "description": "Crypto condition triggering execution of the payment",
-      "$ref": "Condition.json"
+      "description": "Positive integer amount (UInt64)",
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$"
     },
     "data": {
-      "description": "User-specified memo, will be the memo of the final transfer",
-      "type": "object",
-      "additionalProperties": true
+      "description": "User-specified memo to be delivered with the payment",
+      "type": "string",
+      "$ref": "Base64URL.json"
     }
   },
   "additionalProperties": false
