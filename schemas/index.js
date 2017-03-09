@@ -15,7 +15,7 @@ module.exports = {
   GenericTransfer: require('./GenericTransfer.json'),
   Identifier: require('./Identifier.json'),
   IlpAddress: require('./IlpAddress.json'),
-  IlpHeader: require('./IlpHeader.json'),
+  IlpPayment: require('./IlpPayment.json'),
   Iri: require('./Iri.json'),
   Message: require('./Message.json'),
   NonNegativeDuration: require('./NonNegativeDuration.json'),

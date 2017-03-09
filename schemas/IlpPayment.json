@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "IlpHeader",
+  "title": "IlpPayment",
   "description": "Header denoting the packet's final destination",
   "type": "object",
   "properties": {
@@ -15,9 +15,9 @@
     },
     "data": {
       "description": "User-specified memo to be delivered with the payment",
-      "type": "string",
       "$ref": "Base64URL.json"
     }
   },
+  "required": ["account", "amount", "data"],
   "additionalProperties": false
 }
