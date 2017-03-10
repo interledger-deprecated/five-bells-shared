@@ -213,9 +213,6 @@ describe('Config', () => {
     it('PUBLIC_HTTPS=true', () => {
       process.env.UNIT_TEST_OVERRIDE = 'true'
       process.env.PUBLIC_HTTPS = 'true'
-      // HTTPS requires TLS configuration to be set
-      process.env.TLS_KEY = 'test/data/key'
-      process.env.TLS_CERTIFICATE = 'test/data/crt'
       const server = _.defaults({
         base_uri: `https://${hostname}:3000`,
         public_secure: true
