@@ -35,7 +35,7 @@
     "ajv": "^4.9.0",
     "canonical-json": "0.0.4",
     "co": "^4.1.0",
-    "co-body": "^4.2.0",
+    "co-body": "^5.0.2",
     "co-defer": "^1.0.0",
     "lodash": "^4.6.1",
     "mag-colored-output": "^1.0.0",
