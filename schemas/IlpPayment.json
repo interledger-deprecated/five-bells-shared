@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "IlpPayment",
+  "description": "Header denoting the packet's final destination",
+  "type": "object",
+  "properties": {
+    "account": {
+      "description": "Account that funds should be delivered to",
+      "$ref": "IlpAddress.json"
+    },
+    "amount": {
+      "description": "Positive integer amount (UInt64)",
+      "type": "string",
+      "pattern": "^[1-9][0-9]*$"
+    },
+    "data": {
+      "description": "User-specified memo to be delivered with the payment",
+      "$ref": "Base64URL.json"
+    }
+  },
+  "required": ["account", "amount", "data"],
+  "additionalProperties": false
+}

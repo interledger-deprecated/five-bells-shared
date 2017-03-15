@@ -33,7 +33,7 @@
     },
     "rejection_message": {
       "description": "The reason the credit was rejected",
-      "$ref": "Base64.json"
+      "$ref": "RejectionMessage.json"
     }
   },
   "required": ["account", "amount"],
