@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema",
   "title": "LiquidityCurve",
-  "description": "A list of points describing the exchange rate curve",
+  "description": "A list of points describing the exchange rate curve (in ledger's base units, not currency units)",
   "type": "array",
   "minItems": 1,
   "items": {

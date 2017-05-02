@@ -24,6 +24,16 @@
       "points": {
         "$ref": "LiquidityCurve.json",
         "description": "a list of points describing the exchange rate curve"
+      },
+      "paths": {
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "description": "a list of alternative paths from nextLedger and destinationLedger (each path being a list of ledgers)"
       }
     },
     "required": [
