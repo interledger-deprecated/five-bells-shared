@@ -3,86 +3,36 @@
   "title": "Message",
   "description": "a five-bells-ledger message",
   "type": "object",
-  "oneOf": [
-    {
-      "properties": {
-        "id": {
-          "description": "Resource identifier",
-          "$ref": "Uuid.json"
-        },
-        "ledger": {
-          "description": "The ledger where the message is to be delivered",
-          "$ref": "Iri.json"
-        },
-        "from": {
-          "description": "The message sender",
-          "$ref": "Iri.json"
-        },
-        "to": {
-          "description": "The message recipient",
-          "$ref": "Iri.json"
-        },
-        "account": {
-          "description": "(deprecated)",
-          "$ref": "Iri.json"
-        },
-        "ilp": {
-          "description": "The message payload",
-          "$ref": "Base64.json"
-        },
-        "custom": {
-          "description": "The message payload",
-          "type": "object"
-        }
-      },
-      "required": ["id", "ledger", "from", "to"],
-      "additionalProperties": false
+  "properties": {
+    "id": {
+      "description": "Resource identifier",
+      "$ref": "Uuid.json"
     },
-    {
-      "description": "(deprecated; use from/to & ilp/custom)",
-      "properties": {
-        "ledger": {
-          "description": "The ledger where the message is to be delivered",
-          "$ref": "Iri.json"
-        },
-        "data": {
-          "description": "The message payload",
-          "type": "object"
-        },
-        "from": {
-          "description": "The message sender",
-          "$ref": "Iri.json"
-        },
-        "to": {
-          "description": "The message recipient",
-          "$ref": "Iri.json"
-        },
-        "account": {
-          "description": "(deprecated) The message sender/recipient (depending on whether the message is incoming or outgoing)",
-          "$ref": "Iri.json"
-        }
-      },
-      "required": ["ledger", "data", "from", "to"],
-      "additionalProperties": false
+    "ledger": {
+      "description": "The ledger where the message is to be delivered",
+      "$ref": "Iri.json"
     },
-    {
-      "description": "(deprecated; use from/to & ilp/custom)",
-      "properties": {
-        "ledger": {
-          "description": "The ledger where the message is to be delivered",
-          "$ref": "Iri.json"
-        },
-        "data": {
-          "description": "The message payload",
-          "type": "object"
-        },
-        "account": {
-          "description": "The message sender/recipient (depending on whether the message is incoming or outgoing)",
-          "$ref": "Iri.json"
-        }
-      },
-      "required": ["ledger", "data", "account"],
-      "additionalProperties": false
+    "from": {
+      "description": "The message sender",
+      "$ref": "Iri.json"
+    },
+    "to": {
+      "description": "The message recipient",
+      "$ref": "Iri.json"
+    },
+    "account": {
+      "description": "(deprecated)",
+      "$ref": "Iri.json"
+    },
+    "ilp": {
+      "description": "The message payload",
+      "$ref": "Base64.json"
+    },
+    "custom": {
+      "description": "The message payload",
+      "type": "object"
     }
-  ]
+  },
+  "required": ["id", "ledger", "from", "to"],
+  "additionalProperties": false
 }
