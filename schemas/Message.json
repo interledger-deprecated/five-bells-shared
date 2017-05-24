@@ -6,6 +6,41 @@
   "oneOf": [
     {
       "properties": {
+        "id": {
+          "description": "Resource identifier",
+          "$ref": "Uuid.json"
+        },
+        "ledger": {
+          "description": "The ledger where the message is to be delivered",
+          "$ref": "Iri.json"
+        },
+        "from": {
+          "description": "The message sender",
+          "$ref": "Iri.json"
+        },
+        "to": {
+          "description": "The message recipient",
+          "$ref": "Iri.json"
+        },
+        "account": {
+          "description": "(deprecated)",
+          "$ref": "Iri.json"
+        },
+        "ilp": {
+          "description": "The message payload",
+          "$ref": "Base64.json"
+        },
+        "custom": {
+          "description": "The message payload",
+          "type": "object"
+        }
+      },
+      "required": ["id", "ledger", "from", "to"],
+      "additionalProperties": false
+    },
+    {
+      "description": "(deprecated; use from/to & ilp/custom)",
+      "properties": {
         "ledger": {
           "description": "The ledger where the message is to be delivered",
           "$ref": "Iri.json"
@@ -31,7 +66,7 @@
       "additionalProperties": false
     },
     {
-      "description": "(deprecated; use from/to)",
+      "description": "(deprecated; use from/to & ilp/custom)",
       "properties": {
         "ledger": {
           "description": "The ledger where the message is to be delivered",
