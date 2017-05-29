@@ -41,6 +41,10 @@
     {
       "description": "(deprecated; use from/to & ilp/custom)",
       "properties": {
+        "id": {
+          "description": "Resource identifier",
+          "$ref": "Uuid.json"
+        },
         "ledger": {
           "description": "The ledger where the message is to be delivered",
           "$ref": "Iri.json"
@@ -68,6 +72,10 @@
     {
       "description": "(deprecated; use from/to & ilp/custom)",
       "properties": {
+        "id": {
+          "description": "Resource identifier",
+          "$ref": "Uuid.json"
+        },
         "ledger": {
           "description": "The ledger where the message is to be delivered",
           "$ref": "Iri.json"

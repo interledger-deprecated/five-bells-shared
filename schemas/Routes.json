@@ -22,7 +22,14 @@
         "description": "the connector's account on destination_ledger; (this property is only for local routes)"
       },
       "points": {
-        "$ref": "Base64.json",
+        "oneOf": [
+          {
+            "$ref": "LiquidityCurve.json"
+          },
+          {
+            "$ref": "Base64.json"
+          }
+        ],
         "description": "a list of points describing the exchange rate curve"
       },
       "paths": {
@@ -40,8 +47,7 @@
       "source_ledger",
       "destination_ledger",
       "min_message_window",
-      "source_account",
-      "points"
+      "source_account"
     ],
     "additionalProperties": false
   }
