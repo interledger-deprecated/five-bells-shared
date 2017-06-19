@@ -40,8 +40,7 @@
       "source_ledger",
       "destination_ledger",
       "min_message_window",
-      "source_account",
-      "points"
+      "source_account"
     ],
     "additionalProperties": false
   }
