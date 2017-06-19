@@ -6,7 +6,13 @@ test:
     - npm run lint
     - npm test --coverage
     - npm run jsdoc
-    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else npm run integration; fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else ./node_modules/.bin/integration-loader; fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else ./node_modules/.bin/integration setup;fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else cd ./integration-test/ilp-kit && npm rebuild node-sass && npm run build; fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else ./node_modules/.bin/integration test index; fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else ./node_modules/.bin/integration test advanced; fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else ./node_modules/.bin/integration test connector_first; fi
+    - if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else ./node_modules/.bin/integration test ilp-kit; fi
   post:
     # Upload test coverage data
     - npm run report-coverage
