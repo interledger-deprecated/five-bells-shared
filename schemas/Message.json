@@ -33,6 +33,10 @@
         "custom": {
           "description": "The message payload",
           "type": "object"
+        },
+        "data": {
+          "description": "The message payload (deprecated)",
+          "type": "object"
         }
       },
       "required": ["id", "ledger", "from", "to"],
