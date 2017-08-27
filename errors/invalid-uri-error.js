@@ -5,10 +5,12 @@ const BaseError = require('./base-error')
 class InvalidUriError extends BaseError {
   constructor (message, validationErrors) {
     super(message)
+
+    this.status = 400
     this.validationErrors = validationErrors
   }
 
-  * handler (ctx, log) {
+  async handler (ctx, log) {
     log.warn('Invalid URI: ' + this.message)
     ctx.status = 400
     ctx.body = {

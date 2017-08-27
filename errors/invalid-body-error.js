@@ -5,10 +5,22 @@ const BaseError = require('./base-error')
 class InvalidBodyError extends BaseError {
   constructor (message, validationErrors) {
     super(message)
+
+    this.status = 400
     this.validationErrors = validationErrors
   }
 
   debugPrint (log, validationError, indent) {
+    if (!validationError) {
+      if (this.validationErrors) {
+        for (let ve of this.validationErrors) {
+          this.debugPrint(log, ve)
+        }
+      } else {
+        return
+      }
+    }
+
     indent = indent || ''
     log.debug(indent + '-- ' + validationError)
 
@@ -27,12 +39,10 @@ class InvalidBodyError extends BaseError {
     }
   }
 
-  * handler (ctx, log) {
+  async handler (ctx, log) {
     log.warn('Invalid body: ' + this.message)
     if (this.validationErrors) {
-      for (let ve of this.validationErrors) {
-        this.debugPrint(log, ve)
-      }
+      this.debugPrint(log)
     }
 
     ctx.status = 400
