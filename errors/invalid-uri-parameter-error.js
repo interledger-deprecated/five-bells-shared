@@ -5,10 +5,12 @@ const InvalidUriError = require('./invalid-uri-error')
 class InvalidUriParameterError extends InvalidUriError {
   constructor (message, validationErrors) {
     super(message)
+
+    this.status = 400
     this.validationErrors = validationErrors
   }
 
-  * handler (ctx, log) {
+  async handler (ctx, log) {
     log.warn('Invalid URI parameter: ' + this.message)
     ctx.status = 400
     ctx.body = {

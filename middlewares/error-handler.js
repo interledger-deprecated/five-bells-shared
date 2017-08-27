@@ -10,12 +10,13 @@ module.exports = function (opts) {
       if (typeof err.handler === 'function') {
         yield err.handler(this, log)
       } else {
-        log.error(err)
-        if (typeof err === 'object' && err.stack) {
-          log.error(err.stack)
-        }
+        log.warn(err.stack || (err.name + ': ' + err.message))
 
-        this.throw(err.status || 500, err.name + ': ' + err.message)
+        this.status = err.statusCode || err.status || 500
+        this.body = {
+          id: err.name,
+          message: err.message
+        }
 
         // We consider the error handled at this point, so we do NOT reemit it,
         // that's why the following line is commented out.

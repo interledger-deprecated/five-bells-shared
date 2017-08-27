@@ -5,6 +5,8 @@ const BaseError = require('./base-error')
 class InvalidModificationError extends BaseError {
   constructor (message, invalidDiffs) {
     super(message)
+
+    this.status = 400
     this.invalidDiffs = invalidDiffs
   }
 
@@ -30,12 +32,16 @@ class InvalidModificationError extends BaseError {
     }
   }
 
-  * handler (ctx, log) {
+  debugPrint (log) {
+    for (let diff of this.invalidDiffs) {
+      log.debug(' -- ' + this.formatDiff(diff))
+    }
+  }
+
+  async handler (ctx, log) {
     log.warn('Invalid Modification: ' + this.message)
     if (this.invalidDiffs) {
-      for (let diff of this.invalidDiffs) {
-        log.debug(' -- ' + this.formatDiff(diff))
-      }
+      this.debugPrint(log)
     }
     ctx.status = 400
     ctx.body = {
