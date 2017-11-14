@@ -21,8 +21,17 @@
       "$ref": "IlpAddress.json"
     },
     "forwarded_by": {
-      "description": "ILP address of the last connector to forward the rejection",
-      "$ref": "IlpAddress.json"
+      "oneOf": [
+        {
+          "description": "Old, erroneous schema, still supported for backwards compatibility",
+          "$ref": "IlpAddress.json"
+        },
+        {
+          "description": "ILP addresses of connectors that have forwarded the rejection",
+          "type": "array",
+          "items": { "$ref": "IlpAddress.json" }
+        }
+      ]
     },
     "triggered_at": {
       "description": "The time the rejection occurred.",
