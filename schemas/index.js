@@ -11,6 +11,7 @@ module.exports = {
   Date: require('./Date.json'),
   Ed25519SignedMessage: require('./Ed25519SignedMessage.json'),
   EventId: require('./EventId.json'),
+  Fulfillment: require('./Fulfillment.json'),
   FundsTemplate: require('./FundsTemplate.json'),
   GenericTransfer: require('./GenericTransfer.json'),
   Identifier: require('./Identifier.json'),
