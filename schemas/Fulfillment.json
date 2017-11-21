@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Fulfillment",
+  "description": "A fulfillment with optional attached data",
+  "type": "object",
+  "properties": {
+    "condition_fulfillment": {
+      "description": "Cryptographic fulfillment",
+      "$ref": "ConditionFulfillment.json"
+    },
+    "fulfillment_data": {
+      "description": "Data attached to the fulfillment",
+      "$ref": "Base64URL.json"
+    }
+  },
+  "required": ["condition_fulfillment"],
+  "additionalProperties": false
+}
