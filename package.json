@@ -59,7 +59,8 @@
     "five-bells-integration-test-loader": "^1.0.1",
     "interledger-jsdoc-template": "^2.0.0",
     "istanbul": "^0.4.5",
-    "jsdoc": "git+https://github.com/jsdoc3/jsdoc.git",
+    "jsdoc": "^3.5.5",
+    "marked": "^0.3.9",
     "mocha": "^3.2.0",
     "sinon": "^1.15.4",
     "sinon-chai": "^2.8.0"
